@@ -1,0 +1,9 @@
+#base=js
+SNI/CQ/wcm/functions.js
+SNI/CQ/wcm/rest.js
+SNI/CQ/wcm/html.js
+SNI/CQ/wcm/lightbox.js
+SNI/CQ/wcm/fields.js
+SNI/CQ/wcm/sets.js
+SNI/CQ/wcm/columns.js
+SNI/CQ/wcm/SniSiteOptimizer.js
