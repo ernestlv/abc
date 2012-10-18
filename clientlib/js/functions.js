@@ -546,6 +546,51 @@ var so = {
       return a;
   },
 
+  transformAssets: function( data ){
+      var a = data.assetInfoList, l = a.length, i, r, b=[];
+      for (i=0; i<l; i++){
+          r = a[i].report;
+          b.push([
+            r.url,
+            r.title,
+            r.status,
+            r.asset_type,
+            r.has_image,
+            r.category,
+            r.section,
+            r.source,
+            r.general_subjects,
+            r.sponsorship,
+            r.preferred_term,
+            r.alternate_term,
+            r.sub_term,
+            r.hub_type,
+            r.hub_sponsor,
+            r.content_tag1,
+            r.content_tag2,
+            r.occasions,
+            r.season,
+            r.who_s_dining,
+            r.meal_part,
+            r.main_type,
+            r.main_ingredient,
+            r.dish,
+            r.drinks,
+            r.herbs_and_spices,
+            r.cuisine,
+            r.cooking_styles,
+            r.nutrition,
+            r.taste,
+            r.technique,
+            r.cookware_and_gagets,
+            r.show_title,
+            r.show_abbr,
+            r.talent
+            ]);
+      }
+      return b;
+  },
+
   //************* MISCELLANEOUS HELPERS *****************
 
   //fix sectionsince sni-selection is fixed position

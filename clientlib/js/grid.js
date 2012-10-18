@@ -4,11 +4,41 @@ so.style = {
 
 so.grid = {
                         fields: [
-                                   {name: 'company'},
-                                   {name: 'price',      type: 'float'},
-                                   {name: 'change',     type: 'float'},
-                                   {name: 'pctChange',  type: 'float'},
-                                   {name: 'lastChange', type: 'date', dateFormat: 'n/j h:ia'}
+                                   {name: 'url'},
+                                   {name: 'title'},
+                                   {name: 'status'},
+                                   {name: 'asset_type'},
+                                   {name: 'has_image'},
+                                   {name: 'category'},
+                                   {name: 'section'},
+                                   {name: 'source'},
+                                   {name: 'general_subjects'},
+                                   {name: 'sponsorship'},
+                                   {name: 'preferred_term'},
+                                   {name: 'alternate_term'},
+                                   {name: 'sub_term'},
+                                   {name: 'hub_type'},
+                                   {name: 'hub_sponsor'},
+                                   {name: 'content_tag1'},
+                                   {name: 'content_tag2'},
+                                   {name: 'occasions'},
+                                   {name: 'season'},
+                                   {name: 'who_s_dining'},
+                                   {name: 'meal_part'},
+                                   {name: 'main_type'},
+                                   {name: 'main_ingredient'},
+                                   {name: 'dish'},
+                                   {name: 'drinks'},
+                                   {name: 'herbs_and_spices'},
+                                   {name: 'cuisine'},
+                                   {name: 'cooking_styles'},
+                                   {name: 'nutrition'},
+                                   {name: 'taste'},
+                                   {name: 'technique'},
+                                   {name: 'cookware_and_gagets'},
+                                   {name: 'show_title'},
+                                   {name: 'show_abbr'},
+                                   {name: 'talent'}
                         ],
                         panel:[
                                     {
@@ -44,12 +74,12 @@ so.grid = {
                                                     {
                                                         label   : 'URL',
                                                         width    : 75,
-                                                        dataIndex: 'company'
+                                                        dataIndex: 'url'
                                                     },
                                                     {
                                                         label   : 'title',
                                                         width    : 75,
-                                                        dataIndex: 'price'
+                                                        dataIndex: 'title'
                                                     }
                                                 ]
                                             }
@@ -66,7 +96,7 @@ so.grid = {
                                                             {
                                                                 label   : 'status', 
                                                                 width    : 75,
-                                                                dataIndex: 'company'
+                                                                dataIndex: 'status'
                                                             }
                                                     ] 
                                                 },
@@ -77,12 +107,12 @@ so.grid = {
                                                             {
                                                                 label   : 'asset type', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'asset_type'
                                                             },
                                                             {
                                                                 label   : 'has image', 
                                                                 width    : 75, 
-                                                                dataIndex: 'change'
+                                                                dataIndex: 'has_image'
                                                             },
                                                     ]
                                                 }
@@ -93,22 +123,22 @@ so.grid = {
                                                             {
                                                                 label   : 'category', 
                                                                 width    : 75, 
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'category'
                                                             },
                                                             {
                                                                 label   : 'section', 
                                                                 width    : 75, 
-                                                                dataIndex: 'change'
+                                                                dataIndex: 'section'
                                                             },
                                                             {
                                                                 label   : 'source', 
                                                                 width    : 75, 
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'source'
                                                             },
                                                             {
                                                                 label   : 'general<br>subject', 
                                                                 width    : 75, 
-                                                                dataIndex: 'change'
+                                                                dataIndex: 'general_subjects'
                                                             },
                                                     ]
                                                 }
@@ -125,7 +155,7 @@ so.grid = {
                                                             {
                                                                 label   : 'sponsorship', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'sponsorship'
                                                             }
                                                     ]
                                                 },{
@@ -135,17 +165,17 @@ so.grid = {
                                                             {
                                                                 label   : 'preferred<br>term', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'preferred_term'
                                                             },
                                                             {
                                                                 label   : 'alternate<br>term', 
                                                                 width    : 75, 
-                                                                dataIndex: 'change'
+                                                                dataIndex: 'alternate_term'
                                                             },
                                                             {
                                                                 label   : 'sub term', 
                                                                 width    : 75, 
-                                                                dataIndex: 'change'
+                                                                dataIndex: 'sub_term'
                                                             }
                                                     ]
                                                 },{
@@ -155,17 +185,17 @@ so.grid = {
                                                             {
                                                                 label   : 'hub type', 
                                                                 width    : 75, 
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'hub_type'
                                                             },
-                                                            {
-                                                                label   : 'hub id', 
-                                                                width    : 75, 
-                                                                dataIndex: 'change'
-                                                            },
+                                                            //{
+                                                            //    label   : 'hub id', 
+                                                            //    width    : 75, 
+                                                            //    dataIndex: 'change'
+                                                            //},
                                                             {
                                                                 label   : 'hub sponsor', 
                                                                 width    : 75, 
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'hub_sponsor'
                                                             }
                                                     ]
                                                 }
@@ -181,12 +211,12 @@ so.grid = {
                                                             {
                                                                 label   : 'Content Tag 1', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'content_tag1'
                                                             },
                                                              {
                                                                 label   : 'Content Tag 2', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'content_tag2'
                                                             }
                                                     ]
                                             }
@@ -202,17 +232,17 @@ so.grid = {
                                                             {
                                                                 label   : 'occasions', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'occasions'
                                                             },
                                                             {
                                                                 label   : 'seasons', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'season'
                                                             },
                                                             {
                                                                 label   : "who's dining", 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'who_s_dining'
                                                             }
                                                     ]
                                                 }
@@ -228,32 +258,32 @@ so.grid = {
                                                             {
                                                                 label   : 'meal part', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'meal_part'
                                                             },
                                                             {
                                                                 label   : 'meal type', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'main_type'
                                                             },
                                                             {
                                                                 label   : "main ingredient", 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'main_ingredient'
                                                             },
                                                             {
                                                                 label   : "dish", 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'dish'
                                                             },
                                                             {
                                                                 label   : "drinks", 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'drinks'
                                                             },
                                                             {
                                                                 label   : "herbs & spicies", 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'herbs_and_spices'
                                                             }
                                                     ]
                                                 }
@@ -269,32 +299,32 @@ so.grid = {
                                                             {
                                                                 label   : 'cuisine', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'cuisine'
                                                             },
                                                             {
                                                                 label   : 'cooking styles', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'cooking_styles'
                                                             },
                                                             {
                                                                 label   : 'nutrition', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'nutrition'
                                                             },
                                                             {
                                                                 label   : 'taste', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'taste'
                                                             },
                                                             {
                                                                 label   : 'technique', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'technique'
                                                             },
                                                             {
                                                                 label   : 'cookware & gadgets', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'cookware_and_gagets'
                                                             }
                                                     ]
                                                 }
@@ -310,22 +340,23 @@ so.grid = {
                                                             {
                                                                 label   : 'show title', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'show_title'
                                                             },
                                                             {
                                                                 label   : 'abbreviation', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'show_abbr'
                                                             },
                                                             {
                                                                 label   : 'talent', 
                                                                 width    : 75,
-                                                                dataIndex: 'price'
+                                                                dataIndex: 'talent'
                                                             }
                                                     ]
                                                 }
                                             ]
-                                    },{
+                                    }
+                                    /*,{
                                             id:'sni-panel-10',
                                             label:'2012 monthly page views',
                                             style:so.style.headerColor,
@@ -480,6 +511,6 @@ so.grid = {
                                                     ]
                                                 }
                                             ]
-                                    }
+                                    }*/
                         ]
 };

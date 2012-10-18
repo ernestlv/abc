@@ -232,7 +232,7 @@ so.result = {
                 return w;
         },
 
-		loadGrid: function (){
+		loadGrid: function ( data ){
 
                     // create the data store
                     var store= new CQ.Ext.data.ArrayStore({
@@ -240,7 +240,7 @@ so.result = {
                     });
 
 		            // manually load local data
-		            store.loadData(so.result.get());
+		            store.loadData( data );
 
 		            var gcol = 0; //global col counter
 		            CQ.Ext.each(so.grid.panel, function(p, i, a){

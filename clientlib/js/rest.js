@@ -26,7 +26,7 @@ so.rest = {
         },
 
         getFilter: function( config, handler ){
-                debugger;
+
                 //normalize the arguments
                 if (arguments.length === 1){
                   handler = config;
@@ -87,6 +87,30 @@ so.rest = {
                   data: data,
                   success: handler
                 });
+        },
+
+        getAssets: function(config, handler){
+            console.log('ajax assets transaction ...');
+
+            var requestObj = {
+               "currentFilters":{
+                    "type":"filters",
+                    //"expressions":so.getExpressions( so.currentExpressions )
+                },
+               "pageNum":config.page,
+               "sortingObject":config.sort
+            }
+
+            var data = JSON.stringify(requestObj);
+
+            console.log('ajax request: '+data);
+        
+            $CQ.ajax({
+                url:'/imp/report/assetlist',
+                dataType: 'json', 
+                data: data,
+                success: handler
+            });
         },
 
 /////////////// REST HANDLERS FOR FIELD SERVICE /////////////////////////

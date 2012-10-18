@@ -47,14 +47,22 @@ var so = parent.so;
 
             so.result.fixHeaderTitle();
 
-            so.result.loadGrid();     
-
-            so.result.adjustAttributePanel(l, s, w);
-            //debugger;
-            console.log(JSON.stringify(so.currentExpressions));
             $CQ('.sni-grid .sni-expandable').each(function(){
                   so.result.doExpandable( this );
             });
+
+            so.rest.getAssets({page:1, sort:{"type":"sorting","settings":"asc"}}, function( assets ){
+
+                  so.result.restData = assets;
+
+                  var data = so.transformAssets(assets);
+
+                  so.result.loadGrid( data );     
+
+                  so.result.adjustAttributePanel(l, s, w);
+
+            });
+
             
         }); //end onReady
 </script>
