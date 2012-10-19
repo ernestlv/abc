@@ -78,7 +78,7 @@ so.fields={
                         name: 'has_image',
                         listeners:{
                           check:function(radio, chked){
-                              //console.log('check yes');
+                              
                               so.rest.handleRadio('has_image',  radio, function(filter, radio){
                                 return ['Y'];
                               });
@@ -89,7 +89,7 @@ so.fields={
                         name: 'has_image',
                         listeners:{
                           check:function(radio, chked){
-                              //console.log('check no');
+                              
                               so.rest.handleRadio('has_image', radio, function(filter, radio){
                                 return ['N'];
                               }); 
@@ -111,7 +111,7 @@ so.fields={
                         boxLabel: '1',
                         listeners:{
                           check:function(chkbox, chked){
-                              //console.log('check 1');
+                              
                               so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
@@ -120,7 +120,7 @@ so.fields={
                         boxLabel: '2',
                         listeners:{
                           check:function(chkbox, chked){
-                            //console.log('check 2');
+                            
                             so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
@@ -129,7 +129,7 @@ so.fields={
                         boxLabel: '3',
                         listeners:{
                           check:function(chkbox, chked){
-                            //console.log('check 3');
+                            
                             so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
@@ -138,7 +138,7 @@ so.fields={
                         boxLabel: '4',
                         listeners:{
                           check:function(chkbox, chked){
-                            //console.log('check 4');
+                            
                             so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
@@ -147,7 +147,7 @@ so.fields={
                         boxLabel: '5',
                         listeners:{
                           check:function(chkbox, chked){
-                            //console.log('check 5');
+                            
                             so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }

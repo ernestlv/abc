@@ -14,15 +14,15 @@ so.subcol = {
                   $CQ('#sni-selection .sni-selection-list').sortable({
                     connectWith:'.sni-selection-list',
                     start:function(e, ui){
-                      console.log('start sorting '+ui.item[0].id);
+                      //console.log('start sorting '+ui.item[0].id);
                       cancel = true;
                       sender = ''
                     },
-                    change:function(e,ui){
-                      console.log('sorting sorting '+ui.item[0].id);
-                    },
+                    //change:function(e,ui){
+                    //  console.log('sorting sorting '+ui.item[0].id);
+                    //},
                     stop:function(e, ui){
-                      console.log('end sorting '+ui.item[0].id);
+                      //console.log('end sorting '+ui.item[0].id);
                       if (cancel){
                           $CQ(this).sortable('cancel');
                       }else{
@@ -30,12 +30,12 @@ so.subcol = {
                       }
                     },
                     receive:function(e, ui){
-                      console.log('receiving '+ui.sender[0].id);
+                      //console.log('receiving '+ui.sender[0].id);
                       senderID = ui.sender[0].id;
                       cancel=false;
                     },
                     remove:function(e, ui){
-                      console.log('removing '+ui.item.parent()[0].id);
+                      //console.log('removing '+ui.item.parent()[0].id);
                     }
                   });
                   

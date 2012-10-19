@@ -285,7 +285,6 @@ var so = {
 
   redoExpressions: function( field, action ){
 
-    console.log('redo expressions ....')
     var current=true, currentE = {}, addedE = {};
     
     if (action === 'delete'){
@@ -334,18 +333,16 @@ var so = {
     //extjs will fire a check event several times for checkboxes, since a checkbox may be multi-value.
     //site optimizer will fire an ajax transaction everytime a check event is fired.
     //we need the so.resetField flag to advice SO if extjs is resetting a checkbox in which case the ajax transaction is aborted.
-    console.log('extjs start resetting field: '+field);
     so.resetField = true;
     o.reset();
     so.resetField = false;
-    console.log('extjs completed resetting field: '+field);
+    console.log('reset: '+field);
   },
 
 
   //this function is called when a user deletes a filter from "your selections"
   removeExpression: function( v ){
     
-    console.log('user removed expression: '+v);
     var e = so.queryID( v );
     var field = e.id.replace('-select', '');
     if ( so.isRangeExpression( field ) ){
@@ -390,13 +387,12 @@ var so = {
     if (i !== -1 ){
       so.ordinality.splice(i , 1);
     }
-    console.log('remove ordinality: '+f+' result: '+so.ordinality.join(','));
   },
 
   addOrdinality: function( f ){
     so.removeOrdinality(f);
     so.ordinality.push( f );
-    console.log('add ordinality: '+f+' result: '+so.ordinality.join(','));
+    console.log('ordinality: '+so.ordinality.join(','));
   },
 
   currentExpressions: {},
@@ -497,7 +493,7 @@ var so = {
   },
 
   switchExpression: function(ui, senderID){
-    debugger;
+    
     var e = ui.item[0];
     var s = so.queryID(senderID); //sender list
     var field = e.id.replace('-select', '');

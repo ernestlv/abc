@@ -31,6 +31,10 @@ body{
     border:1px solid #a4a4a4; padding:5px 10px; font-size:.8em; display:inline; border-radius:.5em; margin-right: 7px;
 }
 
+.sni-atts-buttons li a{
+    text-decoration:none;
+}
+
 .sni-selections-title{
     font-size:.8em;
 }
@@ -40,7 +44,7 @@ body{
 }
 
 .sni-selections-list li{
-    ---height:1.5em; 
+    line-height:1.5em;
     padding:5px; 
     background-color:#fff; 
     width:230px; 
@@ -328,6 +332,10 @@ body{
     background-color: #ff9b36;
     color:#000;
     border-color: #000;
+}
+
+.sni-atts-buttons li a{
+    color: #000;
 }
 
 .sni-topbar-buttons li{

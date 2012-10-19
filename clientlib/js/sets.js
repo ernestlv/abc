@@ -243,8 +243,8 @@ so.set = {
                 labelWidth:80,
                 items:[
                 so.setRadio('hubType'),
-                so.setCombo('hubID'),
-                so.setCombo('hubSponsor')
+                //so.setCombo('hubID'),
+                //so.setCombo('hubSponsor')
       ]}),
 
       preferredTerms : so.setFieldset({

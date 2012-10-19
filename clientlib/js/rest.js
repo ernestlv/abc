@@ -1,8 +1,6 @@
 so.rest = {
 
         getField: function( field, handler ){
-
-                console.log('ajax field transaction for field: '+field);
                 
                 var requestObj = {
                    "currentFilters":{
@@ -40,12 +38,10 @@ so.rest = {
                 var field = config.field, values = config.values;
                 if( values ){ //user selected a field value
 
-                    console.log('ajax filter transaction for field: '+field);
                     //if user manually clears a checkbox, the code determines if the field value is empty,
                     //then removes the filter from your selections and aborts the transaction.
                     var value = values.join('');
                     if (!value){ //user cleared a field
-                        //console.log('user cleared field (ajax aborted) removing filter from user selections...');
                         so.removeExpression( field+'-select' );
                         return;
                     }
@@ -90,12 +86,11 @@ so.rest = {
         },
 
         getAssets: function(config, handler){
-            console.log('ajax assets transaction ...');
 
             var requestObj = {
                "currentFilters":{
                     "type":"filters",
-                    //"expressions":so.getExpressions( so.currentExpressions )
+                    "expressions":so.getExpressions( so.currentExpressions )
                 },
                "pageNum":config.page,
                "sortingObject":config.sort
