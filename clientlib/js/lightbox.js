@@ -10,7 +10,7 @@ so.lightbox = {
       var n = so.lightbox.field;
       var c = CQ.Ext.getCmp(n);
       var v = c.getValue();
-      v = so.trim(v);
+      v = so.f.trim(v);
 
       //if we have values then select those in lightbox
       if (v){
@@ -19,7 +19,7 @@ so.lightbox = {
         var a = v.split(','), i, x;
         for ( i=0; i<a.length; i+=1 ){
             x = a[i];
-            x = so.trim( x );
+            x = so.f.trim( x );
             $CQ.each(k, function(i, e){
                 var v = $CQ(e).val();
                 if ( v === x ){
@@ -101,7 +101,7 @@ so.lightbox = {
     }
     content.push('<ul class="options">');
     for(i=0; i < group.length; i++){
-      content.push('<li><input type="checkbox" value="'+group[i].value+'" name="'+id+'_'+ so.lightbox.fieldCounter++ +'" data-count="'+group[i].count+'">&nbsp&nbsp;'+group[i].value+' ('+group[i].count+')</li>');
+      content.push('<li><input type="checkbox" value="'+group[i].rawValue+'" name="'+id+'_'+ so.lightbox.fieldCounter++ +'" data-count="'+group[i].count+'">&nbsp&nbsp;'+group[i].value+' ('+group[i].count+')</li>');
     }
     content.push('</ul>');
     return content.join('');
@@ -218,8 +218,8 @@ so.lightbox = {
 
   open: function( config ){
         
-        so.mix( config, so.lightbox );
-        so.fieldCounter = 0;
+        so.f.mix( config, so.lightbox );
+        so.lightbox.fieldCounter = 0;
         if (so.lightbox.win){
                   so.lightbox.win.destroy();
         }

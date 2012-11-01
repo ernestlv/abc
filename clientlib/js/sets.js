@@ -1,21 +1,21 @@
 //tabs in a tab panel
 so.tab = {
 
-                  title : so.setTab({
+                  title : so.f.setTab({
                           id:'sni-title-tab',
                           title:'title',
                           labelWidth:50,
                           items:[
-                            so.setComposite('filterTitle')
+                            so.f.setComposite('filterTitle')
                           ]
                   }),
 
-                  url : so.setTab({
+                  url : so.f.setTab({
                           id:'sni-url-tab',
                           title:'url',
                           labelWidth:50,
                           items:[
-                            so.setComposite('filterURL')
+                            so.f.setComposite('filterURL')
                           ]
                   })
 
@@ -55,7 +55,7 @@ so.side = {
                                           margin:'25px 5px'
                                         },
                                         items:[
-                                          so.setComposite('content_tag1', {
+                                          so.f.setComposite('content_tag1', {
                                               width:140
                                           }) 
                                         ]                                
@@ -70,7 +70,7 @@ so.side = {
                                           margin:'25px 5px'
                                         },
                                         items:[
-                                          so.setComposite('content_tag2', {
+                                          so.f.setComposite('content_tag2', {
                                               width:140
                                           })
                                         ]                              
@@ -85,7 +85,7 @@ so.side = {
                                           margin:'0px 5px'
                                         },
                                         items:[
-                                          so.setComposite('show_title')
+                                          so.f.setComposite('show_title')
                                         ]                                  
                 },
 
@@ -98,7 +98,7 @@ so.side = {
                                           margin:'0px 5px'
                                         },
                                         items:[
-                                          so.setComposite('show_abbr')
+                                          so.f.setComposite('show_abbr')
                                         ] 
                 }
 
@@ -107,7 +107,7 @@ so.side = {
 //setfields.
 so.set = {
 
-      search : so.setFieldset({
+      search : so.f.setFieldset({
                 id:'sni-searchterm-set',
                 title : 'search term',
                 height: 105,
@@ -118,7 +118,7 @@ so.set = {
                 items : so.tabpanel 
       }),
 
-      content : so.setFieldset({
+      content : so.f.setFieldset({
                 id:'sni-content-set',
                 title : 'content tags',
                 height: 105,
@@ -126,14 +126,14 @@ so.set = {
                 style:{
                   margin: '20px 20px 20px 10px'
                 },
-                layout : 'column',  //setfield compose of columns. column width defined in so.colset element
+                layout : 'column',  //setfield compose of columns. column width defined in so.side element
                 items : [
                       so.side.tag1, 
                       so.side.tag2
                 ]
       }),
 
-      status : so.setFieldset({ 
+      status : so.f.setFieldset({ 
                 id: 'sni-satus-set',
                 title:'status', 
                 width:253,
@@ -141,10 +141,10 @@ so.set = {
                   margin: '20px 10px 20px 20px'
                 },
                 items:[
-                so.setCombo('status')
+                so.f.setCombo('status')
       ]}),
 
-      assetC : so.setFieldset({
+      assetC : so.f.setFieldset({
                 id:'sni-assetC-set',
                 title:'asset clasification', 
                 width:253,
@@ -152,13 +152,13 @@ so.set = {
                   margin: '20px 10px 20px 20px'
                 },
                 items:[
-                so.setCombo('category'),
-                so.setCombo('section'),
-                so.setCombo('source'),
-                so.setCombo('general')
+                so.f.setCombo('category'),
+                so.f.setCombo('section'),
+                so.f.setCombo('source'),
+                so.f.setCombo('general')
       ]}),
 
-      format : so.setFieldset({
+      format : so.f.setFieldset({
                 id:'sni-format-set',
                 title:'format',
                 width:253,
@@ -167,11 +167,11 @@ so.set = {
                 },
                 labelWidth:70,
                 items:[
-                so.setComposite('asset_type'),
-                so.setRadio('has_image')
+                so.f.setComposite('asset_type'),
+                so.f.setRadio('has_image')
       ]}),
 
-      popularity : so.setFieldset({
+      popularity : so.f.setFieldset({
                 id:'sni-popularity-set',
                 title:'popularity',
                 width:253,
@@ -180,7 +180,7 @@ so.set = {
                 },
                 labelWidth:50,
                 items:[
-                so.setCheckBox('rating'),
+                so.f.setCheckBox('rating'),
                 {
                     id:'sni-reviewcount-wrapper',
                     fieldLabel:'review count:',
@@ -190,13 +190,13 @@ so.set = {
                       border:'0px'
                     },
                     items:[
-                        so.setCombo('reviewCountMin'),
-                        so.setCombo('reviewCountMax')
+                        so.f.setCombo('reviewCountMin'),
+                        so.f.setCombo('reviewCountMax')
                     ]
                 }
       ]}),
 
-      cook : so.setFieldset({
+      cook : so.f.setFieldset({
                 id:'sni-cook-set',
                 title:'cook time',
                 width:253,
@@ -215,13 +215,13 @@ so.set = {
                         border:'0px'
                       },
                       items:[
-                        so.setCombo('timeMin'),
-                        so.setCombo('timeMax')
+                        so.f.setCombo('timeMin'),
+                        so.f.setCombo('timeMax')
                       ]
                   }
       ]}),
 
-      sponsorshipCodes : so.setFieldset({
+      sponsorshipCodes : so.f.setFieldset({
                 id:'sni-sponsorship-set',
                 title:'sponsorship codes',
                 width:253,
@@ -230,10 +230,10 @@ so.set = {
                 },
                 labelWidth:80,
                 items:[
-                so.setComposite('sponsorship')
+                so.f.setComposite('sponsorship')
       ]}),
 
-      hubGroupings : so.setFieldset({
+      hubGroupings : so.f.setFieldset({
                 id:'sni-hubgroup-set',
                 title:'hub groupings',
                 width:253, 
@@ -242,12 +242,12 @@ so.set = {
                 },
                 labelWidth:80,
                 items:[
-                so.setRadio('hubType'),
-                //so.setCombo('hubID'),
-                //so.setCombo('hubSponsor')
+                so.f.setRadio('hubType'),
+                //so.f.setCombo('hubID'),
+                //so.f.setCombo('hubSponsor')
       ]}),
 
-      preferredTerms : so.setFieldset({
+      preferredTerms : so.f.setFieldset({
                 id:'sni-preferredterms-set',
                 title:'preferred terms', 
                 width:253, 
@@ -255,12 +255,12 @@ so.set = {
                   margin: '20px 20px 20px 10px'
                 },
                 items:[
-                so.setCombo('preferred_term'),
-                so.setCombo('altTerm'),
-                so.setCombo('subTerm')
+                so.f.setCombo('preferred_term'),
+                so.f.setCombo('altTerm'),
+                so.f.setCombo('subTerm')
       ]}),
 
-      events : so.setFieldset({
+      events : so.f.setFieldset({
                 id:'sni-events-set',
                 title:'',
                 width:320, 
@@ -271,12 +271,12 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.setComposite('occasions'),
-                so.setComposite('season'),
-                so.setComposite('whos_dining')
+                so.f.setComposite('occasions'),
+                so.f.setComposite('season'),
+                so.f.setComposite('whos_dining')
       ]}),
 
-      core : so.setFieldset({
+      core : so.f.setFieldset({
                 id:'sni-core-set',
                 title:'', 
                 width:332, 
@@ -287,15 +287,15 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.setCombo('mealPart'),
-                so.setCombo('mealType'),
-                so.setComposite('main_ingredient'),
-                so.setComposite('dish'),
-                so.setCombo('drinks'),
-                so.setComposite('herbs_and_spices')
+                so.f.setCombo('mealPart'),
+                so.f.setCombo('mealType'),
+                so.f.setComposite('main_ingredient'),
+                so.f.setComposite('dish'),
+                so.f.setCombo('drinks'),
+                so.f.setComposite('herbs_and_spices')
       ]}),
 
-      tech: so.setFieldset({
+      tech: so.f.setFieldset({
                 id:'sni-tech-set',
                 title:'', 
                 width:320, 
@@ -306,15 +306,15 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.setComposite('cuisine'),
-                so.setCombo('cooking'),
-                so.setCombo('nutrition'),
-                so.setCombo('taste'),
-                so.setCombo('technique'),
-                so.setCombo('cookware')
+                so.f.setComposite('cuisine'),
+                so.f.setCombo('cooking'),
+                so.f.setCombo('nutrition'),
+                so.f.setCombo('taste'),
+                so.f.setCombo('technique'),
+                so.f.setCombo('cookware')
       ]}),
 
-      sourceShow:so.setFieldset({
+      sourceShow:so.f.setFieldset({
                 id:'sni-sourceshow-set',
                 title:'name of show',
                 layout:'column',
@@ -328,7 +328,7 @@ so.set = {
                 ]
       }),
 
-      sourceChef: so.setFieldset({
+      sourceChef: so.f.setFieldset({
                 id:'sni-sourcechef-set',
                 title:'name of chef',
                 width:319,
@@ -336,7 +336,7 @@ so.set = {
                   margin: '20px 20px 20px 10px'
                 },
                 items:[
-                so.setComposite('talent')
+                so.f.setComposite('talent')
       ]})
 
 };

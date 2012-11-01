@@ -28,7 +28,14 @@ body{
 }
 
 .sni-atts-buttons li {
-    border:1px solid #a4a4a4; padding:5px 10px; font-size:.8em; display:inline; border-radius:.5em; margin-right: 7px;
+    border:1px solid #a4a4a4; 
+    padding:5px 10px; 
+    font-size:.8em; 
+    display:inline; 
+    border-radius:.5em; 
+    margin-right: 7px;
+    padding-left: 20px;
+    background: url('refresh.png') no-repeat 2% 50%;
 }
 
 .sni-atts-buttons li a{
@@ -92,7 +99,9 @@ body{
 }
 
 .sni-topbar .sni-detail-button{
-    border-radius:.5em; margin-right:5em;
+    border-radius:.5em; 
+    margin-left:1em;
+    margin-right:5em;
 }
 
 .sni-topbar .sni-load-button{
@@ -100,7 +109,9 @@ body{
 }
 
 .sni-topbar .sni-export-button{
-    margin:1em; border-radius:.5em
+    margin:1em; border-radius:.5em;
+    padding-right:35px;
+    background: url('export.png') no-repeat 90% 50%;
 }
 
 .sni-grid{
@@ -170,6 +181,10 @@ body{
     border-right: 1px solid #fff;
 }
 
+.sni-p-table .sni-t-wrapper:last-child th:last-child .sni-first-col{
+    background: url('plus.png') no-repeat 90% 50%;
+    text-align:left;
+}
 
 .sni-split{
     display:inline-block; 
@@ -281,6 +296,14 @@ body{
     padding:5px;
 }
 
+.sni-first-col .sni-cell-odd, .sni-first-col .sni-cell-even{
+    background: url('calendar.png') no-repeat 20px 5px;
+}
+
+.sni-first-col .sni-cell-odd:hover, .sni-first-col .sni-cell-even:hover{
+    background: url('calendar_selected.png') no-repeat 20px 5px;
+}
+
 .sni-resizable.sni-first-col{
     color:#f0f0f0;
     font-weight:5;
@@ -288,14 +311,10 @@ body{
 
 .sni-first-col .sni-cell-odd{
     background-color: #a0a0a0;
-    height:32px;
-    padding:5px;
 }
 
 .sni-first-col .sni-cell-even{
     background-color: #4a4a4a;
-    height:32px;
-    padding:5px;
 }
 
 .sni-title-collapsible{ /*help to make titles hidden when columns are collapsed */
@@ -343,6 +362,12 @@ body{
     border-color:#fff;
 }
 
+.sni-topbar .sni-detail-button, .sni-topbar .sni-export-button{
+    border-color: #000;
+    background-color: #ff9b36;
+    color:#000;
+}
+
 .sni-p-header{
     background-color: #9ea3ac;
     color:#000;
@@ -363,12 +388,12 @@ body{
     background-color: #e3eaf6;
 }
 
-.sni-first-col .sni-cell-even{
+.sni-first-col .sni-cell-even, .sni-first-col .sni-cell-even:hover{
     background-color: #c1c7d1;
     color: #000;
 }
 
-.sni-first-col .sni-cell-odd{
+.sni-first-col .sni-cell-odd, .sni-first-col .sni-cell-odd:hover{
     background-color: #acb2bb;
     color:#000;
 }

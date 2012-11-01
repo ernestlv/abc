@@ -1,56 +1,3 @@
-  //sections - sections are really ExtJS column layouts
-so.section = {
-
-      selection:so.setSection({
-        id:'sni-selection-section',
-        items:[  
-              so.col.selection                                                                
-        ]
-      }),
-
-      global : so.setSection({
-        id:'sni-global-section',
-        items:[  
-              so.col.global                                                                
-        ]
-      }),
-
-      status : so.setSection({
-        id:'sni-status-section',
-        items:[  
-              so.col.status,
-              so.col.advertising                                                                       
-        ]
-      }),
-
-      eventsCoreTech : so.setSection({
-        id:'sni-event-section',
-        items:[
-              so.col.events,
-              so.col.core,
-              so.col.tech
-        ]
-      }),
-
-       source : so.setSection({
-        id:'sni-source-section',
-        items:[
-              so.col.source
-        ]
-      })        
-
-};
-
-//main            
-so.components = [ 
-        so.section.selection,
-        so.section.global, 
-        so.section.status,
-        so.section.eventsCoreTech,
-        so.section.source                                                             
-];
-
-//CQ.Ext.namespace('SNI.CQ.wcm','SniSiteOptimizer');
 
 /**
  * @class so.plugin
@@ -70,7 +17,6 @@ so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
         // init component by calling super constructor
         so.plugin.superclass.constructor.call(this, {
 
-            //"id":"cq-notification-site-optimizer",
             "id":"sni-siteoptimizer",
             "layout":"border",
             "renderTo":CQ.Util.ROOT_ID,
@@ -81,7 +27,7 @@ so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
                     "cls": "cq-siteadmin-header",
                     "autoEl":"div",
                     "region":"north",
-                    boxMinWidth:1237,
+                    //boxMinWidth:1237,
                     style:{
                       position:'fixed',
                       zIndex:10001
@@ -101,12 +47,16 @@ so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
                     ]
                 },
                 {
-                    region:"center",
-                    id:"sni-siteoptimizer-wrapper",
-                    boxMinWidth:1237,
-                    autoScroll: true,
+                    region:'center',
+                    id:'sni-siteoptimizer-iframe',
                     xtype: 'container', // TabPanel itself has no title
-                    items: so.components
+                    style:{
+                      overflow:'hidden'
+                    },
+                    html:[
+                        '<iframe id="sni-dashboard" src="sni-site-optimizer.dashboard.html" frameborder=0 width=100% height=100%></iframe>',
+                        '<iframe id="sni-result" src="sni-site-optimizer.result.html" frameborder=0 width=100% height=100% style="display:none"></iframe>'
+                    ].join('')
                 }
             ]
 

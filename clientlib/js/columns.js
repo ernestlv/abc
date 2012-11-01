@@ -1,7 +1,7 @@
 //sub-columns
 so.subcol = {
 
-      selection : so.setSubColumn({
+      selection : so.f.setSubColumn({
               id:'sni-selection-subcol',
               columnWidth:.88,
               style:{
@@ -10,41 +10,42 @@ so.subcol = {
               html: so.html.getSelection(),
               listeners:{
                 afterrender:function(){   // make things dragabble
-                  var cancel, senderID;
+                  var switched, senderID;
                   $CQ('#sni-selection .sni-selection-list').sortable({
                     connectWith:'.sni-selection-list',
                     start:function(e, ui){
-                      //console.log('start sorting '+ui.item[0].id);
-                      cancel = true;
-                      sender = ''
+                      
+                      switched = false;
+                      senderID = ''
                     },
                     //change:function(e,ui){
-                    //  console.log('sorting sorting '+ui.item[0].id);
+                      //console.log('sorting sorting '+ui.item[0].id);
                     //},
                     stop:function(e, ui){
-                      //console.log('end sorting '+ui.item[0].id);
-                      if (cancel){
-                          $CQ(this).sortable('cancel');
+                      
+                      if (switched){
+                         //$CQ(this).sortable('cancel');
+                         so.f.switchList(ui, senderID);
                       }else{
-                          so.switchExpression(ui, senderID);
+                         so.f.switchExpression(ui); 
                       }
                     },
                     receive:function(e, ui){
-                      //console.log('receiving '+ui.sender[0].id);
+
                       senderID = ui.sender[0].id;
-                      cancel=false;
-                    },
-                    remove:function(e, ui){
-                      //console.log('removing '+ui.item.parent()[0].id);
+                      switched=true;
                     }
+                    //remove:function(e, ui){
+                      //console.log('removing '+ui.item.parent()[0].id);
+                    //}
                   });
                   
-                  $CQ('#sni-selection .sni-tab').click(so.toggleExclusions);
+                  $CQ('#sni-selection .sni-tab').click(so.f.toggleExclusions);
                 }
               }
       }),
 
-      get : so.setSubColumn({
+      get : so.f.setSubColumn({
               id:'sni-get-subcol',
               columnWidth:.12,
               style:{
@@ -53,12 +54,12 @@ so.subcol = {
               html: so.html.getAssetsButton(),
               listeners:{
                 afterrender:function(){
-                  $CQ('#sni-selection .sni-get-assets a').click(so.getAssets);
+                  $CQ('#sni-selection .sni-get-assets a').click(so.g.showResult);
                 }
               }
       }),
 
-      search : so.setSubColumn({
+      search : so.f.setSubColumn({
               id:'sni-search-subcol',
               columnWidth:.5,
               bodyStyle:{
@@ -70,7 +71,7 @@ so.subcol = {
               ]
       }),
 
-      content : so.setSubColumn({
+      content : so.f.setSubColumn({
               id:'sni-content-subcol',
               columnWidth:.5,
               bodyStyle:{
@@ -82,7 +83,7 @@ so.subcol = {
               ]
       }),
 
-      statusLeft : so.setSubColumn({
+      statusLeft : so.f.setSubColumn({
               id:'sni-statusleft-subcol',
               columnWidth:.5,
               height:472,
@@ -96,7 +97,7 @@ so.subcol = {
               ]
       }),
 
-      statusRight : so.setSubColumn({
+      statusRight : so.f.setSubColumn({
               id:'sni-statusright-subcol',
               columnWidth:.5,
               height:472,
@@ -111,7 +112,7 @@ so.subcol = {
               ]
       }),
 
-      adLeft : so.setSubColumn({
+      adLeft : so.f.setSubColumn({
               id:'sni-adleft-subcol',
               columnWidth:.5,
               height:472,
@@ -125,7 +126,7 @@ so.subcol = {
               ]
       }),
 
-      adRight : so.setSubColumn({
+      adRight : so.f.setSubColumn({
               id:'sni-adright-subcol',
               columnWidth:.5,
               height:472,
@@ -138,7 +139,7 @@ so.subcol = {
               ]
       }),
 
-      events: so.setSubColumn({
+      events: so.f.setSubColumn({
               id:'sni-events-subcol',
               height:350,
               bodyStyle:{
@@ -152,7 +153,7 @@ so.subcol = {
               ]
       }),
 
-      core: so.setSubColumn({
+      core: so.f.setSubColumn({
               id:'sni-core-subcol',
               height:350,
               bodyStyle:{
@@ -166,7 +167,7 @@ so.subcol = {
               ]
       }),
 
-      tech: so.setSubColumn({
+      tech: so.f.setSubColumn({
               id:'sni-tech-subcol',
               height:350,
               bodyStyle:{
@@ -180,7 +181,7 @@ so.subcol = {
               ]
       }),
 
-      sourceLeft: so.setSubColumn({
+      sourceLeft: so.f.setSubColumn({
               id:'sni-sourceleft-subcol',
               columnWidth:.7,
               bodyStyle:{
@@ -192,7 +193,7 @@ so.subcol = {
               ]
       }),
 
-      sourceRight: so.setSubColumn({
+      sourceRight: so.f.setSubColumn({
               id:'sni-sourceright-subcol',
               columnWidth:.3,
               bodyStyle:{
@@ -211,7 +212,7 @@ so.subcol = {
 //columns - 
 so.col = {
 
-      selection : so.setColumn({
+      selection : so.f.setColumn({
                             id:'sni-selection',
                             border:false,
                             style:{
@@ -231,7 +232,7 @@ so.col = {
                             ]                             
       }),
 
-      global : so.setColumn({
+      global : so.f.setColumn({
                             id:'sni-global',
                             title:'global filters',
                             items:[
@@ -239,11 +240,11 @@ so.col = {
                               so.subcol.content   
                             ],
                             listeners:{
-                              afterrender: so.fixGlobalSectionTopMargin
+                              afterrender: so.f.fixTopMargin
                             }                             
       }),
 
-      status :  so.setColumn({
+      status :  so.f.setColumn({
                             id:'sni-satus-col',
                             title:'status & format',
                             columnWidth:.5,
@@ -253,7 +254,7 @@ so.col = {
                             ],
       }),
 
-      advertising : so.setColumn({
+      advertising : so.f.setColumn({
                               id:'sni-advertising-col',
                               title:'advertising tags',
                               columnWidth:.5,
@@ -263,7 +264,7 @@ so.col = {
                               ]
       }),
 
-      events : so.setColumn({
+      events : so.f.setColumn({
                             id:'sni-events-col',
                             title:'events',
                             columnWidth:.33,
@@ -272,7 +273,7 @@ so.col = {
                             ]                          
       }),
 
-      core : so.setColumn({
+      core : so.f.setColumn({
                             id:'sni-core-col',
                             title:'core cooking content',
                             columnWidth:.34,
@@ -281,7 +282,7 @@ so.col = {
                             ]                           
       }),
 
-      tech : so.setColumn({
+      tech : so.f.setColumn({
                             id:'sni-tech-col',
                             title:'techniques & style',
                             columnWidth:.33,
@@ -290,7 +291,7 @@ so.col = {
                             ] 
       }),
 
-      source: so.setColumn({
+      source: so.f.setColumn({
                             id:'sni-source',
                             title:'content source',
                             items:[

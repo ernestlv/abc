@@ -11,13 +11,32 @@
 <script src="/libs/cq/ui/widgets.js" type="text/javascript"></script>
 <script src="/etc/clientlibs/foundation/jquery-ui.js" type="text/javascript"></script>
 <script type="text/javascript">
-var so = parent.so;
+var so = {
+  g: parent.so,
+
+  whenDisplay: function(){
+      var e = so.result.getSelectionEntries();
+      document.querySelector('.sni-selections-list').innerHTML = e.join('');
+      so.rest.getAssets({page:1, sort:{"type":"sorting", "field":"title", "order":"DESC"}}, so.rest.handleResultPage);
+  },
+
+  whenHide: function(){
+
+      so.result.cleanGrid();
+      so.result.cleanAttributePanel();
+  }
+
+};
 </script>
+<script src="/apps/sni-site-optimizer/clientlib/js/so.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/functions.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/rest.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/result.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/grid.js" type="text/javascript"></script>
 <script>
         CQ.Ext.onReady(function(){
 
+            //layout screen
             var l = so.result.doSplitSearch();
             var s = so.result.doSearch();
 
@@ -51,22 +70,15 @@ var so = parent.so;
                   so.result.doExpandable( this );
             });
 
-            so.rest.getAssets({page:1, sort:{"type":"sorting","settings":"asc"}}, function( assets ){
-
-                  so.result.restData = assets;
-
-                  var data = so.transformAssets(assets);
-
-                  so.result.loadGrid( data );     
-
-                  so.result.adjustAttributePanel(l, s, w);
-
-            });
-
+            //load data if querystring is provided otherwise will load later.
+            if (location.search){
+              var q = location.search.substring(1);
+              so.g.currentExpressions = JSON.parse(decodeURI(q));
+              so.whenDisplay();
+            }
             
         }); //end onReady
 </script>
 </head>
-<body>
-</body>
+<body></body>
 </html>

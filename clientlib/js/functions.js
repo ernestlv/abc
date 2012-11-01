@@ -1,4 +1,4 @@
-var so = {
+so.f = {
 
   //******* CORE UTILITIES **************
 
@@ -41,7 +41,7 @@ var so = {
               layout:'column',
               border:false
     };
-    return so.mix(t, x);
+    return so.f.mix(t, x);
   },
 
   //set column
@@ -62,7 +62,7 @@ var so = {
           borderBottomLeftRadius: '.5em'
         }         
     };
-    return so.mix(t, x);
+    return so.f.mix(t, x);
   },
 
   //set column
@@ -73,7 +73,7 @@ var so = {
         border:false,
         cls:'sni-subcol'   
     };
-    return so.mix(i, x);
+    return so.f.mix(i, x);
   },
 
   setFieldset: function(t, i){
@@ -96,7 +96,7 @@ var so = {
         x.title = t;
         x.border = x.title ? true : false;
       }else{
-        x = so.mix(t, x);
+        x = so.f.mix(t, x);
       }
       return x;
   },
@@ -107,7 +107,7 @@ var so = {
             layout:'form',
             border:false
         };
-        return so.mix(t, x);
+        return so.f.mix(t, x);
   },
 
   setComposite: function(f, x){
@@ -117,7 +117,7 @@ var so = {
         items:so.fields[f]
     };
 
-    return so.mix(x, o);
+    return so.f.mix(x, o);
   },
 
   //********** EXTJS CONSTRUCTORS *****************
@@ -170,7 +170,7 @@ var so = {
       }
     };
 
-    return [so.mix(f, x), so.mix(a, b)];
+    return [so.f.mix(f, x), so.f.mix(a, b)];
   },
 
   setLightbox: function( f, a ){
@@ -192,13 +192,13 @@ var so = {
       }
     };
 
-    return [ so.mix( f, x ), so.mix( a, b ) ];
+    return [ so.f.mix( f, x ), so.f.mix( a, b ) ];
   },
 
   //set combo configuration
   setFieldCombo: function(f){
 
-   return so.mix(f, { 
+   return so.f.mix(f, { 
           width:100,
           store:{
              fields: ['value', 'label'],
@@ -210,7 +210,7 @@ var so = {
           emptyText:'Select ...',
           listeners:{
                     select:function (combo, record, index){//runs when value is selected
-                            
+                   
                       so.rest.handleCombo( f.id, combo );
                     },
                     expand:function( combo ){//runs when combo is clicked
@@ -223,7 +223,7 @@ var so = {
 
   setFieldCheckBox: function(f){
 
-    return so.mix(f, {
+    return so.f.mix(f, {
           // Put all controls in a single column with width 100%
           columns: 1
     });
@@ -231,7 +231,7 @@ var so = {
 
   setFieldRadio: function(f){
 
-    return so.mix(f, {
+    return so.f.mix(f, {
           // Put all controls in a single column with width 100%
           columns: 1
     });
@@ -245,7 +245,7 @@ var so = {
           return String.format('<b>{0} ({1})</b>', thumb.value, c);
       };
     }
-    return so.mix(f, {
+    return so.f.mix(f, {
           width: 100,
           value: 1,
           increment: 1,
@@ -272,7 +272,7 @@ var so = {
 
   setFieldSpinner: function(f){
 
-    return so.mix(f, {
+    return so.f.mix(f, {
           minValue: 0,
           maxValue: 1000000,
           incrementValue: 1
@@ -281,85 +281,113 @@ var so = {
 
   //******* EXPRESSIONS, FILTERS, SELECTIONS HANDLERS ****************
 
-  addedExpressions: {},
-
-  redoExpressions: function( field, action ){
-
-    var current=true, currentE = {}, addedE = {};
-    
-    if (action === 'delete'){
-        for(var x in so.currentExpressions){
-            if (x === field){
-                delete so.currentExpressions[x];
-                current = false;
-            }else{
-              if (current) {
-                currentE[x] = so.currentExpressions[x];
-              }else{
-                addedE[x] = so.currentExpressions[x];
-              }
-            }
-        }
-    }
-
-    if (action === 'query'){
-        for(var x in so.currentExpressions){
-            if (x === field){
-                addedE[x] = so.currentExpressions[x];
-                current = false;
-            }else{
-              if (current) {
-                currentE[x] = so.currentExpressions[x];
-              }else{
-                addedE[x] = so.currentExpressions[x];
-              }
-            }
-        }
-    }
-    
-    so.currentExpressions = currentE;
-    so.addedExpressions = addedE;
-    so.rest.getFilter( so.doExpressions );
+    //sort expressions using array
+  sortExpressions:function(filters, expressions){
+      var f = filters, l = f.length;
+      var i, x, b = [];
+      for (i=0; i<l; i++){
+        x = expressions[f[i]];
+        x && b.push(x);
+      }
+      return b;
   },
 
-  isRangeExpression: function(field){
-    return so.currentExpressions[field].type === 'TermRangeExpression';
+  getFilters: function(dashboard, ftype){
+      var b = [];
+      if (dashboard){
+          var x = dashboard.$CQ('#sni-'+ftype+' li'), i, l = x.length;
+          for (i=0; i<l; i++){
+              b.push(x[i].id.replace('-select', ''));
+          }
+      }
+      return b;
   },
 
-  resetField:false,
+  /*getExclusions: function(dashboard){
+      var b = [];
+      var x = db.$CQ('#sni-exclusions li'), i, l = x.length;
+      for (i=0; i<l; i++){
+          b.push(x[i].id.replace('-select', ''));
+      }
+      return b;
+  },*/
 
-  doReset: function(field){
+  //return expressions sorted using the visual index in "Your selections"
+  getExpressions: function( expressions ){
+
+        var b = [], f, e, i;
+        var dashboard = so.g.getDashboard(); //when call from result screen we need to point to dahsboard
+        dashboard = dashboard ? dashboard.contentWindow : null;
+        f = so.f.getFilters(dashboard, 'inclusions'); //is there filters in "your selections"?
+        if (f.length){
+          e = so.f.sortExpressions(f, expressions); //is there expressions for current filters?
+          b = e.length ? b.concat(e) : b;
+        }
+        f = so.f.getFilters(dashboard, 'exclusions');
+        if (f.length){
+          e = so.f.sortExpressions(f, expressions);
+          b = e.length ? b.concat(e) : b;
+        }
+        if ( !b.length ){ //first time we add an expression there will be no inclusion nor exclusion filters but there will be expressions.
+          for(i in expressions){
+              b.push(expressions[i])
+          }
+        }
+        return b;
+  },
+
+  deleteExpression: function(field){
+    delete so.g.currentExpressions[field]
+  },
+
+  redoExpressions: function(){
+
+    var e, l, ae = {}, i, x;
+    //we dont know the original order of the expressions so everything should be considered an added expression
+    //and do the query again
+    e = so.f.getExpressions(so.g.currentExpressions); //returns expressions sorted using the visual index in "your selections"
+    l = e.length;
+    for(i=0; i<l; i++){
+      x = e[i];
+      ae[x.field] = x;
+    }
+
+    so.g.currentExpressions = {};
+    so.g.addedExpressions = ae;
+    so.rest.getFilter( so.f.doExpressions );
+  },
+
+  isReset:false,
+
+  reset: function(field){
     var o = CQ.Ext.getCmp(field);
     //extjs will fire a check event several times for checkboxes, since a checkbox may be multi-value.
     //site optimizer will fire an ajax transaction everytime a check event is fired.
-    //we need the so.resetField flag to advice SO if extjs is resetting a checkbox in which case the ajax transaction is aborted.
-    so.resetField = true;
+    //we need the so.f.isReset flag to advice SO if extjs is resetting a checkbox in which case the ajax transaction is aborted.
+    so.f.isReset = true;
     o.reset();
-    so.resetField = false;
-    console.log('reset: '+field);
+    so.f.isReset = false;
   },
 
 
   //this function is called when a user deletes a filter from "your selections"
   removeExpression: function( v ){
     
-    var e = so.queryID( v );
-    var field = e.id.replace('-select', '');
-    if ( so.isRangeExpression( field ) ){
-      so.doReset(field+'_min');
-      so.doReset(field+'_max');
+    var e = so.f.queryID( v );
+    var f = e.id.replace('-select', '');
+    if ( so.f.isRangeExpression( f ) ){
+      so.f.reset(f+'_min');
+      so.f.reset(f+'_max');
     }else{
-      so.doReset(field);
+      so.f.reset(f);
     }
     $CQ( e ).remove();
-    so.removeOrdinality(field);
-    so.fixGlobalSectionTopMargin();
-    //we need to re-query the selections for whatever filters we have left.
-    so.redoExpressions( field, 'delete' );
+    so.f.fixTopMargin();
+    so.f.deleteExpression( f );
+    so.f.redoExpressions(); //we need to re-query the selections for whatever filters we have left.
   },
 
   isExclusion: function(){
-
     var v = $CQ('#sni-selection input[name=sni-selection-radio]:checked').val();
     return v === 'e' || false;
   },
@@ -369,82 +397,29 @@ var so = {
     return negated ? '.sni-wrapper-x .sni-selection-list' : '.sni-wrapper .sni-selection-list';
   },
 
-  //keeps the order we must submit the expressions to the web serivce.
-  ordinality: [],
-
-  getOrdinality: function( f ){
-    var o = so.ordinality, l = o.length, i;
-    for (i=0; i<l; i++){
-      if ( o[i] === f ){
-        return i;
-      }
-    }
-    return -1;
-  },
-
-  removeOrdinality: function( f ){
-    var i  = so.getOrdinality(f);
-    if (i !== -1 ){
-      so.ordinality.splice(i , 1);
-    }
-  },
-
-  addOrdinality: function( f ){
-    so.removeOrdinality(f);
-    so.ordinality.push( f );
-    console.log('ordinality: '+so.ordinality.join(','));
-  },
-
-  currentExpressions: {},
-
-  getExpressionValue: function(f){
-    return (f.valueList && f.valueList.join(',')) || (f.lowerBound && f.lowerBound + ', '+f.upperBound) || f.value;
-  },
-
-  updateExpressions: function(f, o){
+  addExpressions: function(f, o){
     
     var v, id, e, s, x;
 
     //saves in currentExpressions
-    so.currentExpressions[f.field] = f;
+    so.g.currentExpressions[f.field] = f;
 
     //remove from your selections
     id = f.field+'-select';
-    e = so.queryID( id );
+    e = so.f.queryID( id );
     if ( e ) {
       $CQ( e ).remove();
     }
     //add to your selections
-    v = so.getExpressionValue(f);
-    s = so.getExpressionSelector(f.negated);
+    v = so.f.getExpressionValue(f);
+    s = so.f.getExpressionSelector(f.negated);
     o = {
           id: id,
-          value: f.field+'='+v,
+          value: f.field+' = '+v,
           size:  f.count
     }
     document.querySelector(s).innerHTML += so.html.getSelectionEntry( o );
-
-    //fix ordinality
-    so.removeOrdinality(f.field);
-    so.addOrdinality(f.field);
-
-    so.fixGlobalSectionTopMargin();
-  },
-
-  format2Thousand: function(v){
-    return v >= 1000 ? Math.round(v/1000) + 'K' : v;
-  },
-
-  updateTotalAssets:function(){
-    var o=so.ordinality, l = o.length;
-    if ( l ){
-          var f = o[l-1]; //last expression added
-          var e = so.currentExpressions[f];
-          var c = so.format2Thousand(e.count);
-          document.querySelector('#sni-get-subcol .sni-size').innerHTML = c + ' total';
-    }else{
-          document.querySelector('#sni-get-subcol .sni-size').innerHTML = '0 total';
-    }
+    so.f.fixTopMargin();
   },
 
   //process expressiones returned by an ajax request.
@@ -452,58 +427,54 @@ var so = {
           
         var e = data.expressions;  //this is coming from REST service.
         for (var i=0; i< e.length; i+=1){
-            so.updateExpressions( e[i] );
+            so.f.addExpressions( e[i] );
         }
-        so.updateTotalAssets();
-  },
-
-  getExpressions: function( expressions ){
-
-        var b = [], v, x;
-        var o = so.ordinality, l = o.length, i;
-
-        for(i=0; i<l; i++){ //we loop ordinality to make sure expressions are submitted in the right order.
-          e = expressions[o[i]]; //expressions is the list of filters we have in your selection area.
-          if (e){ //we check if expression is in current list. expressions might be in 1 of two lists currentExpressions or addedExpressions
-            b.push(e);
-          }
-        }
-        return b;
+        //total in get assets button
+        document.querySelector('#sni-get-subcol .sni-size').innerHTML = so.f.displayTotal() + ' total';
   },
 
   displayExclusions:false, 
 
   toggleExclusions: function(){
     
-     if ( !so.displayExclusions ){
-        so.displayExclusions = true;
+     if ( !so.f.displayExclusions ){
+        so.f.displayExclusions = true;
         $CQ('#CQ #sni-selection .sni-label-single').hide();
         $CQ('#CQ #sni-selection .sni-label-top').show();
         $CQ('#CQ #sni-selection .sni-wrapper-x').show();
         $CQ('#sni-selection .sni-tab').html('remove exclusions -');
      }else{
-        so.displayExclusions = false;
+        so.f.displayExclusions = false;
         $CQ('#CQ #sni-selection .sni-label-single').show();
         $CQ('#CQ #sni-selection .sni-label-top').hide();
         $CQ('#CQ #sni-selection .sni-wrapper-x').hide();
         $CQ('#sni-selection .sni-tab').html('add exclusions +');
         $CQ('#sni-selection input[name=sni-selection-radio][value=i]').attr('checked', 'checked');
      }
-     so.fixGlobalSectionTopMargin();
+     so.f.fixTopMargin();
   },
 
-  switchExpression: function(ui, senderID){
+  //runs when user switches expressions between inclusions and exclusions using drag and drop
+  switchList: function(ui, senderID){
     
     var e = ui.item[0];
-    var s = so.queryID(senderID); //sender list
-    var field = e.id.replace('-select', '');
-    var x = so.currentExpressions[field];
+    var s = so.f.queryID(senderID); //sender list
+    var f = e.id.replace('-select', '');
+    var x = so.g.currentExpressions[f];
     if (s.id === 'sni-inclusions'){
       x.negated = true;
     }else{
       x.negated = false;
     }
-    so.redoExpressions( field, 'query' );
+    so.f.redoExpressions();
+  },
+
+  //runs when user sort expressions in the same list using drag and drop
+  switchExpression: function(ui){
+    
+    var e = ui.item[0];
+    var f = e.id.replace('-select', '');
+    so.f.redoExpressions();
   },
 
 
@@ -511,22 +482,20 @@ var so = {
 
   transformMap: function( m ){
 
-      var a = [];
-      for (x in m){
-        if (m.hasOwnProperty(x)){
-          a.push( {value:x, count:m[x]} );
-        }
+      var i, l=m.length, x, a = [];
+      for (i=0; i<l; i++){
+          x = m[i];
+          a.push( {value:x.label, rawValue:x.value, count:x.count} );
       }
       return a;
   },
 
   transformComboMap: function( m ){
 
-      var a = [];
-      for (x in m){
-        if (m.hasOwnProperty(x)){
-          a.push( [ x+'||'+m[x], x+' ('+m[x]+')' ] );
-        }
+      var i, l=m.length, x, a = [];
+      for (i=0; i<l; i++){
+        x = m[i];
+          a.push( [ x.value, x.label+' ('+x.count+')' ] );
       }
       return a;
   },
@@ -590,13 +559,11 @@ var so = {
   //************* MISCELLANEOUS HELPERS *****************
 
   //fix sectionsince sni-selection is fixed position
-  fixGlobalSectionTopMargin:function(){
-
+  fixTopMargin:function(){
     document.getElementById('sni-global').style.marginTop = document.getElementById('sni-selection').offsetHeight + 'px';
   },
 
   getSelectedRatings: function(){
-
     var a = CQ.Ext.getCmp('rating').getValue();
     var b = [];
     $CQ.each(a, function(i, e){
@@ -607,7 +574,6 @@ var so = {
 
   //originally used for review count and cook time.
   getSelectedRange: function(field, cmp){
-
     var cmpMin = CQ.Ext.getCmp(field+'_min');
     var cmpMax = CQ.Ext.getCmp(field+'_max');
     var v1 = cmpMin.getValue().split('||')[0];
@@ -617,8 +583,30 @@ var so = {
     return [v1,v2];
   },
 
-  selectFilterType: function(config){
+  isRangeExpression: function(field){
+    return so.g.currentExpressions[field].type === 'TermRangeExpression';
+  },
 
+  getExpressionValue: function(f){
+    return (f.valueList && f.valueList.join(',')) || (f.lowerBound && f.lowerBound + ', '+f.upperBound) || f.value;
+  },
+
+  format2Thousand: function(v){
+    return v >= 1000 ? Math.round(v/1000) + 'K' : v;
+  },
+
+    //total assets
+  getTotal:function(){
+    var f = so.f.getExpressions(so.g.currentExpressions);
+    return f.length ? f[f.length-1].count : 0;
+  },
+
+  //total of matched assets
+  displayTotal:function(){
+    return so.f.format2Thousand(so.f.getTotal());
+  },
+
+  selectFilterType: function(config){
     var f=config.field, v=config.values, t=config.type, x={};
     if (t === 'range'){
         x[f] = {
@@ -626,7 +614,7 @@ var so = {
           "field":f,
           "lowerBound":v[0],
           "upperBound":v[1],
-          "negated":so.isExclusion()
+          "negated":so.f.isExclusion()
         };
         return x;
     }
@@ -635,7 +623,7 @@ var so = {
           "type":"TermMultiValueExpression",
           "field":f,
           "valueList":v,
-          "negated":so.isExclusion()
+          "negated":so.f.isExclusion()
         };
         return x;
     }
@@ -644,50 +632,8 @@ var so = {
       "field":f,
       "value":v.join(''),
       "operator":"LIKE",
-      "negated":so.isExclusion()                  
+      "negated":so.f.isExclusion()                  
     };
     return x;
-  },
-
-  getAssets: function(){
-
-    CQ.Ext.getCmp('sni-siteoptimizer').destroy();
-    new CQ.Ext.Viewport({
-            id:'sni-results-page',
-            layout:'border',
-            renderTo:CQ.Util.ROOT_ID,
-            items:[
-                        {
-                            "id":"cq-header",
-                            "xtype":"container",
-                            "cls": "cq-siteadmin-header",
-                            "autoEl":"div",
-                            "region":"north",
-                            "items": [
-                                {
-                                    "xtype":"panel",
-                                    "border":false,
-                                    "layout":"column",
-                                    "cls": "cq-header-toolbar",
-                                    "items": [
-                                        new CQ.Switcher({}),
-                                        new CQ.UserInfo({}),
-                                        new CQ.HomeLink({})
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                                region:'center',
-                                id:'sni-result',
-                                xtype: 'container', // TabPanel itself has no title
-                                style:{
-                                  overflow:'hidden'
-                                },
-                                html:'<iframe src="sni-site-optimizer.result.html" frameborder=0 width=100% height=100%></iframe>',
-                        }
-            ]
-         });
   }
-
 };

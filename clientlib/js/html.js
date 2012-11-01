@@ -53,8 +53,9 @@ so.html = {
     return [
                   '<li class="sni-select-entry" id="'+o.id+'">',
                   '<span class="sni-select-field">'+o.value+'</span>',
-                  '<span class="sni-select-size">'+so.format2Thousand( o.size )+'</span>',
-                  '<span class="sni-select-x" onClick="so.removeExpression(\''+o.id+'\')">X</span>',
+                  '<span class="sni-select-size">'+so.f.format2Thousand( o.size )+'</span>',
+                  //'<span class="sni-select-x" onClick="so.f.removeExpression(\''+o.id+'\')">X</span>',
+                  '<img class="sni-select-x" onClick="so.f.removeExpression(\''+o.id+'\')" src="/apps/sni-site-optimizer/clientlib/css/close2.png">',
                   '</li>',
     ].join('');
   }

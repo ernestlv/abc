@@ -5,7 +5,7 @@ so.rest = {
                 var requestObj = {
                    "currentFilters":{
                       "type":"filters",
-                      "expressions":so.getExpressions( so.currentExpressions )
+                      "expressions":so.f.getExpressions( so.g.currentExpressions )
                    },
 
                    "filterFieldName":field
@@ -13,7 +13,7 @@ so.rest = {
                                 
                 var data= JSON.stringify(requestObj);
 
-                console.log('ajax request: '+data);
+                console.log('ajax request /imp/report/field: '+data);
  
                 $CQ.ajax({
                         url:'/imp/report/field',
@@ -35,24 +35,21 @@ so.rest = {
                     }
                 }
 
-                var field = config.field, values = config.values;
-                if( values ){ //user selected a field value
+                if( config.values ){ //user selected a field value
 
                     //if user manually clears a checkbox, the code determines if the field value is empty,
                     //then removes the filter from your selections and aborts the transaction.
-                    var value = values.join('');
+                    var value = config.values.join('');
                     if (!value){ //user cleared a field
-                        so.removeExpression( field+'-select' );
+                        so.f.removeExpression( config.field+'-select' );
                         return;
                     }
-                    so.addedExpressions = so.selectFilterType( config );
-                    delete so.currentExpressions[field]; //we remove field from the current expressions since it is already in the added expression
-                    so.addOrdinality(field); //we need to add current field to ordinality so is accounted for later.
-
+                    so.g.addedExpressions = so.f.selectFilterType( config );
+                    delete so.g.currentExpressions[config.field]; //we remove field from the current expressions since it is already in the added expression
                 }else{ //this should be true only when user deletes a filter from "your selections" or switch a filter from 1 list to the other.
 
-                    if ( so.isEmpty( so.addedExpressions ) ){ //this is true when user deleted the last filter.
-                      so.updateTotalAssets(); //check last expression added and update total
+                    if ( so.f.isEmpty( so.g.addedExpressions ) ){ //this is true when user deleted the last filter.
+                      so.f.displayTotal(); //check last expression added and update total
                       return;
                     }
                 }
@@ -60,12 +57,12 @@ so.rest = {
 
                 var currentFilters = {
                         "type":"filters",
-                        "expressions":so.getExpressions( so.currentExpressions )
+                        "expressions":so.f.getExpressions( so.g.currentExpressions )
                 };
-
+                
                 var addedFilters = {
                         "type":"filters",
-                        "expressions":so.getExpressions( so.addedExpressions )                     
+                        "expressions":so.f.getExpressions( so.g.addedExpressions )                     
                 };
 
                 var requestObj = {
@@ -75,7 +72,7 @@ so.rest = {
 
                 var data = JSON.stringify(requestObj);
 
-                console.log('ajax request: '+data);
+                console.log('ajax request /imp/report/filters: '+data);
 
                 $CQ.ajax({
                   url:'/imp/report/filters',
@@ -90,15 +87,15 @@ so.rest = {
             var requestObj = {
                "currentFilters":{
                     "type":"filters",
-                    "expressions":so.getExpressions( so.currentExpressions )
+                    "expressions":so.f.getExpressions( so.g.currentExpressions )
                 },
                "pageNum":config.page,
                "sortingObject":config.sort
-            }
+            };
 
             var data = JSON.stringify(requestObj);
 
-            console.log('ajax request: '+data);
+            console.log('ajax request /imp/report/assetlist: '+data);
         
             $CQ.ajax({
                 url:'/imp/report/assetlist',
@@ -108,12 +105,40 @@ so.rest = {
             });
         },
 
+        getPageViews: function(config, handler){
+
+            var requestObj = {
+                   "filters":{
+                        "type":"filters",
+                        "expressions":[{
+                            "type":"TermMultiValueExpression",
+                            "negated":false,
+                            "field":"page_id",
+                            "valueList":["12","13","16"],
+                            "count":0
+                            }]
+                    }
+            };
+
+            var data = JSON.stringify(requestObj);
+
+            console.log('ajax request /imp/report/pageviews: '+data);
+        
+            $CQ.ajax({
+                url:'/imp/report/pageviews',
+                dataType: 'json', 
+                data: data,
+                success: handler,
+                error: handler
+            });
+        },
+
 /////////////// REST HANDLERS FOR FIELD SERVICE /////////////////////////
         getLightbox: function( config ){
 
                 so.rest.getField(config.field, function( data ){ 
 
-                        var map = so.transformMap( data.nameValueMap );  
+                        var map = so.f.transformMap( data.nameValueMap );  
                         so.lightbox.open({
                                 field: config.field, 
                                 title: config.title,
@@ -126,8 +151,8 @@ so.rest = {
         getCombo: function( field, combo ){
 
                 so.rest.getField(field, function( data ){
-
-                        var map = so.transformComboMap( data.nameValueMap );  
+                        
+                        var map = so.f.transformComboMap( data.nameValueMap );  
                         var store = combo.getStore();
                         store.loadData( map );
                         combo.restData = data;
@@ -138,7 +163,7 @@ so.rest = {
 
                 so.rest.getField(field, function( data ){
 
-                        var map = so.transformSliderMap( data.nameValueMap );
+                        var map = so.f.transformSliderMap( data.nameValueMap );
                         var min = map[0].value, max = map[0].value;
                         for (var i=1; i<map.length; i+=1){
                           min = map[i].value < min ? map[i].value : min;
@@ -160,7 +185,7 @@ so.rest = {
 
                 so.rest.getField(field, function( data ){
 
-                        var map = so.transformSliderMap( data.nameValueMap );
+                        var map = so.f.transformSliderMap( data.nameValueMap );
                         var min = map[0].value, max = map[0].value;
                         for (var i=1; i<map.length; i+=1){
                           min = map[i].value < min ? map[i].value : min;
@@ -178,7 +203,7 @@ so.rest = {
 
               var me = CQ.Ext.getCmp( filter );
               var v = me.getValue();
-              so.rest.getFilter({field:filter, values:v, type:'filter'}, so.doExpressions);
+              so.rest.getFilter({field:filter, values:v, type:'filter'}, so.f.doExpressions);
         },
 
         handleLightbox: function(filter, lightbox){
@@ -187,19 +212,19 @@ so.rest = {
                  //update field in form
                 var c = CQ.Ext.getCmp( filter );
                 c.setValue( v.join(', ') );
-                so.rest.getFilter({field:filter, values:v, type:'lightbox' }, so.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'lightbox' }, so.f.doExpressions);
         },
 
         handleCombo:  function (filter, combo, f){
-                      
-                var v = typeof f === 'function' ?  f( filter, combo ) : [combo.getValue().split('||')[0]];
-                so.rest.getFilter( { field:filter, values:v, type:'combo' }, so.doExpressions );
+                    
+                var v = typeof f === 'function' ?  f( filter, combo ) : [combo.getValue()];
+                so.rest.getFilter( { field:filter, values:v, type:'combo' }, so.f.doExpressions );
         },
 
         handleRange:  function (filter, combo, f){
                       
-                var v = typeof f === 'function' ?  f( filter, combo ) : [combo.getValue().split('||')[0]];
-                so.rest.getFilter( { field:filter, values:v, type:'range' }, so.doExpressions );
+                var v = typeof f === 'function' ?  f( filter, combo ) : [combo.getValue()];
+                so.rest.getFilter( { field:filter, values:v, type:'range' }, so.f.doExpressions );
         },
 
         handleRadio:  function (filter, radio, f){
@@ -214,32 +239,54 @@ so.rest = {
 
                 var v = typeof f === 'function' ?  f( filter, radio ) : ( radio.getValue() ? [radio.boxLabel] : [] );
                             
-                so.rest.getFilter({field:filter, values:v, type:'radio'}, so.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'radio'}, so.f.doExpressions);
         },
 
         handleCheck:  function (filter, checkbox, f){ //special case since a checkbox has multi-values
 
                 //the code checks if extjs called the function using a reset event and abort the transaction.
                 //note: when extjs resets a set of checkboxes; extjs will fire the check event to uncheck them several times
-                //then we need to abort the ajax call. The so.removeExpression function will call ajax in the right moment.
-                if ( so.resetField ){
+                //then we need to abort the ajax call. The so.f.removeExpression function will call ajax in the right moment.
+                if ( so.f.isReset ){
                   return;
                 }
 
                 var v = typeof f === 'function' ?  f( filter, checkbox ) : ( checkbox.getValue() ? [checkbox.boxLabel] : [] );
                             
-                so.rest.getFilter({field:filter, values:v, type:'check'}, so.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'check'}, so.f.doExpressions);
         },
 
         handleSlider: function(filter, slider){
 
                 var v = slider.getValues();
-                so.rest.getFilter({field:filter, values:v, type:'slider' }, so.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'slider' }, so.f.doExpressions);
         },
 
         handleSpinner: function(filter, spinner){
                 
                 var v = spinner.getValue();
-                so.rest.getFilter({field:filter, values:v, type:'spinner' }, so.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'spinner' }, so.f.doExpressions);
+        },
+
+        handleResultPage:function( assets ){
+
+                  so.result.restData = assets;
+
+                  var data = so.f.transformAssets(assets);
+
+                  so.result.loadGrid( data );  
+
+                  so.result.fixAttributePanel();   
+
+                  so.result.fixSplit();
+
+
+                  document.querySelector('#sni-matching-assets .count').innerHTML = so.f.displayTotal();
+                  document.querySelector('#sni-loaded-assets .count').innerHTML = so.result.displayAssetsTotal();
+                  so.rest.getPageViews({}, so.rest.handlePageViews);
+        },
+
+        handlePageViews:function(data){
+                  document.querySelector('#sni-total-page-views .count').innerHTML = '1.5mm';
         }
 }

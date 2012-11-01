@@ -52,10 +52,10 @@ so.grid = {
                                                 columns:[
                                                     {
                                                         class   : 'sni-first-col',
-                                                        label  : 'modify<br>asset',
+                                                        label  : '&nbsp;modify<br>&nbsp;asset',
                                                         width   : 75,
                                                         dataIndex: function(r, e){
-                                                            e.innerHTML = '[ + ] &nbsp;&nbsp;'+r;
+                                                            e.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;'+r;
                                                         }
                                                     }
                                                 ]

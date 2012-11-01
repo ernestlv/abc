@@ -1,9 +1,2 @@
 #base=js
-functions.js
-rest.js
-html.js
-lightbox.js
-fields.js
-sets.js
-columns.js
 SniSiteOptimizer.js

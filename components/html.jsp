@@ -129,10 +129,38 @@
             });
         </script>
 
-        <!-- Extensions -->
-        <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/extensions/spinner.css">
-        <script src="/apps/sni-site-optimizer/extensions/spinner.js" type="text/javascript"></script>
-        <script src="/apps/sni-site-optimizer/extensions/spinnerfield.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        so = {
+            addedExpressions:{},
+            currentExpressions:{},
+            getDashboard: function(){
+                return document.querySelector('iframe#sni-dashboard');
+            },
+            getResult: function(){
+                return document.querySelector('iframe#sni-result');
+            },
+            showResult:function(){
+                
+                var f1 = so.getDashboard();
+                var f2 = so.getResult();
+                f2.contentWindow.so.whenDisplay();
+                f2.style.display = 'block';
+                f1.style.display = 'none';
+               
+            },
+            showDashboard:function(){
+
+                var f1 = so.getDashboard();
+                var f2 = so.getResult();
+                f1.style.display = 'block';
+                f2.style.display = 'none';
+                f2.contentWindow.so.whenHide();
+            },
+            newDashboard:function(){
+                location = '/apps/wcm/core/content/sni-site-optimizer.html';
+            }
+        };
+        </script>
         
         <!-- client libs -->
         <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/clientlib.css">
