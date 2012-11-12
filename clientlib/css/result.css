@@ -235,9 +235,9 @@ body{
 }
 
 .sni-table .sni-col{
-    
     text-align: center;
     font-size: .8em;
+    vertical-align:top;
 }
 
 .sni-table .sni-col-border{
@@ -261,6 +261,7 @@ body{
 .sni-table td{
     text-align: center;
     font-size: .8em;
+    vertical-align:top;
 }
 
 .sni-table .sni-col-title{
@@ -309,11 +310,11 @@ body{
     font-weight:5;
 }
 
-.sni-first-col .sni-cell-odd{
+.sni-first-col .sni-cell-odd, .sni-maf-checks .sni-cell-odd{
     background-color: #a0a0a0;
 }
 
-.sni-first-col .sni-cell-even{
+.sni-first-col .sni-cell-even, .sni-maf-checks .sni-cell-even{
     background-color: #4a4a4a;
 }
 
@@ -321,6 +322,108 @@ body{
     overflow:visible; 
     display:inline-block; 
     position:relative;
+}
+
+.sni-table .sni-col-title.sni-maf-expanded{
+    width:351px !important; /* we need !important because js sets width inline */
+}
+
+#CQ.sni-CQ-wrapper{
+    padding:50px 25px 0px 25px;
+    width:200px;
+}
+
+#CQ h2{
+    font-size: larger;
+    padding-bottom: 10px;
+}
+
+#CQ .sni-maf-title{
+    border: 1px solid #000;
+    padding: 5px;
+    background-color: #C1C7D1;
+}
+
+#CQ .sni-maf-body{
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    padding:13px;
+}
+
+#CQ .sni-maf-body.show{
+    display:block;
+}
+
+#CQ .sni-maf-body.hide{
+    display:none;
+}
+
+#CQ h3{
+    padding-bottom:5px;
+}
+
+#CQ .sni-maf-wrapper:last-child .sni-maf-body{
+    border-bottom: 1px solid #000;
+}
+
+#CQ .sni-maf-close{
+    background-color:#000;
+    display:inline-block;
+    border-radius: 13px;
+    width:13px;
+    text-align:center;
+    font-size:10px;
+    line-height:13px;
+    font-weight:bold;
+    color: #fff;
+}
+
+#CQ .sni-maf-button{
+    margin-top:10px;
+    border: 1px solid #000;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: .5em;
+    background-color:#FF9B36;
+}
+
+#CQ .sni-maf-all{
+    margin-top:20px;
+    border:1px solid #000;
+    border-radius: .5em;
+}
+
+#CQ .sni-maf-all-title{
+    padding:5px;
+    border-bottom: 1px solid #000;
+    text-align:center;
+}
+
+#CQ .sni-maf-all-body{
+    padding:5px;
+}
+
+#CQ .sni-maf-all-link{
+    color:#00f;
+    text-decoration:underline;
+}
+
+#CQ .sni-maf-all-button.enabled{
+    border: 1px solid #000;
+    background-color:#FF9B36;
+    color:#000;
+}
+
+#CQ .sni-maf-all-button{
+    margin-top:10px;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: .5em;
+    border: 1px solid #ACB2BB;
+    background-color:#C1C7D1;
+    color:#ACB2BB;
 }
 
 /* blue theme */
@@ -388,12 +491,12 @@ body{
     background-color: #e3eaf6;
 }
 
-.sni-first-col .sni-cell-even, .sni-first-col .sni-cell-even:hover{
+.sni-first-col .sni-cell-even, .sni-first-col .sni-cell-even:hover, .sni-maf-checks .sni-cell-even{
     background-color: #c1c7d1;
     color: #000;
 }
 
-.sni-first-col .sni-cell-odd, .sni-first-col .sni-cell-odd:hover{
+.sni-first-col .sni-cell-odd, .sni-first-col .sni-cell-odd:hover, .sni-maf-checks .sni-cell-odd{
     background-color: #acb2bb;
     color:#000;
 }

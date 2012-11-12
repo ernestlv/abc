@@ -5,7 +5,7 @@ so.rest = {
                 var requestObj = {
                    "currentFilters":{
                       "type":"filters",
-                      "expressions":so.f.getExpressions( so.g.currentExpressions )
+                      "expressions":so.expressions.get( so.g.currentExpressions )
                    },
 
                    "filterFieldName":field
@@ -23,29 +23,29 @@ so.rest = {
                 });
         },
 
-        getFilter: function( config, handler ){
+        getFilter: function( expression, handler ){
 
                 //normalize the arguments
                 if (arguments.length === 1){
-                  handler = config;
-                  config  = {};
+                  handler = expression;
+                  expression  = {};
                 }else{
-                    if (config.type === 'filter'){
-                        config.values = [config.values];
+                    if (expression.type === 'filter'){
+                        expression.values = [expression.values];
                     }
                 }
 
-                if( config.values ){ //user selected a field value
+                if( expression.values ){ //user selected a field value
 
                     //if user manually clears a checkbox, the code determines if the field value is empty,
                     //then removes the filter from your selections and aborts the transaction.
-                    var value = config.values.join('');
+                    var value = expression.values.join('');
                     if (!value){ //user cleared a field
-                        so.f.removeExpression( config.field+'-select' );
+                        so.expressions.remove( expression.field+'-select' );
                         return;
                     }
-                    so.g.addedExpressions = so.f.selectFilterType( config );
-                    delete so.g.currentExpressions[config.field]; //we remove field from the current expressions since it is already in the added expression
+                    so.g.addedExpressions = so.expressions.selectType( expression );
+                    delete so.g.currentExpressions[expression.field]; //we remove field from the current expressions since it is already in the added expression
                 }else{ //this should be true only when user deletes a filter from "your selections" or switch a filter from 1 list to the other.
 
                     if ( so.f.isEmpty( so.g.addedExpressions ) ){ //this is true when user deleted the last filter.
@@ -57,12 +57,12 @@ so.rest = {
 
                 var currentFilters = {
                         "type":"filters",
-                        "expressions":so.f.getExpressions( so.g.currentExpressions )
+                        "expressions":so.expressions.get( so.g.currentExpressions )
                 };
                 
                 var addedFilters = {
                         "type":"filters",
-                        "expressions":so.f.getExpressions( so.g.addedExpressions )                     
+                        "expressions":so.expressions.get( so.g.addedExpressions )                     
                 };
 
                 var requestObj = {
@@ -82,15 +82,15 @@ so.rest = {
                 });
         },
 
-        getAssets: function(config, handler){
+        getAssets: function(request, handler){
 
             var requestObj = {
                "currentFilters":{
                     "type":"filters",
-                    "expressions":so.f.getExpressions( so.g.currentExpressions )
+                    "expressions":so.expressions.get( so.g.currentExpressions )
                 },
-               "pageNum":config.page,
-               "sortingObject":config.sort
+               "pageNum":request.page,
+               "sortingObject":request.sort
             };
 
             var data = JSON.stringify(requestObj);
@@ -105,7 +105,7 @@ so.rest = {
             });
         },
 
-        getPageViews: function(config, handler){
+        getPageViews: function(request, handler){
 
             var requestObj = {
                    "filters":{
@@ -133,12 +133,70 @@ so.rest = {
             });
         },
 
+        getModifyAssets: function(id, handler, all){
+            var value = CQ.Ext.getCmp( id ).getValue();
+            if (!value){
+                return;
+            }
+
+            var expressions;
+            if ( all ){
+                expressions = so.expressions.get( so.g.currentExpressions );
+                if (!expressions.length){ //no filters = no records to update;
+                    return;
+                }
+            }else{
+                var b = [];
+                $CQ('.sni-maf-checks input[type=checkbox]:checked').each(function(){
+                    var i = $CQ(this).val();
+                    b.push(so.result.restData.assetInfoList[i].report.current_url);
+                });
+
+                if (!b.length){ //no selected rows.
+                    return;
+                }
+                expressions = [
+                    {
+                      "type":"TermMultiValueExpression",
+                      "negated":false,
+                      "field":"current_url",
+                      "valueList":b
+                    }
+                ];
+            }
+
+            var requestObj = {
+                    "changeList":[
+                        {
+                            "user":"joe-user",
+                            "attribute":id,
+                            "value":value,
+                            "currentFilters":{
+                                "type":"filters",
+                                "expressions":expressions
+                            }
+                        }
+                    ]
+            };
+
+            var data = JSON.stringify(requestObj);
+
+            console.log('ajax request /imp/assets: '+data);
+        
+            $CQ.ajax({
+                url:'/imp/assets',
+                dataType: 'json', 
+                data: data,
+                success: handler
+            });
+        },
+
 /////////////// REST HANDLERS FOR FIELD SERVICE /////////////////////////
         getLightbox: function( config ){
 
                 so.rest.getField(config.field, function( data ){ 
 
-                        var map = so.f.transformMap( data.nameValueMap );  
+                        var map = so.rest.transformMap( data.nameValueMap );  
                         so.lightbox.open({
                                 field: config.field, 
                                 title: config.title,
@@ -152,7 +210,7 @@ so.rest = {
 
                 so.rest.getField(field, function( data ){
                         
-                        var map = so.f.transformComboMap( data.nameValueMap );  
+                        var map = so.rest.transformCombo( data.nameValueMap );  
                         var store = combo.getStore();
                         store.loadData( map );
                         combo.restData = data;
@@ -163,7 +221,7 @@ so.rest = {
 
                 so.rest.getField(field, function( data ){
 
-                        var map = so.f.transformSliderMap( data.nameValueMap );
+                        var map = so.rest.transformSlider( data.nameValueMap );
                         var min = map[0].value, max = map[0].value;
                         for (var i=1; i<map.length; i+=1){
                           min = map[i].value < min ? map[i].value : min;
@@ -185,7 +243,7 @@ so.rest = {
 
                 so.rest.getField(field, function( data ){
 
-                        var map = so.f.transformSliderMap( data.nameValueMap );
+                        var map = so.rest.transformSlider( data.nameValueMap );
                         var min = map[0].value, max = map[0].value;
                         for (var i=1; i<map.length; i+=1){
                           min = map[i].value < min ? map[i].value : min;
@@ -203,7 +261,7 @@ so.rest = {
 
               var me = CQ.Ext.getCmp( filter );
               var v = me.getValue();
-              so.rest.getFilter({field:filter, values:v, type:'filter'}, so.f.doExpressions);
+              so.rest.getFilter({field:filter, values:v, type:'filter'}, so.expressions.do);
         },
 
         handleLightbox: function(filter, lightbox){
@@ -212,19 +270,19 @@ so.rest = {
                  //update field in form
                 var c = CQ.Ext.getCmp( filter );
                 c.setValue( v.join(', ') );
-                so.rest.getFilter({field:filter, values:v, type:'lightbox' }, so.f.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'lightbox' }, so.expressions.do);
         },
 
         handleCombo:  function (filter, combo, f){
                     
                 var v = typeof f === 'function' ?  f( filter, combo ) : [combo.getValue()];
-                so.rest.getFilter( { field:filter, values:v, type:'combo' }, so.f.doExpressions );
+                so.rest.getFilter( { field:filter, values:v, type:'combo' }, so.expressions.do);
         },
 
         handleRange:  function (filter, combo, f){
                       
                 var v = typeof f === 'function' ?  f( filter, combo ) : [combo.getValue()];
-                so.rest.getFilter( { field:filter, values:v, type:'range' }, so.f.doExpressions );
+                so.rest.getFilter( { field:filter, values:v, type:'range' }, so.expressions.do);
         },
 
         handleRadio:  function (filter, radio, f){
@@ -239,40 +297,40 @@ so.rest = {
 
                 var v = typeof f === 'function' ?  f( filter, radio ) : ( radio.getValue() ? [radio.boxLabel] : [] );
                             
-                so.rest.getFilter({field:filter, values:v, type:'radio'}, so.f.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'radio'}, so.expressions.do);
         },
 
         handleCheck:  function (filter, checkbox, f){ //special case since a checkbox has multi-values
 
                 //the code checks if extjs called the function using a reset event and abort the transaction.
                 //note: when extjs resets a set of checkboxes; extjs will fire the check event to uncheck them several times
-                //then we need to abort the ajax call. The so.f.removeExpression function will call ajax in the right moment.
+                //then we need to abort the ajax call. The so.expressions.remove function will call ajax in the right moment.
                 if ( so.f.isReset ){
                   return;
                 }
 
                 var v = typeof f === 'function' ?  f( filter, checkbox ) : ( checkbox.getValue() ? [checkbox.boxLabel] : [] );
                             
-                so.rest.getFilter({field:filter, values:v, type:'check'}, so.f.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'check'}, so.expressions.do);
         },
 
         handleSlider: function(filter, slider){
 
                 var v = slider.getValues();
-                so.rest.getFilter({field:filter, values:v, type:'slider' }, so.f.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'slider' }, so.expressions.do);
         },
 
         handleSpinner: function(filter, spinner){
                 
                 var v = spinner.getValue();
-                so.rest.getFilter({field:filter, values:v, type:'spinner' }, so.f.doExpressions);
+                so.rest.getFilter({field:filter, values:v, type:'spinner' }, so.expressions.do);
         },
 
         handleResultPage:function( assets ){
 
                   so.result.restData = assets;
 
-                  var data = so.f.transformAssets(assets);
+                  var data = so.rest.transformAssets(assets);
 
                   so.result.loadGrid( data );  
 
@@ -282,11 +340,102 @@ so.rest = {
 
 
                   document.querySelector('#sni-matching-assets .count').innerHTML = so.f.displayTotal();
-                  document.querySelector('#sni-loaded-assets .count').innerHTML = so.result.displayAssetsTotal();
+                  document.querySelector('#sni-loaded-assets .count').innerHTML = so.result.displayTotal();
                   so.rest.getPageViews({}, so.rest.handlePageViews);
+
+                  //enable modify asset action
+                  if (!so.maf){ //if maf is not loaded we go and get it
+                      $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/maf.js', function(){
+                        $CQ('.sni-first-col .sni-col-title').click( so.maf.display );
+                        $CQ('#sni-modify-search-button').click( so.maf.hide );
+                      });
+                  }
         },
 
         handlePageViews:function(data){
                   document.querySelector('#sni-total-page-views .count').innerHTML = '1.5mm';
+        },
+
+        handleModifyAssets:function(data){
+                    alert('done!');
+        },
+
+        //**********  WEB SERVICE RESPONSE TRANSFORMATIONS ******************
+
+  transformMap: function( m ){
+
+      var i, l=m.length, x, a = [];
+      for (i=0; i<l; i++){
+          x = m[i];
+          a.push( {value:x.label, rawValue:x.value, count:x.count} );
+      }
+      return a;
+  },
+
+  transformCombo: function( m ){
+
+      var i, l=m.length, x, a = [];
+      for (i=0; i<l; i++){
+        x = m[i];
+          a.push( [ x.value, x.label+' ('+x.count+')' ] );
+      }
+      return a;
+  },
+
+  transformSlider: function( m ){
+
+      var a = [];
+      for (x in m){
+        if (m.hasOwnProperty(x)){
+          a.push( {value:x-0, count:m[x]-0} );
         }
+      }
+      return a;
+  },
+
+  transformAssets: function( data ){
+      var a = data.assetInfoList, l = a.length, i, r, b=[];
+      for (i=0; i<l; i++){
+          r = a[i].report;
+          b.push([
+            r.url,
+            r.title,
+            r.status,
+            r.asset_type,
+            r.has_image,
+            r.category,
+            r.section,
+            r.source,
+            r.general_subjects,
+            r.sponsorship,
+            r.preferred_term,
+            r.alternate_term,
+            r.sub_term,
+            r.hub_type,
+            r.hub_sponsor,
+            r.content_tag1,
+            r.content_tag2,
+            r.occasions,
+            r.season,
+            r.who_s_dining,
+            r.meal_part,
+            r.main_type,
+            r.main_ingredient,
+            r.dish,
+            r.drinks,
+            r.herbs_and_spices,
+            r.cuisine,
+            r.cooking_styles,
+            r.nutrition,
+            r.taste,
+            r.technique,
+            r.cookware_and_gagets,
+            r.show_title,
+            r.show_abbr,
+            r.talent
+            ]);
+      }
+      return b;
+  }
+
 }

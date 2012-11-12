@@ -1,13 +1,13 @@
 //sub-columns
 so.subcol = {
 
-      selection : so.f.setSubColumn({
+      selection : so.db.setSubColumn({
               id:'sni-selection-subcol',
               columnWidth:.88,
               style:{
                 margin:'0px'
               },
-              html: so.html.getSelection(),
+              html: so.selection.display(),
               listeners:{
                 afterrender:function(){   // make things dragabble
                   var switched, senderID;
@@ -25,9 +25,9 @@ so.subcol = {
                       
                       if (switched){
                          //$CQ(this).sortable('cancel');
-                         so.f.switchList(ui, senderID);
+                         so.expressions.switch(ui, senderID);
                       }else{
-                         so.f.switchExpression(ui); 
+                         so.expressions.drag(ui); 
                       }
                     },
                     receive:function(e, ui){
@@ -45,13 +45,13 @@ so.subcol = {
               }
       }),
 
-      get : so.f.setSubColumn({
+      get : so.db.setSubColumn({
               id:'sni-get-subcol',
               columnWidth:.12,
               style:{
                 margin:'0px'
               },
-              html: so.html.getAssetsButton(),
+              html: so.selection.doButton(),
               listeners:{
                 afterrender:function(){
                   $CQ('#sni-selection .sni-get-assets a').click(so.g.showResult);
@@ -59,7 +59,7 @@ so.subcol = {
               }
       }),
 
-      search : so.f.setSubColumn({
+      search : so.db.setSubColumn({
               id:'sni-search-subcol',
               columnWidth:.5,
               bodyStyle:{
@@ -71,7 +71,7 @@ so.subcol = {
               ]
       }),
 
-      content : so.f.setSubColumn({
+      content : so.db.setSubColumn({
               id:'sni-content-subcol',
               columnWidth:.5,
               bodyStyle:{
@@ -83,7 +83,7 @@ so.subcol = {
               ]
       }),
 
-      statusLeft : so.f.setSubColumn({
+      statusLeft : so.db.setSubColumn({
               id:'sni-statusleft-subcol',
               columnWidth:.5,
               height:472,
@@ -97,7 +97,7 @@ so.subcol = {
               ]
       }),
 
-      statusRight : so.f.setSubColumn({
+      statusRight : so.db.setSubColumn({
               id:'sni-statusright-subcol',
               columnWidth:.5,
               height:472,
@@ -112,7 +112,7 @@ so.subcol = {
               ]
       }),
 
-      adLeft : so.f.setSubColumn({
+      adLeft : so.db.setSubColumn({
               id:'sni-adleft-subcol',
               columnWidth:.5,
               height:472,
@@ -126,7 +126,7 @@ so.subcol = {
               ]
       }),
 
-      adRight : so.f.setSubColumn({
+      adRight : so.db.setSubColumn({
               id:'sni-adright-subcol',
               columnWidth:.5,
               height:472,
@@ -139,7 +139,7 @@ so.subcol = {
               ]
       }),
 
-      events: so.f.setSubColumn({
+      events: so.db.setSubColumn({
               id:'sni-events-subcol',
               height:350,
               bodyStyle:{
@@ -153,7 +153,7 @@ so.subcol = {
               ]
       }),
 
-      core: so.f.setSubColumn({
+      core: so.db.setSubColumn({
               id:'sni-core-subcol',
               height:350,
               bodyStyle:{
@@ -167,7 +167,7 @@ so.subcol = {
               ]
       }),
 
-      tech: so.f.setSubColumn({
+      tech: so.db.setSubColumn({
               id:'sni-tech-subcol',
               height:350,
               bodyStyle:{
@@ -181,7 +181,7 @@ so.subcol = {
               ]
       }),
 
-      sourceLeft: so.f.setSubColumn({
+      sourceLeft: so.db.setSubColumn({
               id:'sni-sourceleft-subcol',
               columnWidth:.7,
               bodyStyle:{
@@ -193,7 +193,7 @@ so.subcol = {
               ]
       }),
 
-      sourceRight: so.f.setSubColumn({
+      sourceRight: so.db.setSubColumn({
               id:'sni-sourceright-subcol',
               columnWidth:.3,
               bodyStyle:{
@@ -210,9 +210,9 @@ so.subcol = {
 
 
 //columns - 
-so.col = {
+so.column = {
 
-      selection : so.f.setColumn({
+      selection : so.db.setColumn({
                             id:'sni-selection',
                             border:false,
                             style:{
@@ -232,7 +232,7 @@ so.col = {
                             ]                             
       }),
 
-      global : so.f.setColumn({
+      global : so.db.setColumn({
                             id:'sni-global',
                             title:'global filters',
                             items:[
@@ -244,7 +244,7 @@ so.col = {
                             }                             
       }),
 
-      status :  so.f.setColumn({
+      status :  so.db.setColumn({
                             id:'sni-satus-col',
                             title:'status & format',
                             columnWidth:.5,
@@ -254,7 +254,7 @@ so.col = {
                             ],
       }),
 
-      advertising : so.f.setColumn({
+      advertising : so.db.setColumn({
                               id:'sni-advertising-col',
                               title:'advertising tags',
                               columnWidth:.5,
@@ -264,7 +264,7 @@ so.col = {
                               ]
       }),
 
-      events : so.f.setColumn({
+      events : so.db.setColumn({
                             id:'sni-events-col',
                             title:'events',
                             columnWidth:.33,
@@ -273,7 +273,7 @@ so.col = {
                             ]                          
       }),
 
-      core : so.f.setColumn({
+      core : so.db.setColumn({
                             id:'sni-core-col',
                             title:'core cooking content',
                             columnWidth:.34,
@@ -282,7 +282,7 @@ so.col = {
                             ]                           
       }),
 
-      tech : so.f.setColumn({
+      tech : so.db.setColumn({
                             id:'sni-tech-col',
                             title:'techniques & style',
                             columnWidth:.33,
@@ -291,7 +291,7 @@ so.col = {
                             ] 
       }),
 
-      source: so.f.setColumn({
+      source: so.db.setColumn({
                             id:'sni-source',
                             title:'content source',
                             items:[

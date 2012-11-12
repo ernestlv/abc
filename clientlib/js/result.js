@@ -2,32 +2,16 @@ so.result = {
 
         //********* GRID FUNCTIONS ***********************
 
-        addClass: function(a, e){
-            
-            if (a.class){
-                var c = e.getAttribute('class');
-                e.setAttribute('class', c + ' ' + a.class);
-            }
-        },
-
-        addStyle: function(a, e){
-
-            var s = a.style;
-            if (s){
-                for (var x in s){
-                    e.style[x] = s[x];
-                }
-
-            }
-        },
-
         fixSplit: function (){
 
             $CQ('.sni-split').each(function(){
                 var e = document.getElementById(this.id+'-wrapper');
-                var h = e.offsetHeight, x = so.result.getAssetsTotal() > 3 ? Math.ceil(h/4) : 0;
-                this.style.height = h-x + 'px';
-                this.style.paddingTop = x + 'px'
+                //var t = so.result.getTotal();
+                var h = e.offsetHeight;
+                //var p = t > 3 ? 100 : 0;
+                //this.style.height = h-p + 'px';
+                this.style.height = h + 'px';
+                //this.style.paddingTop = p + 'px'
             });
         },
 
@@ -84,8 +68,8 @@ so.result = {
             var h = document.createElement('div');
             h.setAttribute('id', tbl.id);
             h.setAttribute('class', 'sni-t-header');
-            so.result.addClass(tbl, h);
-            so.result.addStyle(tbl, h);
+            so.f.addClass(tbl.class, h);
+            so.f.addStyle(tbl.style, h);
             h.innerHTML = '<div class="sni-title-collapsible">'+tbl.label+'</div>';
             w.appendChild(h);
 
@@ -103,8 +87,8 @@ so.result = {
                 //border wrapper
                 var div = document.createElement('div');
                 div.setAttribute('class', 'sni-col-border');
-                so.result.addClass(c, div);
-                so.result.addStyle(c, div);
+                so.f.addClass(c.class, div);
+                so.f.addStyle(c.style, div);
 
                 //title element
                 var s1 = document.createElement('span');
@@ -132,7 +116,7 @@ so.result = {
                 div2.id = colID;
                 div2.setAttribute('class', 'sni-resizable');
                 div2.setAttribute('style', 'width:'+(c.width+15)+'px'); // accounts for 10px of margins + 3 px of dragging cmp + 2 px border
-                so.result.addClass(c, div2);
+                so.f.addClass(c.class, div2);
 
                 td.appendChild(div2);
                 data.appendChild(td);
@@ -183,8 +167,8 @@ so.result = {
                         //create panel main header
                         var h = document.createElement('div');
                         h.setAttribute('class', 'sni-p-header');
-                        so.result.addClass(p, h);
-                        so.result.addStyle(p, h);
+                        so.f.addClass(p.class, h);
+                        so.f.addStyle(p.style, h);
                         h.innerHTML = '<div class="sni-title-collapsible">'+p.label+'</div>';
                         e.appendChild(h);
                         so.result.doTable(p, e);
@@ -231,6 +215,7 @@ so.result = {
                     p.splitID = p.id;
                     so.result.doPanel(p, w);
                 });
+
                 return w;
         },
 
@@ -315,8 +300,8 @@ so.result = {
         var b = document.createElement('ul');
         b.setAttribute('class', 'sni-atts-buttons');
         b.innerHTML = [
-                '<li><a href="#" onclick="so.g.showDashboard()">modify search</a></li>',
-                '<li><a href="javascript: void 0" onclick="so.g.newDashboard()" target="top">new search</a></li>'
+                '<li><a id="sni-modify-search-button" href="#" >modify search</a></li>',
+                '<li><a id="sni-new-search-button" href="javascript: void 0" target="top">new search</a></li>'
         ].join('');
 
         var x = so.result.doSelections();
@@ -335,11 +320,11 @@ so.result = {
 
     getSelectionEntries: function(){
 
-        var e=so.f.getExpressions(so.g.currentExpressions), l=e.length, i, x, b = [];
+        var e=so.expressions.get(so.g.currentExpressions), l=e.length, i, x, b = [];
         for (i=0; i<l; i++){
             x = e[i];
             c = i % 2 ? 'sni-s-even' : 'sni-s-odd';
-            b.push('<li class="'+c+'">'+x.field+' = '+so.f.getExpressionValue(x)+' <span class="sni-selections-size">'+so.f.format2Thousand(x.count)+'</span></li>');
+            b.push('<li class="'+c+'">'+x.field+' = '+so.expressions.getValue(x)+' <span class="sni-selections-size">'+so.f.format2Thousand(x.count)+'</span></li>');
         }
         return b;
     },
@@ -369,7 +354,7 @@ so.result = {
         return w;
     },
 
-    doTopBar: function (){
+    doToolBar: function (){
 
         var t = document.createElement('span');
         t.setAttribute('class', 'sni-topbar-title');
@@ -457,7 +442,7 @@ so.result = {
             var t = c.querySelector('.sni-col-title');
             var org = parseInt(t.style.width, 10);
             var min = 5;
-            var max = parseInt(org*5, 10);
+            var max = parseInt(org*7, 10);
             var col, w, h;
             $CQ('.sni-drag', c).draggable({
                 axis: 'x',
@@ -487,13 +472,13 @@ so.result = {
             });
     },
 
-    getAssetsTotal:function(){
+    getTotal:function(){
         var r = so.result.restData;
         return r ? r.assetInfoList.length : 0;
     },
 
-    displayAssetsTotal:function(){
-        return so.f.format2Thousand(so.result.getAssetsTotal());
+    displayTotal:function(){
+        return so.f.format2Thousand(so.result.getTotal());
     }
 
 };

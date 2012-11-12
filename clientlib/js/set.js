@@ -1,21 +1,21 @@
 //tabs in a tab panel
 so.tab = {
 
-                  title : so.f.setTab({
+                  title : so.db.setTab({
                           id:'sni-title-tab',
                           title:'title',
                           labelWidth:50,
                           items:[
-                            so.f.setComposite('filterTitle')
+                            so.form.createComposite('filterTitle')
                           ]
                   }),
 
-                  url : so.f.setTab({
+                  url : so.db.setTab({
                           id:'sni-url-tab',
                           title:'url',
                           labelWidth:50,
                           items:[
-                            so.f.setComposite('filterURL')
+                            so.form.createComposite('filterURL')
                           ]
                   })
 
@@ -55,7 +55,7 @@ so.side = {
                                           margin:'25px 5px'
                                         },
                                         items:[
-                                          so.f.setComposite('content_tag1', {
+                                          so.form.createComposite('content_tag1', {
                                               width:140
                                           }) 
                                         ]                                
@@ -70,7 +70,7 @@ so.side = {
                                           margin:'25px 5px'
                                         },
                                         items:[
-                                          so.f.setComposite('content_tag2', {
+                                          so.form.createComposite('content_tag2', {
                                               width:140
                                           })
                                         ]                              
@@ -85,7 +85,7 @@ so.side = {
                                           margin:'0px 5px'
                                         },
                                         items:[
-                                          so.f.setComposite('show_title')
+                                          so.form.createComposite('show_title')
                                         ]                                  
                 },
 
@@ -98,7 +98,7 @@ so.side = {
                                           margin:'0px 5px'
                                         },
                                         items:[
-                                          so.f.setComposite('show_abbr')
+                                          so.form.createComposite('show_abbr')
                                         ] 
                 }
 
@@ -107,7 +107,7 @@ so.side = {
 //setfields.
 so.set = {
 
-      search : so.f.setFieldset({
+      search : so.db.setFieldset({
                 id:'sni-searchterm-set',
                 title : 'search term',
                 height: 105,
@@ -118,7 +118,7 @@ so.set = {
                 items : so.tabpanel 
       }),
 
-      content : so.f.setFieldset({
+      content : so.db.setFieldset({
                 id:'sni-content-set',
                 title : 'content tags',
                 height: 105,
@@ -133,7 +133,7 @@ so.set = {
                 ]
       }),
 
-      status : so.f.setFieldset({ 
+      status : so.db.setFieldset({ 
                 id: 'sni-satus-set',
                 title:'status', 
                 width:253,
@@ -141,10 +141,10 @@ so.set = {
                   margin: '20px 10px 20px 20px'
                 },
                 items:[
-                so.f.setCombo('status')
+                so.form.createCombo('status')
       ]}),
 
-      assetC : so.f.setFieldset({
+      assetC : so.db.setFieldset({
                 id:'sni-assetC-set',
                 title:'asset clasification', 
                 width:253,
@@ -152,13 +152,13 @@ so.set = {
                   margin: '20px 10px 20px 20px'
                 },
                 items:[
-                so.f.setCombo('category'),
-                so.f.setCombo('section'),
-                so.f.setCombo('source'),
-                so.f.setCombo('general')
+                so.form.createCombo('category'),
+                so.form.createCombo('section'),
+                so.form.createCombo('source'),
+                so.form.createCombo('general')
       ]}),
 
-      format : so.f.setFieldset({
+      format : so.db.setFieldset({
                 id:'sni-format-set',
                 title:'format',
                 width:253,
@@ -167,11 +167,11 @@ so.set = {
                 },
                 labelWidth:70,
                 items:[
-                so.f.setComposite('asset_type'),
-                so.f.setRadio('has_image')
+                so.form.createComposite('asset_type'),
+                so.form.createRadio('has_image')
       ]}),
 
-      popularity : so.f.setFieldset({
+      popularity : so.db.setFieldset({
                 id:'sni-popularity-set',
                 title:'popularity',
                 width:253,
@@ -180,7 +180,7 @@ so.set = {
                 },
                 labelWidth:50,
                 items:[
-                so.f.setCheckBox('rating'),
+                so.form.createCheckBox('rating'),
                 {
                     id:'sni-reviewcount-wrapper',
                     fieldLabel:'review count:',
@@ -190,13 +190,13 @@ so.set = {
                       border:'0px'
                     },
                     items:[
-                        so.f.setCombo('reviewCountMin'),
-                        so.f.setCombo('reviewCountMax')
+                        so.form.createCombo('reviewCountMin'),
+                        so.form.createCombo('reviewCountMax')
                     ]
                 }
       ]}),
 
-      cook : so.f.setFieldset({
+      cook : so.db.setFieldset({
                 id:'sni-cook-set',
                 title:'cook time',
                 width:253,
@@ -215,13 +215,13 @@ so.set = {
                         border:'0px'
                       },
                       items:[
-                        so.f.setCombo('timeMin'),
-                        so.f.setCombo('timeMax')
+                        so.form.createCombo('timeMin'),
+                        so.form.createCombo('timeMax')
                       ]
                   }
       ]}),
 
-      sponsorshipCodes : so.f.setFieldset({
+      sponsorshipCodes : so.db.setFieldset({
                 id:'sni-sponsorship-set',
                 title:'sponsorship codes',
                 width:253,
@@ -230,10 +230,10 @@ so.set = {
                 },
                 labelWidth:80,
                 items:[
-                so.f.setComposite('sponsorship')
+                so.form.createComposite('sponsorship')
       ]}),
 
-      hubGroupings : so.f.setFieldset({
+      hubGroupings : so.db.setFieldset({
                 id:'sni-hubgroup-set',
                 title:'hub groupings',
                 width:253, 
@@ -242,12 +242,12 @@ so.set = {
                 },
                 labelWidth:80,
                 items:[
-                so.f.setRadio('hubType'),
-                //so.f.setCombo('hubID'),
-                //so.f.setCombo('hubSponsor')
+                so.form.createRadio('hubType'),
+                //so.form.createCombo('hubID'),
+                //so.form.createCombo('hubSponsor')
       ]}),
 
-      preferredTerms : so.f.setFieldset({
+      preferredTerms : so.db.setFieldset({
                 id:'sni-preferredterms-set',
                 title:'preferred terms', 
                 width:253, 
@@ -255,12 +255,12 @@ so.set = {
                   margin: '20px 20px 20px 10px'
                 },
                 items:[
-                so.f.setCombo('preferred_term'),
-                so.f.setCombo('altTerm'),
-                so.f.setCombo('subTerm')
+                so.form.createCombo('preferred_term'),
+                so.form.createCombo('alternate_term'),
+                so.form.createCombo('sub_term')
       ]}),
 
-      events : so.f.setFieldset({
+      events : so.db.setFieldset({
                 id:'sni-events-set',
                 title:'',
                 width:320, 
@@ -271,12 +271,12 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.f.setComposite('occasions'),
-                so.f.setComposite('season'),
-                so.f.setComposite('whos_dining')
+                so.form.createComposite('occasions'),
+                so.form.createComposite('season'),
+                so.form.createComposite('whos_dining')
       ]}),
 
-      core : so.f.setFieldset({
+      core : so.db.setFieldset({
                 id:'sni-core-set',
                 title:'', 
                 width:332, 
@@ -287,15 +287,15 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.f.setCombo('mealPart'),
-                so.f.setCombo('mealType'),
-                so.f.setComposite('main_ingredient'),
-                so.f.setComposite('dish'),
-                so.f.setCombo('drinks'),
-                so.f.setComposite('herbs_and_spices')
+                so.form.createCombo('mealPart'),
+                so.form.createCombo('mealType'),
+                so.form.createComposite('main_ingredient'),
+                so.form.createComposite('dish'),
+                so.form.createCombo('drinks'),
+                so.form.createComposite('herbs_and_spices')
       ]}),
 
-      tech: so.f.setFieldset({
+      tech: so.db.setFieldset({
                 id:'sni-tech-set',
                 title:'', 
                 width:320, 
@@ -306,15 +306,15 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.f.setComposite('cuisine'),
-                so.f.setCombo('cooking'),
-                so.f.setCombo('nutrition'),
-                so.f.setCombo('taste'),
-                so.f.setCombo('technique'),
-                so.f.setCombo('cookware')
+                so.form.createComposite('cuisine'),
+                so.form.createCombo('cooking'),
+                so.form.createCombo('nutrition'),
+                so.form.createCombo('taste'),
+                so.form.createCombo('technique'),
+                so.form.createCombo('cookware')
       ]}),
 
-      sourceShow:so.f.setFieldset({
+      sourceShow:so.db.setFieldset({
                 id:'sni-sourceshow-set',
                 title:'name of show',
                 layout:'column',
@@ -328,7 +328,7 @@ so.set = {
                 ]
       }),
 
-      sourceChef: so.f.setFieldset({
+      sourceChef: so.db.setFieldset({
                 id:'sni-sourcechef-set',
                 title:'name of chef',
                 width:319,
@@ -336,7 +336,7 @@ so.set = {
                   margin: '20px 20px 20px 10px'
                 },
                 items:[
-                so.f.setComposite('talent')
+                so.form.createComposite('talent')
       ]})
 
 };

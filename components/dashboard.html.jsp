@@ -36,14 +36,17 @@ var so = {
 };
 </script>
 <script src="/apps/sni-site-optimizer/clientlib/js/so.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/functions.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/f.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/expressions.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/db.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/form.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/rest.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/html.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/selection.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/lightbox.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/fields.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/sets.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/columns.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/sections.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/set.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/column.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/section.js" type="text/javascript"></script>
 
 <!-- Extensions -->
 <!-- <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/extensions/spinner.css">
@@ -58,6 +61,7 @@ var so = {
             var c = new CQ.Ext.Container({
                   id:'sni-siteoptimizer-wrapper',
                   items: so.components,
+                  //html:"" + (new Date()),
                   renderTo: CQ.Ext.getBody()
             });
 
@@ -65,7 +69,7 @@ var so = {
             if (location.search){
               var query = location.search.substring(1);
               so.g.currentExpressions = JSON.parse(decodeURI(query));
-              so.f.redoExpressions();
+              so.expressions.redo();
             }
 
         }); //end onReady
