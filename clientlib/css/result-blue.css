@@ -1,0 +1,149 @@
+/* blue theme */
+
+body{
+    background-color: #b2dcfc;
+}
+
+.sni-split{
+    background-color: #ff9b36;
+    color:#000;
+}
+
+.sni-split-icon{
+    background-color: #000;
+    color: #fff;
+}
+
+#sni-search-wrapper, .sni-grid-wrapper{
+    background-color: #094ea1;
+}
+
+.sni-grid{
+    background-color: #fff;
+}
+
+.sni-atts-buttons li{
+    background-color: #ff9b36;
+    color:#000;
+    border-color: #000;
+}
+
+.sni-atts-buttons li a{
+    color: #000;
+}
+
+.sni-topbar-buttons li{
+    color:#fff;
+    border-color:#fff;
+}
+
+.sni-topbar .sni-detail-button, .sni-topbar .sni-export-button{
+    border-color: #000;
+    background-color: #ff9b36;
+    color:#000;
+}
+
+.sni-p-header{
+    background-color: #9ea3ac;
+    color:#000;
+}
+
+.sni-t-header{
+    background-color: #c1c7d1;
+    color:#000;
+}
+
+.sni-table .sni-col-border{
+    background-color: #c1c7d1;
+    border-right-color: #c1c7d1;
+    color: #000;
+}
+
+.sni-table .sni-cell-even{
+    background-color: #fff;
+
+}
+
+.sni-table .sni-cell-odd{
+    background-color: #e3eaf6;
+}
+
+.sni-first-col .sni-cell-even, .sni-first-col .sni-cell-even:hover, .sni-maf-checks .sni-cell-even{
+    background-color: #c1c7d1;
+    color: #000;
+}
+
+.sni-first-col .sni-cell-odd, .sni-first-col .sni-cell-odd:hover, .sni-maf-checks .sni-cell-odd{
+    background-color: #acb2bb;
+    color:#000;
+}
+
+.sni-selections-wrapper{
+    padding: 10px 15px 15px;
+    background-color: #61b9ff;
+    border-radius: .3em;
+}
+
+.sni-selections-title{
+    margin-top: 0px;
+    margin-bottom:5px;
+}
+
+#sni-panel-1-wrapper th{
+    border:0;
+}
+
+#sni-panel-1-wrapper th .sni-first-col{
+    background-color: #ff9b36;
+    border: 1px solid #000;
+    border-radius: .5em;
+}
+
+.sni-selections-list {
+    background-color: transparent;
+    padding: 0px;
+    border-radius: 0em;
+}
+
+/* .sni-selections-list li {
+    border-radius: 0em;
+    margin: 0px;
+} */
+
+.sni-selections-list li.sni-s-even{
+    background-color:#f0f0f0;
+}
+
+.sni-selections-list li.sni-s-odd{
+    background-color:#fff;
+}
+
+.sni-selections-list li.sni-s-exclusion{
+    background-color:#02dcfc;
+}
+
+.sni-table .sni-resizable {
+    color: #000;
+}
+
+#CQ .sni-maf-title{
+    border: 1px solid #000;
+    padding: 5px;
+    background-color: #C1C7D1;
+}
+
+#CQ .sni-maf-body{
+    border-color: #000;
+}
+
+#CQ .sni-maf-wrapper:last-child .sni-maf-body{
+    border-color: #000;
+}
+
+#CQ .sni-maf-all{
+    border-color: #000;
+}
+
+#CQ .sni-maf-all-title{
+    border-color: #000;
+}

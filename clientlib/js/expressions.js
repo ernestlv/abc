@@ -50,31 +50,50 @@ so.expressions = {
     delete so.g.currentExpressions[field]
   },
 
-  redo: function(){
-
-    var e, l, ae = {}, i, x;
-    //we dont know the original order of the expressions so everything should be considered an added expression
-    //and do the query again
-    e = so.expressions.get(so.g.currentExpressions); //returns expressions sorted using the visual index in "your selections"
-    l = e.length;
-    for(i=0; i<l; i++){
-      x = e[i];
-      ae[x.field] = x;
-    }
-
-    so.g.currentExpressions = {};
-    so.g.addedExpressions = ae;
-    so.rest.getFilter( so.expressions.do );
-  },
-
   isRange: function(field){
     return so.g.currentExpressions[field].type === 'TermRangeExpression';
   },
 
-   //this function is called when a user deletes a filter from "your selections"
-  remove: function( v ){
+  //return a css selector for the inclusion or exclusion lists
+  getYourSelections: function( negated ){
     
-    var e = so.f.queryID( v );
+    return negated ? '.sni-wrapper-x .sni-selection-list' : '.sni-wrapper .sni-selection-list';
+  },
+
+  //returns the value of an expression
+  getValue: function(f){
+    return f.valueList || [f.value] || [f.lowerBound, f.upperBound];
+  },
+
+  redo: function(){
+
+    //var e, l, ae = {}, i, x;
+    //we dont know the original order of the expressions so everything should be considered an added expression
+    //and do the query again
+    /*e = so.expressions.get(so.g.currentExpressions); //returns expressions sorted using the visual index in "your selections"
+    l = e.length;
+    for(i=0; i<l; i++){
+      x = e[i];
+      ae[x.field] = x;
+    }*/
+
+    so.g.addedExpressions = so.g.currentExpressions;
+    so.g.currentExpressions = {};
+    //so.g.addedExpressions = ae;
+    so.rest.getFilter( so.expressions.do );
+  },
+
+  //this function is called when a user deletes a filter from "your selections"
+  remove: function( evt ){
+    var id = evt;
+    if (evt.target){ //if true this is called from a click event otherwise is called programatically and evt contains id
+      var t = evt.target;
+      if (!so.f.hasClass('sni-select-x', t)){ //we did not click remove button
+        return;
+      }
+      id = t.parentNode.id; //target is the img we need the parent li#id
+    }
+    var e = so.f.queryID( id );
     var f = e.id.replace('-select', '');
     if ( so.expressions.isRange( f ) ){
       so.f.reset(f+'_min');
@@ -88,19 +107,8 @@ so.expressions = {
     so.expressions.redo(); //we need to re-query the selections for whatever filters we have left.
   },
 
-  //return a css selector for the inclusion or exclusion lists
-  getYourSelections: function( negated ){
-    
-    return negated ? '.sni-wrapper-x .sni-selection-list' : '.sni-wrapper .sni-selection-list';
-  },
+  add: function(f, o){
 
-  //returns the value of an expression
-  getValue: function(f){
-    return (f.valueList && f.valueList.join(',')) || (f.lowerBound && f.lowerBound + ', '+f.upperBound) || f.value;
-  },
-
-    add: function(f, o){
-    
     var v, id, e, s, x;
 
     //saves in currentExpressions
@@ -117,7 +125,7 @@ so.expressions = {
     s = so.expressions.getYourSelections(f.negated);
     o = {
           id: id,
-          value: f.field+' = '+v,
+          value: f.field+' = '+so.f.getLabel(v),
           size:  f.count
     }
     document.querySelector(s).innerHTML += so.selection.doEntry( o );
@@ -153,8 +161,8 @@ so.expressions = {
   //runs when user sort expressions in the same list using drag and drop
   drag: function(ui){
     
-    var e = ui.item[0];
-    var f = e.id.replace('-select', '');
+    //var e = ui.item[0];
+    //var f = e.id.replace('-select', '');
     so.expressions.redo();
   },
 

@@ -25,7 +25,7 @@ so.grid = {
                                    {name: 'season'},
                                    {name: 'who_s_dining'},
                                    {name: 'meal_part'},
-                                   {name: 'main_type'},
+                                   {name: 'meal_type'},
                                    {name: 'main_ingredient'},
                                    {name: 'dish'},
                                    {name: 'drinks'},
@@ -51,10 +51,11 @@ so.grid = {
                                                 label:'&nbsp;',
                                                 columns:[
                                                     {
-                                                        class   : 'sni-first-col',
-                                                        label  : '&nbsp;modify<br>&nbsp;asset',
-                                                        width   : 75,
-                                                        dataIndex: function(r, e){
+                                                        class     : 'sni-first-col',
+                                                        classData : 'sni-first-col', //apllies only to data rows
+                                                        label     : '&nbsp;modify<br>&nbsp;asset',
+                                                        width     : 75,
+                                                        dataIndex : function(r, e){
                                                             e.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;'+r;
                                                         }
                                                     }
@@ -72,14 +73,16 @@ so.grid = {
                                                 label:'&nbsp;',
                                                 columns:[
                                                     {
-                                                        label   : 'URL',
+                                                        label    : 'URL',
                                                         width    : 75,
-                                                        dataIndex: 'url'
+                                                        dataIndex: 'url',
+                                                        styleData    : {textAlign:'left'} //only applies to data rows
                                                     },
                                                     {
-                                                        label   : 'title',
+                                                        label    : 'title',
                                                         width    : 75,
-                                                        dataIndex: 'title'
+                                                        dataIndex: 'title',
+                                                        styleData    : {textAlign:'left'}
                                                     }
                                                 ]
                                             }
@@ -263,7 +266,7 @@ so.grid = {
                                                             {
                                                                 label   : 'meal type', 
                                                                 width    : 75,
-                                                                dataIndex: 'main_type'
+                                                                dataIndex: 'meal_type'
                                                             },
                                                             {
                                                                 label   : "main ingredient", 
@@ -355,118 +358,26 @@ so.grid = {
                                                     ]
                                                 }
                                             ]
-                                    }
-                                    /*,{
+                                    },{
                                             id:'sni-panel-10',
-                                            label:'2012 monthly page views',
+                                            label:'monthly page views',
                                             style:so.style.headerColor,
                                             table:[
                                                 {
                                                     id:'sni-currentyear-col',
-                                                    label:'2012 monthly page views',
-                                                    columns:[
-                                                            {
-                                                                label   : 'june', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'may', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'april', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'march', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'february', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'january', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            }
-                                                    ]
+                                                    label:'monthly page views',
+                                                    columns:[]
                                                 }
                                             ]
                                     },{
                                             id:'sni-panel-11',
-                                            label:'2011 monthly page views',
+                                            label:'monthly page views',
                                             style:so.style.headerColor,
                                             table:[
                                                 {
                                                     id:'sni-previousyear-col',
-                                                    label:'2011 monthly page views',
-                                                    columns:[
-                                                            {
-                                                                label   : 'december', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'november', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'october', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'september', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'august', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },{
-                                                                label   : 'july', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'june', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'may', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'april', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'march', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'february', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'january', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            }
-                                                    ]
+                                                    label:'monthly page views',
+                                                    columns:[]
                                                 }
                                             ]
                                     },{
@@ -474,43 +385,74 @@ so.grid = {
                                             label:'quarterly page views',
                                             style:so.style.headerColor,
                                             table:[
-                                            {
+                                                {
                                                     id:'sni-quarterly-col',
                                                     label:'quarterly page views',
-                                                    columns:[
-                                                            {
-                                                                label   : 'Q2 2012', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'Q1 2012', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'Q4 2011', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'Q3 2011', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'Q2 2011', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            },
-                                                            {
-                                                                label   : 'Q1 2011', 
-                                                                width    : 75,
-                                                                dataIndex: 'price'
-                                                            }
-                                                    ]
+                                                    columns:[]
                                                 }
                                             ]
-                                    }*/
+                                    }
                         ]
 };
+
+//initialize calendar part of the grid
+(function(){
+    
+    var months = ['december', 'november', 'october', 'september', 'august', 'july', 'june', 'may', 'april', 'march', 'february', 'january'];
+    var Qs     = ['Q4', 'Q4', 'Q4', 'Q3', 'Q3', 'Q3', 'Q2', 'Q2', 'Q2', 'Q1', 'Q1', 'Q1'];
+    var d      = new Date();
+    var y, m;
+    
+    function doYear(y, m, panel, fields){
+        var table, cols, i, x;
+        panel.label = y+' '+panel.label;
+        table = panel.table[0];
+        table.label = y+' '+table.label;
+        cols = table.columns;
+        for (i=m; i<12; i++){
+            x = months[i]+'_'+y;
+            cols.push({
+                label    : months[i], 
+                width    : 75,
+                dataIndex: x
+            });
+            fields.push({ name: x });
+        }
+    }
+
+    function doQs(y, m, panel, fields){
+        var cols, i, x;
+        cols = panel.table[0].columns;
+        for (i=m; i<12; i+=3){
+            x = Qs[i]+'_'+y;
+            cols.push({
+                label    : Qs[i]+' '+y, 
+                width    : 75,
+                dataIndex: x
+            })
+            fields.push({ name: x });
+        }
+    }
+
+    //current year
+    y = d.getFullYear();
+    m = 11 - d.getMonth();
+    doYear(y, m, so.grid.panel[9], so.grid.fields);
+
+    //previous year
+    y = y - 1;
+    m = 0;
+    doYear(y, m, so.grid.panel[10], so.grid.fields);
+
+    //Qs current year
+    y = d.getFullYear();
+    m = 11 - d.getMonth();
+    doQs(y, m, so.grid.panel[11], so.grid.fields);
+
+    //Qs previous year
+    y = y - 1;
+    m = 0;
+    doQs(y, m, so.grid.panel[11], so.grid.fields);
+    
+
+})()

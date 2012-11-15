@@ -52,10 +52,10 @@ so.selection = {
   doEntry: function( o ){
     return [
                   '<li class="sni-select-entry" id="'+o.id+'">',
-                  '<span class="sni-select-field">'+o.value+'</span>',
+                  '<span class="sni-select-value">'+o.value+'</span>',
                   '<span class="sni-select-size">'+so.f.format2Thousand( o.size )+'</span>',
-                  //'<span class="sni-select-x" onClick="so.f.removeExpression(\''+o.id+'\')">X</span>',
-                  '<img class="sni-select-x" onClick="so.expressions.remove(\''+o.id+'\')" src="/apps/sni-site-optimizer/clientlib/css/close2.png">',
+                  //'<span class="sni-select-x" onClick="so.f.removeExpression(\''+o.id+'\')">X</span>', onClick="so.expressions.remove(\''+o.id+'\')"
+                  '<img class="sni-select-x" src="/apps/sni-site-optimizer/clientlib/css/close2.png">',
                   '</li>',
     ].join('');
   }

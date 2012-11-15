@@ -14,6 +14,7 @@
 <link type="text/css" rel="stylesheet" href="/libs/cq/tagging/widgets/themes/default.css"> -->
 
 <link rel="stylesheet" type="text/css" href="/apps/sni-site-optimizer/clientlib/css/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/apps/sni-site-optimizer/clientlib/css/dashboard-blue.css">
 
 <script src="/etc/clientlibs/foundation/jquery.js" type="text/javascript"></script>
 <script src="/etc/clientlibs/foundation/shared.js" type="text/javascript"></script>
@@ -60,8 +61,13 @@ var so = {
         	//layout screen
             var c = new CQ.Ext.Container({
                   id:'sni-siteoptimizer-wrapper',
-                  items: so.components,
-                  //html:"" + (new Date()),
+                  items:  [ 
+                        so.section.selection,
+                        so.section.global, 
+                        so.section.status,
+                        so.section.eventsCoreTech,
+                        so.section.source                                                             
+                  ],
                   renderTo: CQ.Ext.getBody()
             });
 

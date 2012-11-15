@@ -12,7 +12,7 @@ so.lightbox = {
       var v = c.getValue();
       v = so.f.trim(v);
 
-      //if we have values then select those in lightbox
+      //if we have values then select them in lightbox
       if (v){
         var s = '#'+so.lightbox.win.id+' input[type=checkbox]';
         var k = $CQ( s );
@@ -21,7 +21,7 @@ so.lightbox = {
             x = a[i];
             x = so.f.trim( x );
             $CQ.each(k, function(i, e){
-                var v = $CQ(e).val();
+                var v = $CQ(e).attr('data-label');
                 if ( v === x ){
                   e.checked = true;
                 }
@@ -29,8 +29,12 @@ so.lightbox = {
         }
       }
 
-      //fix to render properly since "your selection" area is fixed
-      this.el.dom.style.zIndex=10003;
+      this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
+      document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of lightbox when user scrolls popup
+    },
+
+    hide:function(){
+      document.body.style.overflow = 'auto';
     }
 
   },
@@ -43,6 +47,13 @@ so.lightbox = {
     return so.lightbox.field.replace(/[\s]/g, "_").toLowerCase();
   },
 
+  //scrolls lightbox to the selected header
+  scrollTo: function(e){
+    var t = $CQ(e.target).attr('data-anchor');
+    var a = $CQ('a[name='+t+']').position().top; //anchor position
+    $CQ('.sni-lightbox-body').scrollTop(a);
+  },
+
   setNorth: function( title ){
     return {
                             region:'north',
@@ -52,39 +63,44 @@ so.lightbox = {
                               padding:'10px',
                             },
                             html:[
-                            '<div class="title">'+title+'</div>',
-                            '<div class="pick-wrapper">',
+                            '<div class="sni-pick-title">'+title+'</div>',
+                            '<div class="sni-pick-wrapper">',
                             'goto:',
-                            '<ul class="pick">',
-                            '<li><a href="#a">a</a></li>',
-                            '<li><a href="#b">b</a></li>',
-                            '<li><a href="#c">c</a></li>',
-                            '<li><a href="#d">d</a></li>',
-                            '<li><a href="#e">e</a></li>',
-                            '<li><a href="#f">f</a></li>',
-                            '<li><a href="#g">g</a></li>',
-                            '<li><a href="#h">h</a></li>',
-                            '<li><a href="#i">i</a></li>',
-                            '<li><a href="#j">j</a></li>',
-                            '<li><a href="#k">k</a></li>',
-                            '<li><a href="#l">l</a></li>',
-                            '<li><a href="#m">m</a></li>',
-                            '<li><a href="#n">n</a></li>',
-                            '<li><a href="#o">o</a></li>',
-                            '<li><a href="#p">p</a></li>',
-                            '<li><a href="#q">q</a></li>',
-                            '<li><a href="#r">r</a></li>',
-                            '<li><a href="#s">s</a></li>',
-                            '<li><a href="#t">t</a></li>',
-                            '<li><a href="#u">u</a></li>',
-                            '<li><a href="#v">v</a></li>',
-                            '<li><a href="#w">w</a></li>',
-                            '<li><a href="#x">x</a></li>',
-                            '<li><a href="#y">y</a></li>',
-                            '<li><a href="#z">z</a></li>',
+                            '<ul class="sni-pick">',
+                            '<li><a data-anchor="a">a</a></li>',
+                            '<li><a data-anchor="b">b</a></li>',
+                            '<li><a data-anchor="c">c</a></li>',
+                            '<li><a data-anchor="d">d</a></li>',
+                            '<li><a data-anchor="e">e</a></li>',
+                            '<li><a data-anchor="f">f</a></li>',
+                            '<li><a data-anchor="g">g</a></li>',
+                            '<li><a data-anchor="h">h</a></li>',
+                            '<li><a data-anchor="i">i</a></li>',
+                            '<li><a data-anchor="j">j</a></li>',
+                            '<li><a data-anchor="k">k</a></li>',
+                            '<li><a data-anchor="l">l</a></li>',
+                            '<li><a data-anchor="m">m</a></li>',
+                            '<li><a data-anchor="n">n</a></li>',
+                            '<li><a data-anchor="o">o</a></li>',
+                            '<li><a data-anchor="p">p</a></li>',
+                            '<li><a data-anchor="q">q</a></li>',
+                            '<li><a data-anchor="r">r</a></li>',
+                            '<li><a data-anchor="s">s</a></li>',
+                            '<li><a data-anchor="t">t</a></li>',
+                            '<li><a data-anchor="u">u</a></li>',
+                            '<li><a data-anchor="v">v</a></li>',
+                            '<li><a data-anchor="w">w</a></li>',
+                            '<li><a data-anchor="x">x</a></li>',
+                            '<li><a data-anchor="y">y</a></li>',
+                            '<li><a data-anchor="z">z</a></li>',
                             '</ul>',
                             '</div>'
-                            ].join('')
+                            ].join(''),
+                            listeners:{
+                              afterrender:function(){
+                                $CQ('ul.sni-pick').click(so.lightbox.scrollTo)
+                              }
+                            }
     };
   },
 
@@ -93,15 +109,16 @@ so.lightbox = {
   fieldCounter : 0,
 
   setGroup : function(a, group){
+    a = a.toLowerCase();
     var i, content = [];
     var id = so.lightbox.getID();
     if ( !so.lightbox.isSetHeader ){
       content.push('<h1><a name="'+a+'">'+a+'</a></h1>');
       so.lightbox.isSetHeader =  true;
     }
-    content.push('<ul class="options">');
+    content.push('<ul class="sni-options">');
     for(i=0; i < group.length; i++){
-      content.push('<li><input type="checkbox" value="'+group[i].rawValue+'" name="'+id+'_'+ so.lightbox.fieldCounter++ +'" data-count="'+group[i].count+'">&nbsp&nbsp;'+group[i].value+' ('+group[i].count+')</li>');
+      content.push('<li><input type="checkbox" data-label="'+group[i].value+'" value="'+group[i].rawValue+'" name="'+id+'_'+ so.lightbox.fieldCounter++ +'" data-count="'+group[i].count+'">&nbsp&nbsp;'+group[i].value+' ('+group[i].count+')</li>');
     }
     content.push('</ul>');
     return content.join('');
@@ -175,6 +192,8 @@ so.lightbox = {
     }
    
     return {
+              cls:'sni-lightbox-content',
+              bodyCssClass:'sni-lightbox-body', //we need this part to scroll the body
               region:'center',
               border:false,
               autoScroll:true,
@@ -223,13 +242,14 @@ so.lightbox = {
         if (so.lightbox.win){
                   so.lightbox.win.destroy();
         }
+        var scrollBar = $CQ(document.body).scrollTop(); //in pixels
         so.lightbox.win = new CQ.Ext.Window({
             id: 'sni_win_'+so.lightbox.getID(),
             layout:'border',
             cls:'sni-lightbox',
             width:750,
             height:500,
-            y:100,
+            y:scrollBar+100, //makes sure the popup is always 100 px from the top of the viewport regardless of the scroll bar position.
             closeAction:'hide',
             plain: true,
             items: [

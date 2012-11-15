@@ -95,7 +95,7 @@ so.rest = {
 
             var data = JSON.stringify(requestObj);
 
-            console.log('ajax request /imp/report/assetlist: '+data);
+            console.log((new Date())+' ajax request /imp/report/assetlist: '+data);
         
             $CQ.ajax({
                 url:'/imp/report/assetlist',
@@ -265,11 +265,12 @@ so.rest = {
         },
 
         handleLightbox: function(filter, lightbox){
-
+                
                 var v = lightbox.getValues();
+                var l = so.f.getLabel(v);
                  //update field in form
                 var c = CQ.Ext.getCmp( filter );
-                c.setValue( v.join(', ') );
+                c.setValue( l );
                 so.rest.getFilter({field:filter, values:v, type:'lightbox' }, so.expressions.do);
         },
 
@@ -328,6 +329,7 @@ so.rest = {
 
         handleResultPage:function( assets ){
 
+                  console.log((new Date())+'ajax done');
                   so.result.restData = assets;
 
                   var data = so.rest.transformAssets(assets);
@@ -350,6 +352,7 @@ so.rest = {
                         $CQ('#sni-modify-search-button').click( so.maf.hide );
                       });
                   }
+                  console.log((new Date())+'data load done');
         },
 
         handlePageViews:function(data){
@@ -360,7 +363,7 @@ so.rest = {
                     alert('done!');
         },
 
-        //**********  WEB SERVICE RESPONSE TRANSFORMATIONS ******************
+//**********  WEB SERVICE RESPONSE TRANSFORMATIONS ******************
 
   transformMap: function( m ){
 
@@ -394,46 +397,57 @@ so.rest = {
   },
 
   transformAssets: function( data ){
+      function loadValues( data ){
+        
+        var f = so.grid.fields, l = f.length, i, w, x=[];
+        for (i=0; i<l; i++){
+          w = data[f[i].name];
+          x.push( w ? w.value : '???' );
+        }
+        return x;
+      };
+
       var a = data.assetInfoList, l = a.length, i, r, b=[];
       for (i=0; i<l; i++){
           r = a[i].report;
-          b.push([
-            r.url,
-            r.title,
-            r.status,
-            r.asset_type,
-            r.has_image,
-            r.category,
-            r.section,
-            r.source,
-            r.general_subjects,
-            r.sponsorship,
-            r.preferred_term,
-            r.alternate_term,
-            r.sub_term,
-            r.hub_type,
-            r.hub_sponsor,
-            r.content_tag1,
-            r.content_tag2,
-            r.occasions,
-            r.season,
-            r.who_s_dining,
-            r.meal_part,
-            r.main_type,
-            r.main_ingredient,
-            r.dish,
-            r.drinks,
-            r.herbs_and_spices,
-            r.cuisine,
-            r.cooking_styles,
-            r.nutrition,
-            r.taste,
-            r.technique,
-            r.cookware_and_gagets,
-            r.show_title,
-            r.show_abbr,
-            r.talent
-            ]);
+          b.push(loadValues(r));
+          /* b.push([
+            r.url.value,
+            r.title.value,
+            r.status.value,
+            r.asset_type.value,
+            r.has_image.value,
+            r.category.value,
+            r.section.value,
+            r.source.value,
+            r.general_subjects.value,
+            r.sponsorship.value,
+            r.preferred_term.value,
+            r.alternate_term.value,
+            r.sub_term.value,
+            r.hub_type.value,
+            r.hub_sponsor.value,
+            r.content_tag1.value,
+            r.content_tag2.value,
+            r.occasions.value,
+            r.season.value,
+            r.who_s_dining.value,
+            r.meal_part.value,
+            r.meal_type.value,
+            r.main_ingredient.value,
+            r.dish.value,
+            r.drinks.value,
+            r.herbs_and_spices.value,
+            r.cuisine.value,
+            r.cooking_styles.value,
+            r.nutrition.value,
+            r.taste.value,
+            r.technique.value,
+            r.cookware_and_gagets.value,
+            r.show_title.value,
+            r.show_abbr.value,
+            r.talent.value
+            ]); */
       }
       return b;
   }

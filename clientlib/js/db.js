@@ -20,9 +20,10 @@ so.db = {
         style:{
           margin:'10px 10px'
         },
+        bodyCssClass:'sni-column',
         bodyStyle:{
-          border: '10px solid #094ea1',
-          backgroundColor: '#094ea1',
+          //border: '10px solid #094ea1',
+          //backgroundColor: '#094ea1',
           borderTop: '0px',
           borderBottomRightRadius: '.5em',
           borderBottomLeftRadius: '.5em'

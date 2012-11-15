@@ -39,6 +39,9 @@ so.subcol = {
                       //console.log('removing '+ui.item.parent()[0].id);
                     //}
                   });
+
+                  $CQ('#sni-inclusions').click(so.expressions.remove);
+                  $CQ('#sni-exclusions').click(so.expressions.remove);
                   
                   $CQ('#sni-selection .sni-tab').click(so.f.toggleExclusions);
                 }
@@ -221,9 +224,10 @@ so.column = {
                               zIndex:'10001',
                               padding:'20px 10px 15px'
                             },
+                            bodyCssClass:'sni-your-selections',
                             bodyStyle:{
                               borderRadius:'0px',
-                              borderBottom:'1px solid #61b9ff',
+                              //borderBottom:'1px solid #61b9ff',
                               paddingBottom:'15px'
                             },
                             items:[

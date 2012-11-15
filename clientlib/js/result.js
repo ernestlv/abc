@@ -116,7 +116,8 @@ so.result = {
                 div2.id = colID;
                 div2.setAttribute('class', 'sni-resizable');
                 div2.setAttribute('style', 'width:'+(c.width+15)+'px'); // accounts for 10px of margins + 3 px of dragging cmp + 2 px border
-                so.f.addClass(c.class, div2);
+                so.f.addClass(c.classData, div2);
+                so.f.addStyle(c.styleData, div2);
 
                 td.appendChild(div2);
                 data.appendChild(td);
@@ -324,7 +325,8 @@ so.result = {
         for (i=0; i<l; i++){
             x = e[i];
             c = i % 2 ? 'sni-s-even' : 'sni-s-odd';
-            b.push('<li class="'+c+'">'+x.field+' = '+so.expressions.getValue(x)+' <span class="sni-selections-size">'+so.f.format2Thousand(x.count)+'</span></li>');
+            c += x.negated ? ' sni-s-exclusion' : ' sni-s-inclusion';
+            b.push('<li class="'+c+'">'+x.field+' = '+so.f.getLabel(so.expressions.getValue(x))+' <span class="sni-selections-size">'+so.f.format2Thousand(x.count)+'</span></li>');
         }
         return b;
     },

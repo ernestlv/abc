@@ -163,7 +163,7 @@
         </script>
         
         <!-- client libs -->
-        <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/clientlib.css">
+        <!-- <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/clientlib.css"> -->
         <script src="/apps/sni-site-optimizer/clientlib.js" type="text/javascript"></script>
     </head>
     <body style="margin:0;"><div id="CQ"></div></body>

@@ -142,5 +142,20 @@ so.f = {
   isExclusion: function(){
     var v = $CQ('#sni-selection input[name=sni-selection-radio]:checked').val();
     return v === 'e' || false;
+  },
+
+  getLabels: function( v ){
+    v = !v ? [] : [].concat(v); //normalize
+    var l = v.length, i, x;
+    var b = [];
+      for(i=0; i<l; i++){
+        x = v[i].split('/');
+        b.push(x[x.length-1]);
+      }
+    return b;
+  },
+
+  getLabel: function( v ){
+    return so.f.getLabels( v ).join(',');
   }
 };

@@ -39,12 +39,3 @@ so.section = {
       })        
 
 };
-
-//main            
-so.components = [ 
-        so.section.selection,
-        so.section.global, 
-        so.section.status,
-        so.section.eventsCoreTech,
-        so.section.source                                                             
-];

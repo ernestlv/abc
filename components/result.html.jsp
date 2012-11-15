@@ -6,6 +6,7 @@
 
 <link type="text/css" rel="stylesheet" href="/libs/cq/ui/widgets/themes/default.css">
 <link rel="stylesheet" type="text/css" href="/apps/sni-site-optimizer/clientlib/css/result.css">
+<link rel="stylesheet" type="text/css" href="/apps/sni-site-optimizer/clientlib/css/result-blue.css">
 
 <script src="/etc/clientlibs/foundation/jquery.js" type="text/javascript"></script>
 <script src="/etc/clientlibs/foundation/shared.js" type="text/javascript"></script>
@@ -31,12 +32,12 @@ var so = {
 };
 </script>
 <script src="/apps/sni-site-optimizer/clientlib/js/so.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/grid.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/f.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/expressions.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/form.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/rest.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/result.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/grid.js" type="text/javascript"></script>
 <script>
         CQ.Ext.onReady(function(){
 
@@ -71,10 +72,12 @@ var so = {
             //fix headers to work with doExpandable.
             so.result.fixHeaderTitle();
 
+            //makes headers expandable
             $CQ('.sni-grid .sni-expandable').each(function(){
                   so.result.doExpandable( this );
             });
 
+            //connect buttons
             $CQ('#sni-modify-search-button').click( so.g.showDashboard );
             $CQ('#sni-new-search-button').click( so.g.newDashboard );
 

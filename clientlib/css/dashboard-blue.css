@@ -1,0 +1,133 @@
+body{
+    background-color: #B2DCFC;
+}
+
+/* blue color theme*/
+#CQ .x-panel-body{
+	background-color: transparent;
+}
+
+#CQ .sni-subcol > .x-panel-bwrap > .x-panel-body, #CQ .sni-lightbox .x-panel-body{
+	background-color: #fff;
+}
+
+#CQ #sni-selection{
+	background-color: #B2DCFC;
+}
+
+#CQ #sni-selection .sni-subcol > .x-panel-bwrap > .x-panel-body{
+	background-color: transparent;
+}
+
+#CQ #sni-selection .sni-main, #CQ #sni-selection .sni-tab-left, #CQ #sni-selection .sni-tab{
+	background-color: #61b9ff;
+	border-color: #fff;
+}
+
+#CQ #sni-selection .sni-select-entry{
+	background-color: #b2dcfc;
+}
+
+#CQ #sni-selection .sni-select-entry .sni-select-size{
+	background-color: #9acfea;
+}
+
+#CQ #sni-selection #sni-exclusions .sni-select-entry {
+background-color: #02dcfc;
+}
+
+#CQ .x-panel-header{
+	border: 1px solid #094ea1;
+	background: #094ea1 none;
+	border-top-right-radius: .5em;
+	border-top-left-radius: .5em;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
+#CQ .x-panel-header-text{
+	color: #fff;
+	position:relative;
+	left:10px;
+	font-size:14px;
+}
+
+/*#CQ .x-panel-body{
+	border-color: #094ea1;
+	border-bottom-right-radius: .5em;
+	border-bottom-left-radius: .5em;
+}*/
+
+#CQ .x-fieldset{
+	background-color: #c1c7d1;
+	border-color: #c1c7d1;
+	border-radius: .5em;
+}
+
+#CQ .x-fieldset legend{
+	padding:0px;
+	height:0px;
+}
+
+#CQ .x-fieldset-header-text{
+	position: relative;
+	top:15px;
+	left:0px;
+	font-size:13px;
+	font-weight: bold;
+}
+
+#CQ .x-fieldset-body > .x-form-item, #CQ .x-fieldset-body.x-column-layout-ct .x-form-item{
+	padding: 5px 5px 5px 5px;
+	background-color:#fff;
+	border-radius: .5em;
+	border: 1px solid;
+	margin-bottom: 10px;
+}
+
+/* fine tune form fields */
+
+/* #CQ #sni-search .x-tab-panel-body{
+	border:1px solid #000;
+	border-top:0px;
+	border-bottom-left-radius:.5em;
+	border-bottom-right-radius:.5em;
+} */
+
+#CQ #sni-search .x-form-item{
+	border:0px;
+}
+
+#CQ #has_image .x-form-item, #CQ .sni-hub-type .x-form-item {
+	border-top: 0px;
+	border-left: 1px solid #D0D0D0; 
+	border-bottom: 1px solid #D0D0D0; 
+	border-right:1px solid #D0D0D0;
+	border-radius:0px;
+}
+
+#CQ #rating .x-form-check-wrap{
+	padding-left:13px;
+}
+
+#CQ #rating .x-form-check-wrap input{
+	vertical-align: middle;
+}
+
+#CQ #rating .x-form-check-wrap label{
+	position:relative;
+	left:-22px;
+}
+
+#CQ #sni-reviewcount-wrapper .x-form-field-trigger-wrap:first-child, #CQ #sni-cooktime-wrapper .x-form-field-trigger-wrap:first-child{
+	margin-right:3px;
+}
+
+#CQ .sni-column{
+	border: 10px solid #094ea1;
+    background-color: #094ea1;
+}
+
+#CQ .sni-your-selections.x-panel-body-noborder{
+	border-bottom: 1px solid #61b9ff;
+}
