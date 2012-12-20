@@ -425,5 +425,5 @@ so.fields={
                           width:145                                                                     
               })       
 };  //end fields
-})(so)
+})(so);
 

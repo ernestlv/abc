@@ -256,7 +256,7 @@ so.column = {
                             items:[
                               so.subcol.statusLeft,
                               so.subcol.statusRight
-                            ],
+                            ]
       }),
 
       advertising : so.db.setColumn({
@@ -306,4 +306,4 @@ so.column = {
       })
 
 };
-})(so)
+})(so);

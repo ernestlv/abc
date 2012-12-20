@@ -24,7 +24,7 @@ so.maf = {
                 '</div>',
                 '</div>'
             ].join('');
-        };
+        }
 
         return [
             '<td class="sni-maf-form">',
@@ -44,7 +44,7 @@ so.maf = {
         var r = document.querySelectorAll('.sni-data .sni-first-col div');
         var i, l = r.length, b=[], c;
         for (i=0; i<l; i++){
-            c = i%2 ? 'sni-cell-odd' : 'sni-cell-even'
+            c = i%2 ? 'sni-cell-odd' : 'sni-cell-even';
             b.push('<div class="sni-maf-check '+c+'"><input type="checkbox" id="sni-modify-asset-'+(i+1)+'" value="'+i+'"></div>');
         }
         return '<td class="sni-maf-checks">'+b.join('')+'</td>';
@@ -268,4 +268,4 @@ so.maf = {
         };
     }
 };
-})(so)
+})(so);

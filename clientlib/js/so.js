@@ -4,7 +4,7 @@
 
 		  so.trim = function(v){
 		    return v.replace(/^\s*/,'').replace(/\s*$/,'');
-		  },
+		  };
 
 		  so.mix = function(s, t){
 		    var p;
@@ -26,7 +26,7 @@
 		  };
 
 		  so.each = function( o, handler){
-		  	var b = [];
+		  	var b = [], f;
 	        for (f in o){
 	            b.push(handler( o[f] )); 
 	        }
@@ -151,6 +151,7 @@
 	}
 
 	///////////// DATE FORMATTER ///////////////////////////////
+    // http://www.codeproject.com/Articles/11011/JavaScript-Date-Format
 	function dth(d){
 		if ( d === 1 ) return '1st';
 		if ( d === 21 ) return '21st';
@@ -161,7 +162,7 @@
 	}
 
 	// a global month names array
-	var gsMonthNames = new Array(
+	var gsMonthNames = [
 	'Jan',
 	'Feb',
 	'Mar',
@@ -174,10 +175,10 @@
 	'Oct',
 	'Nov',
 	'Dec'
-	);
+	];
 
 	// a global day names array
-	var gsDayNames = new Array(
+	var gsDayNames = [
 	'Sun',
 	'Mon',
 	'Tue',
@@ -185,7 +186,7 @@
 	'Thu',
 	'Fri',
 	'Sat'
-	);
+	];
 
 	// VB-like string replicator 
 	String.prototype.times = function(n)
@@ -195,13 +196,13 @@
 			s += this;
 
 		return s;
-	}
+	};
 
 	// Zero-Padding
-	String.prototype.zf = function(n) { return '0'.times(n - this.length) + this; }
+	String.prototype.zf = function(n) { return '0'.times(n - this.length) + this; };
 
 	// string functions that we want to apply directly to numbers...
-	Number.prototype.zf = function(n) { return this.toString().zf(n); }
+	Number.prototype.zf = function(n) { return this.toString().zf(n); };
 
 	// the date format prototype
 	Date.prototype.format = function(f)
@@ -214,6 +215,7 @@
 	    return f.replace(/(yyyy|mmmm|mmm|mm|dddd|ddd|dd|dth|hh|nn|ss|a\/p)/gi,
 	        function($1)
 	        {
+                var h;
 	            switch ($1.toLowerCase())
 	            {
 	            case 'yyyy': return d.getFullYear();

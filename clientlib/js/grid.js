@@ -116,7 +116,7 @@
                                                                     label   : 'has image', 
                                                                     width    : 75, 
                                                                     dataIndex: 'has_image'
-                                                                },
+                                                                }
                                                         ]
                                                     }
                                                    ,{
@@ -142,7 +142,7 @@
                                                                     label   : 'general<br>subject', 
                                                                     width    : 75, 
                                                                     dataIndex: 'general_subjects'
-                                                                },
+                                                                }
                                                         ]
                                                     }
                                                 ]
@@ -453,7 +453,7 @@
                 label    : Qs[i]+' '+year, 
                 width    : 75,
                 dataIndex: f
-            })
+            });
             fields.push({ name: f });
         }
     }
@@ -496,4 +496,4 @@
     }while( left );
     so.grid.panel.push( qPanel );
 
-})(so)
+})(so);

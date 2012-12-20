@@ -62,6 +62,6 @@ so.history = {
             listeners:so.history.listeners
         });
         so.history.win.show( this );
-  },
+  }
 };
-})(so)
+})(so);

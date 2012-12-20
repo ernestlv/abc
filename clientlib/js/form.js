@@ -157,7 +157,7 @@ so.form = {
           },
           plugins : new CQ.Ext.slider.Tip({
                     getText: f.tooltip
-            }),
+            })
     });
   },
 
@@ -170,4 +170,4 @@ so.form = {
     });
   }
 };
-})(so)
+})(so);

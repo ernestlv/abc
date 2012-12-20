@@ -67,7 +67,7 @@ so.lightbox = {
                             border:false,
                             bodyStyle:{
                               //backgroundColor:'blue',
-                              padding:'10px',
+                              padding:'10px'
                             },
                             html:[
                             '<div class="sni-pick-title">'+title+'</div>',
@@ -286,4 +286,4 @@ so.lightbox = {
   }
 
 };
-})(so)
+})(so);

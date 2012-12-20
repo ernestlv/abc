@@ -59,7 +59,7 @@ so.selection = {
                   '<span class="sni-select-value">'+v+'</span>',
                   '<span class="sni-select-size">'+so.format2Thousand( f.count )+'</span>',
                   '<img class="sni-select-x" src="/apps/sni-site-optimizer/clientlib/css/close2.png">',
-                  '</li>',
+                  '</li>'
     ].join('');
   },
 
@@ -114,10 +114,10 @@ so.selection = {
 
   //sort expressions using array
   sort:function(filters, expressions){
-      var f = filters, l = f.length;
+      var l = filters.length;
       var i, x, b = [];
       for (i=0; i<l; i++){
-        x = expressions[f[i]];
+        x = expressions[filters[i]];
         x && b.push(x);
       }
       return b;
@@ -257,11 +257,7 @@ so.selection = {
     var s = document.getElementById( senderID ); //sender list
     var f = e.id.replace('-select', '');
     var x = so.g.currentExpressions[f];
-    if (s.id === 'sni-inclusions'){
-      x.negated = true;
-    }else{
-      x.negated = false;
-    }
+    x.negated = s.id === 'sni-inclusions';
     so.selection.redo();
   },
 
@@ -339,4 +335,4 @@ so.selection = {
     return false;
   }
 };
-})(so)
+})(so);

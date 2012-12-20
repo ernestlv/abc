@@ -145,7 +145,7 @@ so.result = {
 
         doTable: function (p, w){
 
-            var i, j, h, col, width;
+            //var i, j, h, col, width;
             var e = document.createElement('div');
             e.setAttribute('class', 'sni-p-table');
 
@@ -324,7 +324,7 @@ so.result = {
 
     getSelectionEntries: function(){
 
-        var e = so.selection.get( so.g.currentExpressions ), l=e.length, i, x, v, b = [];
+        var e = so.selection.get( so.g.currentExpressions ), l=e.length, i, x, v, c, b = [];
         for ( i = 0; i<l; i++ ){
             x = e[i];
             c = i % 2 ? 'sni-s-even' : 'sni-s-odd';
@@ -588,4 +588,4 @@ so.result = {
     }
 
 };  
-})(so)
+})(so);

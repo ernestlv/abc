@@ -243,7 +243,7 @@ so.set = {
                 },
                 labelWidth:80,
                 items:[
-                so.form.createRadio('hubType'),
+                so.form.createRadio('hubType')
                 //so.form.createCombo('hubID'),
                 //so.form.createCombo('hubSponsor')
       ]}),
@@ -341,4 +341,4 @@ so.set = {
       ]})
 
 };  
-})(so)
+})(so);

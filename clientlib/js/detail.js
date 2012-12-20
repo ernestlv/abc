@@ -48,7 +48,7 @@ so.detail = {
             '<tr><td class="sni-detail-m1">january</td><td class="sni-detail-m2">february</td><td class="sni-detail-m3">march</td><td class="sni-detail-m4">april</td><td class="sni-detail-m5">may</td><td class="sni-detail-m6">june</td><td class="sni-detail-m7">july</td><td class="sni-detail-m8">august</td><td class="sni-detail-m9">september</td><td class="sni-detail-m10">october</td><td class="sni-detail-m11">november</td><td class="sni-detail-m12">december</td></tr>',
             '<tr><td class="sni-detail-m1">{m1}</td><td class="sni-detail-m2">{m2}</td><td class="sni-detail-m3">{m3}</td><td class="sni-detail-m4">{m4}</td><td class="sni-detail-m5">{m5}</td><td class="sni-detail-m6">{m6}</td><td class="sni-detail-m7">{m7}</td><td class="sni-detail-m8">{m8}</td><td class="sni-detail-m9">{m9}</td><td class="sni-detail-m10">{m10}</td><td class="sni-detail-m11">{m11}</td><td class="sni-detail-m12">{m12}</td></tr>',
             '</table>',
-            '</div>',
+            '</div>'
     ].join('');
     t = t.replace(/{yyyy}/g, year || '-');
     t = t.replace(/{q1}/, q[1] || '-');
@@ -80,7 +80,7 @@ so.detail = {
         so.detail.highest[year].count = -1;
         so.detail.higher[year].count = -1;
         so.detail.high[year].count = -1;
-    };
+    }
 
     function doHighest( year, index, count ){
         
@@ -100,7 +100,7 @@ so.detail = {
             so.detail.high[year].count = count;
             so.detail.high[year].index = index;
         }
-    };
+    }
     
     var b = [];
     var qr = data.quarterReport, q=[];
@@ -169,6 +169,6 @@ so.detail = {
             listeners:so.detail.listeners
         });
         so.detail.win.show( this );
-  },
+  }
 };
-})(so)
+})(so);

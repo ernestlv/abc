@@ -38,7 +38,7 @@ so.rest = {
                       so.selection.displaySize( 0 );
                       return;
                     }
-                }else{ //this is executed when this function is direcly called usually from one of the rest handlers and not thru "redo()"
+                }else{ //this is executed when this function is directly called from one of the rest handlers and not thru "redo()"
                     var isEmpty = so.selection.doEmpty( selection );
                     if ( isEmpty ){ //this is true when a user manually clears a field value
                       return;
@@ -61,7 +61,7 @@ so.rest = {
                 var requestObj = {
                      "currentFilters": currentFilters,
                      "filtersAdded": addedFilters
-                }
+                };
 
                 var data = JSON.stringify(requestObj);
 
@@ -511,7 +511,7 @@ so.rest = {
 
   transformSlider: function( m ){
 
-      var a = [];
+      var x, a = [];
       for (x in m){
         if (m.hasOwnProperty(x)){
           a.push( {value:x-0, count:m[x]-0} );
@@ -530,7 +530,7 @@ so.rest = {
           x.push( w ? w.value : '???' );
         }
         return x;
-      };
+      }
 
       var a = data.assetInfoList, l = a.length, i, r, b=[];
       for (i=0; i<l; i++){
@@ -541,4 +541,4 @@ so.rest = {
   }
 
 }; 
-})(so)
+})(so);
