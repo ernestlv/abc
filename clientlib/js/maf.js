@@ -1,74 +1,39 @@
-so.maf = { //modify assets fields
+(function(so){
+so.maf = {
 
-    preferred_term:{
-        id:'preferred_term',
-        title:'preferred term',
-        show:true
-    },
-    alternate_term:{
-        id:'alternate_term',
-        title:'alternate term',
-        show:false
-    },
-    sub_term:{
-        id:'sub_term',
-        title:'sub term',
-        show:false
-    },
+    doForm:function( fields ){
 
-    toggle:function(){
-        
-        if (so.maf.show){
-            $CQ('.sni-maf-checks').show();
-            $CQ('.sni-maf-form').show();
-            // fix header
-            var e = document.querySelector('.sni-first-col .sni-col-title');
-            so.f.addClass('sni-maf-expanded', e);
-            so.maf.show = false;
-        }else{
-            $CQ('.sni-maf-checks').hide();
-            $CQ('.sni-maf-form').hide();
-            // fix header
-            var e = document.querySelector('.sni-first-col .sni-col-title');
-            so.f.removeClass('sni-maf-expanded', e);
-            so.maf.show = true;
-        }
-    },
+        function doSection(c){
 
-    doSection:function(c){
+            return [
+                '<div class="sni-maf-wrapper" id="sni-maf-'+c.id+'">',
+                '<div class="sni-maf-title"><span class="sni-maf-close"></span> '+c.sni_title+'</div>',
+                '<div class="sni-maf-body">',
+                '<h3>modify '+c.sni_title+'</h3>',
+                '<div class="sni-maf-field" id="sni-maf-field-'+c.id+'"></div>',
+                '<div class="sni-maf-bottom">',
+                '<div class="sni-maf-button">modify selected terms</div>',
+                '</div>',
+                '<div class="sni-maf-all">',
+                '<h3 class="sni-maf-all-title">experts only</h3>',
+                '<div class="sni-maf-all-body">',
+                '<div class="sni-maf-all-link">unlock modify all button</div>',
+                '<div class="sni-maf-all-button">modify all terms</div>',
+                '</div>',
+                '</div>',
+                '</div>',
+                '</div>'
+            ].join('');
+        };
 
-        return [
-            '<div class="sni-maf-wrapper" id="sni-maf-'+c.id+'">',
-            '<div class="sni-maf-title"><span class="sni-maf-close"></span> '+c.title+'</div>',
-            '<div class="sni-maf-body">',
-            '<h3>modify '+c.title+'</h3>',
-            '<div class="sni-maf-field" id="sni-maf-field-'+c.id+'"></div>',
-            '<div class="sni-maf-bottom">',
-            '<div class="sni-maf-button">modify selected terms</div>',
-            '</div>',
-            '<div class="sni-maf-all">',
-            '<h3 class="sni-maf-all-title">experts only</h3>',
-            '<div class="sni-maf-all-body">',
-            '<div class="sni-maf-all-link">unlock modify all button</div>',
-            '<div class="sni-maf-all-button">modify all terms</div>',
-            '</div>',
-            '</div>',
-            '</div>',
-            '</div>'
-        ].join('');
-    },
-
-    doSections:function(){
-
-        var l = so.result.getTotal();
-        var h = l * 42 - 50; //wrapper height. 42 is 32 height of each column row plus 5px for top and 5px for bottom padding, minus 50px of the sni-modify-assets-wrapper top padding.
         return [
             '<td class="sni-maf-form">',
             '<div id="CQ" class="sni-CQ-wrapper">',
             '<h2>modify assets</h2>',
-            so.maf.doSection( so.maf.preferred_term ), 
-            so.maf.doSection( so.maf.alternate_term ), 
-            so.maf.doSection( so.maf.sub_term ),
+            doSection( fields.preferred_term ),
+            doSection( fields.alternate_term ),
+            doSection( fields.sponsorship ),
+            doSection( fields.sub_term ),
             '</div>',
             '</td>'
         ].join('');
@@ -85,155 +50,222 @@ so.maf = { //modify assets fields
         return '<td class="sni-maf-checks">'+b.join('')+'</td>';
     },
 
-    toggleSection:function(show, e){
-
-         var i = e.querySelector('.sni-maf-title .sni-maf-close');
-         var x = e.querySelector('.sni-maf-body');
-        if (show){
-                i.innerHTML = '-';
-                so.f.removeClass('hide', x);
-                so.f.addClass('show', x)
-                return false;
-            }else{
-                i.innerHTML = '+';
-                so.f.removeClass('show', x);
-                so.f.addClass('hide', x);
-                return true;
-            }
+    getSection:function( id ){
+        return document.querySelector('#sni-maf-'+id);
     },
 
-    displaySection:function(f){
+    collapseSection:function( e ){
+        var i = e.querySelector('.sni-maf-title .sni-maf-close');
+        var x = e.querySelector('.sni-maf-body');
+        i.innerHTML = '+';
+        so.removeClass('show', x);
+        if (!so.hasClass('hide', x)){
+            so.addClass('hide', x);
+        }
+    },
+
+    expandSection:function( e ){
+        var i = e.querySelector('.sni-maf-title .sni-maf-close');
+        var x = e.querySelector('.sni-maf-body');
+        i.innerHTML = '-';
+        so.removeClass('hide', x);
+        if (!so.hasClass('show', x)){
+            so.addClass('show', x);
+        }
+    },
+
+    toggleSection:function( e ){
+        
+        var x = e.querySelector('.sni-maf-body');
+        if ( so.hasClass( 'hide', x ) ){
+            so.maf.expandSection( e );
+        }else{
+            so.maf.collapseSection( e );
+        }
+    },
+
+    enableAllButton:function( link, button ){
+        so.addClass('enabled', button);
+        link.innerHTML = 'lock modify all button';
+    },
+
+    disableAllButton:function( link, button ){
+        so.removeClass('enabled', button);
+        link.innerHTML = 'unlock modify all button';
+    },
+
+    
+    toggleAllButton:function( link, section ){
+
+        var b = section.querySelector('.sni-maf-all-button');
+        var isEnable = so.hasClass( 'enabled', b );
+        if (!isEnable){
+            so.maf.enableAllButton( link, b );
+        }else{
+            so.maf.disableAllButton( link, b );
+        }
+    },
+
+    
+    resetSection:function( field ){
+        
+        //reset EXTJS field
+        CQ.Ext.getCmp( field.id ).reset();
+
+        //disable experts only part
+        var s = so.maf.getSection( field.id );
+        var l = s.querySelector( '.sni-maf-all-link' );
+        var b = s.querySelector( '.sni-maf-all-button' );
+        so.maf.disableAllButton( l, b );
+        so.maf.collapseSection( s );
+    },
+    
+    doSection:function( f ){
             
             //insert EXTJS component
-            so.fields[f.id].renderTo = 'sni-maf-field-'+f.id;
-            delete so.fields[f.id].listeners.select;
-            so.form.createCombo(f.id);
+            so.form.createCombo( f.id ); //this requies the namespace so.fields to work
 
-            //set up accordion
-            var e = document.querySelector('#sni-maf-'+f.id);
-            var show = so.maf.toggleSection(f.show, e);
-            $CQ('.sni-maf-title', e).click(function(){
-
-                show = so.maf.toggleSection(show, e);
-            });
-
+            var e = so.maf.getSection( f.id );
             //enable modify button
             $CQ('.sni-maf-button', e).click(function(){
                 
-                so.rest.getModifyAssets(f.id, so.rest.handleModifyAssets);
+                f.sni_all = false;
+                so.rest.requestModifyAssets(f, so.rest.handleModifyAssets);
             });
 
             //enable experts only button
-            var isEnable = false;
             $CQ('.sni-maf-all-link', e).click(function(){
                 
-                var b = e.querySelector('.sni-maf-all-button');
-                if (!isEnable){
-                    so.f.addClass('enabled', b);
-                    this.innerHTML = 'lock modify all button';
-                    isEnable = true;
-                }else{
-                    so.f.removeClass('enabled', b);
-                    this.innerHTML = 'unlock modify all button';
-                    isEnable = false;
-                }
-                
+                so.maf.toggleAllButton( this, e );
             });
 
             //exec experts only button
             $CQ('.sni-maf-all-button', e).click(function(){
+                var isEnable = so.hasClass( 'enabled', this );
+                if ( isEnable ){
 
-                if (isEnable){
-                    so.rest.getModifyAssets(f.id, so.rest.handleModifyAssets, true);
+                    f.sni_all = true;
+                    so.rest.requestModifyAssets( f, so.rest.handleModifyAssets );
                 }
+            });
+
+            //title collapse/expand
+            if ( f.sni_show ){
+                so.maf.expandSection( e );
+            }else{
+                so.maf.collapseSection( e );
+            }
+            $CQ('.sni-maf-title', e).click(function(){
+                
+                //collapse all sections
+                so.each( so.fields, function( field ){
+
+                    so.maf.resetSection( field );
+                    
+                });
+                so.maf.toggleSection( e );
             });
     },
 
-    disableAllButton:function(e){
+    show:function(){
 
-        var b = e.querySelector('.sni-maf-all-button');
-        if (so.f.hasClass('enabled',b)){
-            $CQ('.sni-maf-all-link', e).click();
-        }
-    },
-
-    resetSection:function( f ){
-
-        //reset EXTJS field
-        CQ.Ext.getCmp( f.id ).reset();
-        //disable experts only part
-        var e = document.querySelector( '#sni-maf-'+f.id );
-        so.maf.disableAllButton( e );
-        //expand/collapse section
-        var c = !f.show ?  'show' : 'hide';
-        var b = e.querySelector('.sni-maf-body');
-        if (so.f.hasClass( c, b )){
-            $CQ('.sni-maf-title', e).click();
-        }
-    },
-
-    redo:function(){
-        
-        var chks = so.maf.doChecks();
-        $CQ('.sni-p-content:first-child .sni-data .sni-maf-form').after(chks);
-        $CQ('.sni-maf-form').show();
-
-        // fix header
-        var e = document.querySelector('.sni-first-col .sni-col-title');
-        so.f.addClass('sni-maf-expanded', e);
-
-        //reset field sections
-        so.maf.resetSection( so.maf.preferred_term );
-        so.maf.resetSection( so.maf.alternate_term );
-        so.maf.resetSection( so.maf.sub_term );
-        so.maf.show = false;
-    },
-
-    do:function(){
-
-            var chks = so.maf.doChecks();
-            var form = so.maf.doSections();
-            //select first column in grid and inserts form & checkboxes
-            $CQ('.sni-p-content:first-child .sni-data td').before(form, chks);
+            so.fields = so.maf.loadFields(); //we need this here so extjs does not throw an error when creating fields after toggling the form
+            var chks = so.maf.doChecks(); //html for checkboxes
+            var form = so.maf.doForm( so.fields ); //html to layout form and fields
+            $CQ('.sni-p-content:first-child .sni-data td').before(form, chks); //inserts form & checkboxes in first column in grid
 
             //fix header
             var e = document.querySelector('.sni-first-col .sni-col-title');
-            so.f.addClass('sni-maf-expanded', e);
+            so.addClass('sni-maf-expanded', e.parentNode);
 
-            so.maf.displaySection( so.maf.preferred_term );
-            so.maf.displaySection( so.maf.alternate_term );
-            so.maf.displaySection( so.maf.sub_term );
-            so.maf.show = false;
+            //create extjs combos and setup events
+            so.each(so.fields, so.maf.doSection);
+            //so.maf.show = false;
+
+            so.maf.do = so.maf.hide;
+
     },
 
     hide:function(){
-
-        //make it false to force hide
-        so.maf.show = false; 
-        so.maf.toggle();
+        //destroy extjs cmps
+        CQ.Ext.getCmp( 'preferred_term' ).destroy();
+        CQ.Ext.getCmp( 'alternate_term' ).destroy();
+        CQ.Ext.getCmp( 'sub_term' ).destroy();
+        CQ.Ext.getCmp( 'sponsorship' ).destroy();
+        
         //destroy Nodes
+        $CQ('.sni-maf-form').remove();
         $CQ('.sni-maf-checks').remove();
-        //destroy Flags
-        delete so.maf.show;     
+
+        var e = document.querySelector('.sni-first-col .sni-col-title');
+        so.removeClass('sni-maf-expanded', e.parentNode);
+
+        so.maf.do = so.maf.show;  
     },
 
-    display:function(){
+    open:function(){
         
         var t = so.result.getTotal();
         if (!t){ //if no assets loaded we abort.
+            console.log('result set total is zero!');
             return;
         }
-        if (so.fields){
-            if (so.maf.show  === undefined){ //true when i switch between dashboard and result screens using the iframes see destroyModifyAssets()
-                so.maf.redo();
-            }else{ 
-                so.maf.toggle();
-            }
-            return;
-        }
-        $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/fields.js', function(){
 
+        if ( so.maf.do  === undefined ){ //true the first time i click maf button
+            so.maf.show();
+        }else{
             so.maf.do();
-        });
+        }        
+    },
+
+    loadFields: function(){
+        var setCombo = function(f){
+            f = so.mix(f, {
+                  renderTo: 'sni-maf-field-' + f.id,
+                  width: 200,
+                  listeners:{
+                    select: function(){}, //we need to call nothing when selection is made.
+                    expand: function( combo ){ //runs when combo is clicked.
+                   
+                        so.rest.getResource( f.sni_resource, combo );
+                    }
+                  }
+            });
+            return so.form.setCombo( f ); 
+        };
+
+        //define fields
+        return {
+
+            sponsorship: setCombo({
+                id:'sponsorship',
+                sni_resource:'sponsorships', //we use this in the /imp/resource service
+                sni_title:'sponsorship',
+                sni_show:false
+            }),
+
+            alternate_term: setCombo({
+                id:'alternate_term',
+                sni_resource: 'alternate_terms',
+                sni_title:'alternate term',
+                sni_show:false
+            }),
+
+            sub_term: setCombo({
+                id:'sub_term',
+                sni_resource:'sub_terms',
+                sni_title:'sub term',
+                sni_show:false
+            }),
+
+            preferred_term: setCombo({
+                  id: 'preferred_term',
+                  sni_resource: 'preferred_terms',
+                  sni_title: 'preferred term',
+                  sni_show: true
+            })
+
+        };
     }
 };
+})(so)

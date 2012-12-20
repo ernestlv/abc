@@ -1,3 +1,4 @@
+(function(so){
 //tabs in a tab panel
 so.tab = {
 
@@ -339,4 +340,5 @@ so.set = {
                 so.form.createComposite('talent')
       ]})
 
-};
+};  
+})(so)

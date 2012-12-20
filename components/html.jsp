@@ -23,7 +23,8 @@
             org.apache.sling.api.resource.ValueMap,
             com.day.cq.widget.WidgetExtensionProvider,
             javax.jcr.Session,javax.jcr.Node,javax.jcr.NodeIterator,javax.jcr.Property,javax.jcr.PropertyIterator,
-            java.util.List, java.util.ArrayList,java.util.Arrays" %>
+            java.util.List, java.util.ArrayList,java.util.Arrays,
+            com.day.cq.security.Authorizable" %>
 <%
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0"%><%
 %><sling:defineObjects /><%
@@ -59,6 +60,14 @@
         }
     }
     HtmlLibraryManager manager = sling.getService(HtmlLibraryManager.class);
+
+    //******* USERID *******
+    //Authorizable auth = slingRequest.getResourceResolver().adaptTo(Authorizable.class);
+    //String sni_userid = auth == null ? null : auth.getName();
+    //if ( sni_userid == null ) {
+        // workaround if user manager service is not ready yet.
+        //sni_userid = session.getUserID();
+    //}
 
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -131,32 +140,42 @@
 
         <script type="text/javascript">
         so = {
+            //userid: '<%-- sni_userid --%>',
+            main:true, //flag to know the html.jsp was loaded
             addedExpressions:{},
             currentExpressions:{},
             getDashboard: function(){
+
                 return document.querySelector('iframe#sni-dashboard');
             },
             getResult: function(){
+
                 return document.querySelector('iframe#sni-result');
             },
             showResult:function(){
                 
-                var f1 = so.getDashboard();
-                var f2 = so.getResult();
-                f2.contentWindow.so.whenDisplay();
-                f2.style.display = 'block';
-                f1.style.display = 'none';
-               
+                //show loading icon. Result iframe will be shown in ajax callback
+                var dashboard = so.getDashboard();
+                var dom = dashboard.contentWindow.document;
+                dom.getElementById('sni-loading').style.display='block';
+                dom.getElementById('CQ').style.display='none';
+                var result = so.getResult();
+                result.src = 'sni-site-optimizer.result.html';  //replace whenDisplay()
             },
             showDashboard:function(){
 
-                var f1 = so.getDashboard();
-                var f2 = so.getResult();
-                f1.style.display = 'block';
-                f2.style.display = 'none';
-                f2.contentWindow.so.whenHide();
+                //show dashboard iframe. we need to hide loading icon previously displayed in showResult()
+                var dashboard = so.getDashboard();
+                var dom = dashboard.contentWindow.document;
+                dom.getElementById('sni-loading').style.display='none';
+                dom.getElementById('CQ').style.display='block';
+                var result = so.getResult();
+                dashboard.style.display = 'block';
+                result.style.display = 'none';
+                result.contentWindow.so.whenHide();
             },
             newDashboard:function(){
+                
                 location = '/apps/wcm/core/content/sni-site-optimizer.html';
             }
         };

@@ -1,5 +1,4 @@
-
-
+(function(so){
 so.fields={
             filterTitle:so.form.setFilter({
                           id: 'filterTitle',
@@ -112,7 +111,7 @@ so.fields={
                         listeners:{
                           check:function(chkbox, chked){
                               
-                              so.rest.handleCheck('rating', chkbox, so.f.getSelectedRatings);
+                              so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
                       },{
@@ -121,7 +120,7 @@ so.fields={
                         listeners:{
                           check:function(chkbox, chked){
                             
-                            so.rest.handleCheck('rating', chkbox, so.f.getSelectedRatings);
+                            so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
                       },{
@@ -130,7 +129,7 @@ so.fields={
                         listeners:{
                           check:function(chkbox, chked){
                             
-                            so.rest.handleCheck('rating', chkbox, so.f.getSelectedRatings);
+                            so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
                       },{
@@ -139,7 +138,7 @@ so.fields={
                         listeners:{
                           check:function(chkbox, chked){
                             
-                            so.rest.handleCheck('rating', chkbox, so.f.getSelectedRatings);
+                            so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
                       },{
@@ -148,7 +147,7 @@ so.fields={
                         listeners:{
                           check:function(chkbox, chked){
                             
-                            so.rest.handleCheck('rating', chkbox, so.f.getSelectedRatings);
+                            so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
                           }
                         }
                       }
@@ -163,11 +162,11 @@ so.fields={
                   listeners:{
                     select:function (combo, record, index){//runs when value is selected
     
-                      so.rest.handleRange('review_count', combo, so.f.getSelectedRange);
+                      so.rest.handleRange('review_count', combo, so.getSelectedRange);
                     },
                     expand:function( combo ){//runs when combo is clicked
                       
-                      so.rest.getCombo('review_count', combo);
+                      so.rest.getRange('review_count', combo );
                     }
                   }
             }),
@@ -180,12 +179,12 @@ so.fields={
                   width: 80,
                   listeners:{
                     select:function (combo, record, index){//runs when value is selected
-                            
-                      so.rest.handleRange('review_count', combo, so.f.getSelectedRange);
+                           
+                      so.rest.handleRange('review_count', combo, so.getSelectedRange);
                     },
                     expand:function( combo ){//runs when combo is clicked
                       
-                      so.rest.getCombo('review_count', combo);
+                      so.rest.getRange('review_count', combo );
                     }
                   }
             }),
@@ -198,11 +197,11 @@ so.fields={
                   listeners:{
                     select:function (combo, record, index){//runs when value is selected
                             
-                      so.rest.handleRange('cook_time', combo, so.f.getSelectedRange);
+                      so.rest.handleRange('cook_time', combo, so.getSelectedRange);
                     },
                     expand:function( combo ){//runs when combo is clicked
                       
-                      so.rest.getCombo('cook_time', combo);
+                      so.rest.getRange('cook_time', combo);
                     }
                   }
             }),
@@ -215,11 +214,11 @@ so.fields={
                   listeners:{
                     select:function (combo, record, index){//runs when value is selected
                             
-                      so.rest.handleRange('cook_time', combo, so.f.getSelectedRange);
+                      so.rest.handleRange('cook_time', combo, so.getSelectedRange);
                     },
                     expand:function( combo ){//runs when combo is clicked
                       
-                      so.rest.getCombo('cook_time', combo);
+                      so.rest.getRange('cook_time', combo);
                     }
                   }
             }),
@@ -426,3 +425,5 @@ so.fields={
                           width:145                                                                     
               })       
 };  //end fields
+})(so)
+

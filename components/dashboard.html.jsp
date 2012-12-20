@@ -37,12 +37,10 @@ var so = {
 };
 </script>
 <script src="/apps/sni-site-optimizer/clientlib/js/so.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/f.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/expressions.js" type="text/javascript"></script>
+<script src="/apps/sni-site-optimizer/clientlib/js/selection.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/db.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/form.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/rest.js" type="text/javascript"></script>
-<script src="/apps/sni-site-optimizer/clientlib/js/selection.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/lightbox.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/fields.js" type="text/javascript"></script>
 <script src="/apps/sni-site-optimizer/clientlib/js/set.js" type="text/javascript"></script>
@@ -71,11 +69,22 @@ var so = {
                   renderTo: CQ.Ext.getBody()
             });
 
+            //display while waiting to load result page.
+            var d = document.createElement('div');
+            d.id = 'sni-loading';
+            d.style.display = 'none';
+            d.style.textAlign = 'center';
+            d.style.fontSize = '1.5em';
+            d.innerHTML = '<br><br>excellent query!<br><br>please wait while we fetch your data<br><br><img src="/apps/sni-site-optimizer/clientlib/css/loader.gif">';
+            document.body.appendChild(d);
+            
+            
+
             //load data if querystring is provided otherwise will load later.
             if (location.search){
               var query = location.search.substring(1);
               so.g.currentExpressions = JSON.parse(decodeURI(query));
-              so.expressions.redo();
+              so.selection.redo();
             }
 
         }); //end onReady

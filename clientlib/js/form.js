@@ -1,5 +1,6 @@
+(function(so){
 so.form = {
-	 //********** EXTJS CONSTRUCTORS *****************
+   //********** EXTJS CONSTRUCTORS *****************
 
   createComposite: function(f, x){
 
@@ -8,7 +9,7 @@ so.form = {
         items:so.fields[f]
     };
 
-    return so.f.mix(x, o);
+    return so.mix(x, o);
   },
 
   //set comobox
@@ -55,11 +56,12 @@ so.form = {
       xtype:'button',
       text:'add',
       handler: function(){
+        debugger;
         so.rest.handleFilter(f.id);
       }
     };
 
-    return [so.f.mix(f, x), so.f.mix(a, b)];
+    return [so.mix(f, x), so.mix(a, b)];
   },
 
   setLightbox: function( f, a ){
@@ -81,13 +83,13 @@ so.form = {
       }
     };
 
-    return [ so.f.mix( f, x ), so.f.mix( a, b ) ];
+    return [ so.mix( f, x ), so.mix( a, b ) ];
   },
 
   //set combo configuration
   setCombo: function(f){
 
-   return so.f.mix(f, { 
+   return so.mix(f, { 
           width:100,
           store:{
              fields: ['value', 'label'],
@@ -103,7 +105,7 @@ so.form = {
                       so.rest.handleCombo( f.id, combo );
                     },
                     expand:function( combo ){//runs when combo is clicked
-                      
+                      console.log('clicked ...');
                       so.rest.getCombo( f.id, combo );
                     }
           }
@@ -112,7 +114,7 @@ so.form = {
 
   setCheckBox: function(f){
 
-    return so.f.mix(f, {
+    return so.mix(f, {
           // Put all controls in a single column with width 100%
           columns: 1
     });
@@ -120,7 +122,7 @@ so.form = {
 
   setRadio: function(f){
 
-    return so.f.mix(f, {
+    return so.mix(f, {
           // Put all controls in a single column with width 100%
           columns: 1
     });
@@ -134,7 +136,7 @@ so.form = {
           return String.format('<b>{0} ({1})</b>', thumb.value, c);
       };
     }
-    return so.f.mix(f, {
+    return so.mix(f, {
           width: 100,
           value: 1,
           increment: 1,
@@ -161,10 +163,11 @@ so.form = {
 
   setSpinner: function(f){
 
-    return so.f.mix(f, {
+    return so.mix(f, {
           minValue: 0,
           maxValue: 1000000,
           incrementValue: 1
     });
   }
-}
+};
+})(so)

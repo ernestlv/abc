@@ -1,3 +1,4 @@
+(function(so){
 so.db = {
 //*****  FUNCTIONS TO SETUP LAYOUT ***********
 
@@ -7,7 +8,7 @@ so.db = {
               layout:'column',
               border:false
     };
-    return so.f.mix(t, x);
+    return so.mix(t, x);
   },
 
   //set column
@@ -29,7 +30,7 @@ so.db = {
           borderBottomLeftRadius: '.5em'
         }         
     };
-    return so.f.mix(t, x);
+    return so.mix(t, x);
   },
 
   //set column
@@ -40,7 +41,7 @@ so.db = {
         border:false,
         cls:'sni-subcol'   
     };
-    return so.f.mix(i, x);
+    return so.mix(i, x);
   },
 
   setFieldset: function(t, i){
@@ -63,7 +64,7 @@ so.db = {
         x.title = t;
         x.border = x.title ? true : false;
       }else{
-        x = so.f.mix(t, x);
+        x = so.mix(t, x);
       }
       return x;
   },
@@ -74,7 +75,8 @@ so.db = {
             layout:'form',
             border:false
         };
-        return so.f.mix(t, x);
+        return so.mix(t, x);
   }
 
 };
+})(so)

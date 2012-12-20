@@ -43,6 +43,10 @@ body{
     color:#000;
 }
 
+.sni-topbar .sni-detail-button a{
+    color:#000;
+}
+
 .sni-p-header{
     background-color: #9ea3ac;
     color:#000;
@@ -57,6 +61,10 @@ body{
     background-color: #c1c7d1;
     border-right-color: #c1c7d1;
     color: #000;
+}
+
+.sni-table .sni-drag{
+    background-color: #bdbdbd;
 }
 
 .sni-table .sni-cell-even{
@@ -110,16 +118,20 @@ body{
     margin: 0px;
 } */
 
-.sni-selections-list li.sni-s-even{
-    background-color:#f0f0f0;
+.sni-selections-list li.sni-s-odd{
+    background-color:#FFF;
 }
 
-.sni-selections-list li.sni-s-odd{
-    background-color:#fff;
+.sni-selections-list li.sni-s-even{
+    background-color:#f5f5f5;
 }
 
 .sni-selections-list li.sni-s-exclusion{
-    background-color:#02dcfc;
+    background-color:#FFD700;
+}
+
+.sni-selections-list li.sni-s-even.sni-s-exclusion{
+    background-color:#FFD700;
 }
 
 .sni-table .sni-resizable {
@@ -141,9 +153,16 @@ body{
 }
 
 #CQ .sni-maf-all{
-    border-color: #000;
+    border-color: #fff;
+    background-color: #094EA1;
+    color:#fff;
 }
 
 #CQ .sni-maf-all-title{
-    border-color: #000;
+    border-color: #fff;
+}
+
+#CQ .sni-maf-all-link {
+    color: #fff;
+    text-align: center;
 }

@@ -55,7 +55,7 @@ so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
                     },
                     html:[
                         '<iframe id="sni-dashboard" src="sni-site-optimizer.dashboard.html" frameborder=0 width=100% height=100%></iframe>',
-                        '<iframe id="sni-result" src="sni-site-optimizer.result.html" frameborder=0 width=100% height=100% style="display:none"></iframe>'
+                        '<iframe id="sni-result" src="about:blank" frameborder=0 width=100% height=100% style="display:none"></iframe>'
                     ].join('')
                 }
             ]

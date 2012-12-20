@@ -1,3 +1,4 @@
+(function(so){
 so.result = {
 
         //********* GRID FUNCTIONS ***********************
@@ -68,8 +69,8 @@ so.result = {
             var h = document.createElement('div');
             h.setAttribute('id', tbl.id);
             h.setAttribute('class', 'sni-t-header');
-            so.f.addClass(tbl.class, h);
-            so.f.addStyle(tbl.style, h);
+            so.addClass(tbl.classHead, h);
+            so.addStyle(tbl.style, h);
             h.innerHTML = '<div class="sni-title-collapsible">'+tbl.label+'</div>';
             w.appendChild(h);
 
@@ -87,8 +88,8 @@ so.result = {
                 //border wrapper
                 var div = document.createElement('div');
                 div.setAttribute('class', 'sni-col-border');
-                so.f.addClass(c.class, div);
-                so.f.addStyle(c.style, div);
+                so.addClass(c.classHead, div);
+                so.addStyle(c.style, div);
 
                 //title element
                 var s1 = document.createElement('span');
@@ -116,8 +117,8 @@ so.result = {
                 div2.id = colID;
                 div2.setAttribute('class', 'sni-resizable');
                 div2.setAttribute('style', 'width:'+(c.width+15)+'px'); // accounts for 10px of margins + 3 px of dragging cmp + 2 px border
-                so.f.addClass(c.classData, div2);
-                so.f.addStyle(c.styleData, div2);
+                so.addClass(c.classData, div2);
+                so.addStyle(c.styleData, div2);
 
                 td.appendChild(div2);
                 data.appendChild(td);
@@ -168,8 +169,8 @@ so.result = {
                         //create panel main header
                         var h = document.createElement('div');
                         h.setAttribute('class', 'sni-p-header');
-                        so.f.addClass(p.class, h);
-                        so.f.addStyle(p.style, h);
+                        so.addClass(p.classHead, h);
+                        so.addStyle(p.style, h);
                         h.innerHTML = '<div class="sni-title-collapsible">'+p.label+'</div>';
                         e.appendChild(h);
                         so.result.doTable(p, e);
@@ -220,44 +221,46 @@ so.result = {
                 return w;
         },
 
-		loadGrid: function ( data ){
+        loadGrid: function ( data ){
 
                     // create the data store
                     var store= new CQ.Ext.data.ArrayStore({
                         fields: so.grid.fields
                     });
 
-		            // manually load local data
-		            store.loadData( data );
+                    // manually load local data
+                    store.loadData( data );
 
-		            var gcol = 0; //global col counter
-		            CQ.Ext.each(so.grid.panel, function(p, i, a){
+                    var gcol = 0; //global col counter
+                    CQ.Ext.each(so.grid.panel, function(p, i, a){
 
-		                CQ.Ext.each(p.table, function(h, i, a){
+                        CQ.Ext.each(p.table, function(h, i, a){
 
-		                    var col = 0;
-		                    CQ.Ext.each(h.columns, function(c, i, a){
+                            var col = 0;
+                            CQ.Ext.each(h.columns, function(c, i, a){
 
-		                                var x = document.getElementById(h.id+'-'+col++);
-		                                var row = 0;
-		                                gcol++;
-		                                store.each(function(r){
-		                        
-		                                    var isODD = row++ % 2;
-		                                    var d = document.createElement('div');
-		                                        d.setAttribute('class', isODD ? 'sni-cell-odd' : 'sni-cell-even');
-		                                        d.setAttribute('data-sni-xyl', gcol +'-'+row +'-'+col);
+                                        var x = document.getElementById(h.id+'-'+col++);
+                                        var row = 0;
+                                        gcol++;
+                                        store.each(function(r){
+                                
+                                            var isODD = row++ % 2;
+                                            var d = document.createElement('div');
+                                                d.setAttribute('class', isODD ? 'sni-cell-odd' : 'sni-cell-even');
+                                                d.setAttribute('data-sni-row', row );
+                                                d.setAttribute('data-sni-col', col );
+                                                d.setAttribute('data-sni-global-col', gcol );
                                                 if ( typeof c.dataIndex === 'string'){
                                                     d.innerHTML = r.data[c.dataIndex];    
                                                 }else{
                                                     c.dataIndex(row, d);
                                                 }
-		                                        x.appendChild(d);
-		                                });
-		                    });                        
-		                });
-		            });
-		},
+                                                x.appendChild(d);
+                                        });
+                            });                        
+                        });
+                    });
+        },
 
         cleanGrid: function ( data ){
 
@@ -268,8 +271,8 @@ so.result = {
                             var col = 0;
                             CQ.Ext.each(h.columns, function(c, i, a){
 
-                                        var x = document.getElementById(h.id+'-'+col++);
-                                        $CQ('div', x).remove();
+                                var x = document.getElementById(h.id+'-'+col++);
+                                $CQ('div', x).remove();
                             });                        
                         });
                     });
@@ -321,23 +324,26 @@ so.result = {
 
     getSelectionEntries: function(){
 
-        var e=so.expressions.get(so.g.currentExpressions), l=e.length, i, x, b = [];
-        for (i=0; i<l; i++){
+        var e = so.selection.get( so.g.currentExpressions ), l=e.length, i, x, v, b = [];
+        for ( i = 0; i<l; i++ ){
             x = e[i];
             c = i % 2 ? 'sni-s-even' : 'sni-s-odd';
             c += x.negated ? ' sni-s-exclusion' : ' sni-s-inclusion';
-            b.push('<li class="'+c+'">'+x.field+' = '+so.f.getLabel(so.expressions.getValue(x))+' <span class="sni-selections-size">'+so.f.format2Thousand(x.count)+'</span></li>');
+            v = so.selection.getValue(x);
+            v = x.field === 'filterURL' ? v : so.getLabel(v);
+            b.push('<li class="'+c+'">'+x.field+' = '+ v +' <span class="sni-selections-size">'+so.format2Thousand(x.count)+'</span></li>');
         }
         return b;
     },
 
     doSelectionsList:function(){
 
-         var b = document.createElement('ul');
+        var b = document.createElement('ul');
         b.setAttribute('class', 'sni-selections-list');
 
         var e = so.result.getSelectionEntries();
         b.innerHTML = e.join('');
+
         return b;
     },
 
@@ -367,10 +373,10 @@ so.result = {
         b.setAttribute('class', 'sni-topbar-buttons');
         b.innerHTML = [
             '<li id="sni-total-page-views"> total page views: <span class="count"></span></li>',
-            '<li class="sni-detail-button"> see details</li>',
+            '<li class="sni-detail-button"><a href="javascript: void 0"> see details</a></li>',
             '<li id="sni-matching-assets"> matching assets: <span class="count"></span></li>',
             '<li id="sni-loaded-assets"> loaded assets: <span class="count"></span></li>',
-            '<li class="sni-load-button"> load more</li>',
+            //'<li class="sni-load-button"> load more</li>',
             '<li class="sni-export-button">export</li>'
         ].join('');
 
@@ -431,7 +437,7 @@ so.result = {
     },
 
     //help to center title and make it hidden when columns r collapsed using drag
-    fixHeaderTitle: function(){
+    doHeaderDraggable: function(){
         $CQ('.sni-title-collapsible').each(function(i, e){
             var offset = ~(e.offsetWidth / 2) + 1;
             e.style.width = '1px';
@@ -439,22 +445,22 @@ so.result = {
         });
     },
 
-    doExpandable: function ( c ){
+    doColumnDraggable: function ( c ){
 
             var t = c.querySelector('.sni-col-title');
             var org = parseInt(t.style.width, 10);
             var min = 5;
-            var max = parseInt(org*7, 10);
+            var max = parseInt(org*10, 10);
             var col, w, h;
             $CQ('.sni-drag', c).draggable({
                 axis: 'x',
-                start:function(){
-
+                start:function( e ){
+                     this.style.visibility = 'hidden';
                      w = parseInt( t.style.width, 10 );
                      col = document.getElementById( this.getAttribute( 'data-col-id' ) );
                 },
 
-                drag: function(e, ui){
+                drag: function( e, ui ){
 
                     var l = parseInt(this.style.left, 10);
                     var n = w+l;
@@ -467,20 +473,119 @@ so.result = {
                     col.style.width = n + 15 + 'px'; // accounts for 10px of margins + 3 px of dragging cmp + 2 px borders
                 },
 
-                stop:function(){
-
+                stop:function( e ){
+                    this.style.visibility = 'visible';
                     this.style.left=0;
                 }
             });
     },
 
     getTotal:function(){
+
         var r = so.result.restData;
         return r ? r.assetInfoList.length : 0;
     },
 
     displayTotal:function(){
-        return so.f.format2Thousand(so.result.getTotal());
+
+        return so.format2Thousand(so.result.getTotal());
+    },
+
+    getValue: function( index, field ){
+
+        var data = so.result.restData;
+        if ( data ){
+             return data.assetInfoList[index].report[field].value;
+        }
+        return '';
+    },
+
+    layoutScreen: function(){
+        //layout screen
+            var l = so.result.doSplitSearch();
+            var s = so.result.doSearch();
+
+            //do a gap between atts & grid
+            var x = document.createElement('div');
+            x.setAttribute('class', 'sni-gap');
+
+            //grid wrapper
+            var w = document.createElement('div');
+            w.setAttribute('class', 'sni-grid-wrapper');
+
+            var b = so.result.doToolBar();
+            w.appendChild(b);  
+
+            var g = so.result.doGrid( so.grid ); 
+            w.appendChild(g);
+
+            //do main wrapper and fill it
+            var m = document.createElement('div');
+            m.setAttribute('class', 'sni-main-wrapper');
+            m.appendChild(l);
+            m.appendChild(s);
+            m.appendChild(x);
+            m.appendChild(w);
+
+            document.body.appendChild(m);
+
+            //fix headers to work with doColumnDraggable.
+            so.result.doHeaderDraggable();
+
+            //this col wont be draggable ( modify assets )
+            so.removeClass( 'sni-drag', document.querySelector('.sni-first-col .sni-drag') );
+
+            $CQ('.sni-grid .sni-expandable').each(function(){
+                  so.result.doColumnDraggable( this );
+            });
+
+            //actions
+            $CQ('#sni-modify-search-button').click( so.g.showDashboard );
+            $CQ('#sni-new-search-button').click( so.g.newDashboard );
+            $CQ('.sni-data .sni-first-col').click( so.result.clickHistory );
+            $CQ('.sni-first-col .sni-col-title').click( so.result.clickMAF ); //modify assets
+            $CQ('.sni-detail-button a').click( so.result.clickDetail );
+            
+
+            var e = so.result.getSelectionEntries();
+            document.querySelector('.sni-selections-list').innerHTML = e.join('');
+    },
+
+    clickHistory: function( evt ){
+
+        if ( !so.history ){
+              $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/history.js', function(){
+                so.rest.getHistory( evt );
+              });
+        }else{
+            so.rest.getHistory( evt );
+        }
+    },
+
+    clickMAF: function(){
+        if (!so.maf){
+            $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/form.js');
+            $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/maf.js');
+            var intX = setInterval(function(){
+                if (so.form && so.maf){ //wait for it
+                    clearInterval( intX );
+                    so.maf.open();
+                }
+            }, 10);
+        }else{
+            so.maf.open();
+        }
+    },
+
+    clickDetail: function(){
+        if (!so.detail){
+              $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/detail.js', function(){
+                so.detail.open( so.result.pageViews ); // restDataPageViews was loaded prev in rest.handleResultPage
+              });
+        }else{
+            so.detail.open( so.result.pageViews );
+        }
     }
 
-};
+};  
+})(so)

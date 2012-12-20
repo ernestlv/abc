@@ -1,3 +1,4 @@
+(function(so){
 //sub-columns
 so.subcol = {
 
@@ -16,7 +17,7 @@ so.subcol = {
                     start:function(e, ui){
                       
                       switched = false;
-                      senderID = ''
+                      senderID = '';
                     },
                     //change:function(e,ui){
                       //console.log('sorting sorting '+ui.item[0].id);
@@ -25,9 +26,9 @@ so.subcol = {
                       
                       if (switched){
                          //$CQ(this).sortable('cancel');
-                         so.expressions.switch(ui, senderID);
+                         so.selection.move(ui, senderID);
                       }else{
-                         so.expressions.drag(ui); 
+                         so.selection.drag(ui); 
                       }
                     },
                     receive:function(e, ui){
@@ -40,10 +41,10 @@ so.subcol = {
                     //}
                   });
 
-                  $CQ('#sni-inclusions').click(so.expressions.remove);
-                  $CQ('#sni-exclusions').click(so.expressions.remove);
+                  $CQ('#sni-inclusions').click(so.selection.remove);
+                  $CQ('#sni-exclusions').click(so.selection.remove);
                   
-                  $CQ('#sni-selection .sni-tab').click(so.f.toggleExclusions);
+                  $CQ('#sni-selection .sni-tab').click(so.selection.toggle);
                 }
               }
       }),
@@ -224,7 +225,7 @@ so.column = {
                               zIndex:'10001',
                               padding:'20px 10px 15px'
                             },
-                            bodyCssClass:'sni-your-selections',
+                            bodyCssClass:'sni-selection-body',
                             bodyStyle:{
                               borderRadius:'0px',
                               //borderBottom:'1px solid #61b9ff',
@@ -244,7 +245,7 @@ so.column = {
                               so.subcol.content   
                             ],
                             listeners:{
-                              afterrender: so.f.fixTopMargin
+                              afterrender: so.fixTopMargin
                             }                             
       }),
 
@@ -305,3 +306,4 @@ so.column = {
       })
 
 };
+})(so)

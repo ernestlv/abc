@@ -1,16 +1,17 @@
+(function(so){
 so.lightbox = {
   win:null,
   title:'',
   field:'', //field name this lightbox belongs to
   data:[], 
   listeners:{
-    show:function(){
+    show:function(){ //fires when popup window is shown
       
       //get form field
       var n = so.lightbox.field;
       var c = CQ.Ext.getCmp(n);
       var v = c.getValue();
-      v = so.f.trim(v);
+      v = so.trim(v);
 
       //if we have values then select them in lightbox
       if (v){
@@ -19,7 +20,7 @@ so.lightbox = {
         var a = v.split(','), i, x;
         for ( i=0; i<a.length; i+=1 ){
             x = a[i];
-            x = so.f.trim( x );
+            x = so.trim( x );
             $CQ.each(k, function(i, e){
                 var v = $CQ(e).attr('data-label');
                 if ( v === x ){
@@ -33,14 +34,20 @@ so.lightbox = {
       document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of lightbox when user scrolls popup
     },
 
-    hide:function(){
+    hide:function(){ //fires when popup window is hidden
       document.body.style.overflow = 'auto';
     }
 
   },
 
-  cancel:function(){
+  cancel:function(){ //fires when cancel button is clicked
       so.lightbox.win.close();
+  },
+
+  select: function(){ //fires when button "add selected values" is clicked
+
+        so.rest.handleLightbox(so.lightbox.field, so.lightbox);
+        so.lightbox.win.close();
   },
 
   getID: function(){
@@ -237,7 +244,7 @@ so.lightbox = {
 
   open: function( config ){
         
-        so.f.mix( config, so.lightbox );
+        so.mix( config, so.lightbox );
         so.lightbox.fieldCounter = 0;
         if (so.lightbox.win){
                   so.lightbox.win.destroy();
@@ -276,14 +283,7 @@ so.lightbox = {
         });
 
         return v;
-  },
-
-  select: function(){ //fires when button "add selected values" is clicked
-
-        //so.rest.getFilter({field:n, values:v, counts:k}, so.rest.handleLightbox);
-
-        so.rest.handleLightbox(so.lightbox.field, so.lightbox);
-        so.lightbox.win.close();
   }
 
 };
+})(so)

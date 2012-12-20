@@ -1,3 +1,4 @@
+(function(so){
 so.section = {
 
       selection:so.db.setSection({
@@ -39,3 +40,4 @@ so.section = {
       })        
 
 };
+})(so)
