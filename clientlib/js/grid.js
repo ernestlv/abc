@@ -1,7 +1,52 @@
 (function(so){
 
-    var headerColor = '#9ea3ac';
+    function expand( event ){
+        //find elemenets
+        var tgt = event.currentTarget, title, id, col, org, w, max;
+        if ( so.hasClass('sni-resizable', tgt) ){ //click column body
+            title = $CQ('[data-col-id='+tgt.id+']').parent().children('.sni-col-title')[0]; //get header
+            col = tgt;
+        }else{ //click header
+            title = tgt;
+            id = $CQ('.sni-drag', title.parentNode ).attr('data-col-id'); // get column body
+            col = $CQ( '#' + id )[0];
+        }
+        //calculate width
+        org = $CQ( title ).attr('data-sni-width') - 0;
+        w = $CQ( title ).width();
+        if ( w > org ){ //collapse column
+           max = org;
+           so.removeClass('sni-column-expanded', col);
+           so.removeClass('sni-header-expanded', title);
+        }else{ //expand column
+           max = ( org > 110 ? 110 : org )*10;
+           so.addClass('sni-column-expanded', col);
+           so.addClass('sni-header-expanded', title);
+        }
+        //expand
+        title.style.width = max + 'px';
+        col.style.width = max + 15 + 'px';
+    };
 
+    function sort ( event ){ 
+
+        if ( event.metaKey ){
+            expand( event );
+            return;
+        }
+        
+        var title = event.target;
+        var f = $CQ( title ).attr('data-sni-dataIndex');
+        var o = 'DESC';
+        if ( f === so.result.sortField ){
+           o = so.result.sortOrder === 'DESC' ? 'ASC' : 'DESC'; 
+        }
+            
+        so.result.sort( f, o );
+    };
+
+    var HEADERCOLOR = '#9ea3ac';
+    
     so.grid = {
                             fields: [
                                        {name: 'url'},
@@ -35,7 +80,7 @@
                                        {name: 'nutrition'},
                                        {name: 'taste'},
                                        {name: 'technique'},
-                                       {name: 'cookware_and_gagets'},
+                                       {name: 'cookware_and_gadgets'},
                                        {name: 'show_title'},
                                        {name: 'show_abbr'},
                                        {name: 'talent'}
@@ -54,7 +99,7 @@
                                                             classHead : 'sni-first-col', //apply to the header rows
                                                             classData : 'sni-first-col', //apllies only to data rows
                                                             label     : '&nbsp;modify<br>&nbsp;asset',
-                                                            width     : 75,
+                                                            width     : 90,
                                                             dataIndex : function(r, e){
                                                                 e.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;'+r;
                                                             }
@@ -73,16 +118,22 @@
                                                     label:'&nbsp;',
                                                     columns:[
                                                         {
-                                                            label    : 'URL',
-                                                            width    : 75,
-                                                            dataIndex: 'url',
-                                                            styleData: {textAlign:'left'} //only applies to data rows
+                                                            label     : 'title',
+                                                            width     : 300,
+                                                            dataIndex : 'title',
+                                                            tooltip   : 'TITLE:\n',
+                                                            styleData : {textAlign:'left'},
+                                                            click     : sort,
+                                                            clickData : expand
                                                         },
                                                         {
-                                                            label    : 'title',
-                                                            width    : 75,
-                                                            dataIndex: 'title',
-                                                            styleData    : {textAlign:'left'}
+                                                            label    : 'URL',
+                                                            width    : 110,
+                                                            dataIndex: 'url',
+                                                            tooltip  : 'URL:\n',
+                                                            styleData: {textAlign:'left'}, //only applies to data rows
+                                                            click    : sort,
+                                                            clickData : expand
                                                         }
                                                     ]
                                                 }
@@ -98,8 +149,11 @@
                                                         columns:[
                                                                 {
                                                                     label   : 'status', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'status'
+                                                                    width    : 110,
+                                                                    dataIndex: 'status',
+                                                                    tooltip  : 'STATUS:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ] 
                                                     },
@@ -108,14 +162,20 @@
                                                         label:'format',
                                                         columns:[
                                                                 {
-                                                                    label   : 'asset type', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'asset_type'
+                                                                    label    : 'asset type', 
+                                                                    width    : 90,
+                                                                    dataIndex: 'asset_type',
+                                                                    tooltip  : 'ASSET TYPE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'has image', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'has_image'
+                                                                    label    : 'has image', 
+                                                                    width    : 90, 
+                                                                    dataIndex: 'has_image',
+                                                                    tooltip  : 'HAS IMAGE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     }
@@ -124,24 +184,36 @@
                                                         label:'asset classification',
                                                         columns:[
                                                                 {
-                                                                    label   : 'category', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'category'
+                                                                    label    : 'category', 
+                                                                    width    : 90, 
+                                                                    dataIndex: 'category',
+                                                                    tooltip  : 'CATEGORY:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'section', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'section'
+                                                                    label    : 'section', 
+                                                                    width    : 90, 
+                                                                    dataIndex: 'section',
+                                                                    tooltip  : 'SECTION:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'source', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'source'
+                                                                    label    : 'source', 
+                                                                    width    : 90, 
+                                                                    dataIndex: 'source',
+                                                                    tooltip  : 'SOURCE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'general<br>subject', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'general_subjects'
+                                                                    label    : 'general<br>subject', 
+                                                                    width    : 150, 
+                                                                    dataIndex: 'general_subjects',
+                                                                    tooltip  : 'GENERAL SUBJECT:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     }
@@ -156,9 +228,13 @@
                                                         label:'codes',
                                                         columns:[
                                                                 {
-                                                                    label   : 'sponsorship', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'sponsorship'
+                                                                    label     : 'sponsorship', 
+                                                                    width     : 190,
+                                                                    dataIndex : 'sponsorship',
+                                                                    tooltip   : 'SPONSORSHIP:\n',
+                                                                    filter    : so.filter,
+                                                                    click     : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     },{
@@ -166,19 +242,28 @@
                                                         label:'preferred terms',
                                                         columns:[
                                                                 {
-                                                                    label   : 'preferred<br>term', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'preferred_term'
+                                                                    label    : 'preferred<br>term', 
+                                                                    width    : 150,
+                                                                    dataIndex: 'preferred_term',
+                                                                    tooltip  : 'PREFERRED TERM:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'alternate<br>term', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'alternate_term'
+                                                                    label    : 'alternate<br>term', 
+                                                                    width    : 150, 
+                                                                    dataIndex: 'alternate_term',
+                                                                    tooltip  : 'ALTERNATE TERM:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'sub term', 
-                                                                    width    : 75, 
-                                                                    dataIndex: 'sub_term'
+                                                                    label    : 'sub term', 
+                                                                    width    : 150, 
+                                                                    dataIndex: 'sub_term',
+                                                                    tooltip  : 'SUB TERM:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     },{
@@ -187,17 +272,20 @@
                                                         columns:[
                                                                 {
                                                                     label   : 'hub type', 
-                                                                    width    : 110, 
-                                                                    dataIndex: 'hub_type'
+                                                                    width    : 150, 
+                                                                    dataIndex: 'hub_type',
+                                                                    tooltip  : 'HUB TYPE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                                 //{
                                                                 //    label   : 'hub id', 
-                                                                //    width    : 75, 
+                                                                //    width    : 90, 
                                                                 //    dataIndex: 'change'
                                                                 //},
                                                                 //{
                                                                 //    label   : 'hub sponsor', 
-                                                                //    width    : 75, 
+                                                                //    width    : 90, 
                                                                 //    dataIndex: 'hub_sponsor'
                                                                 //}
                                                         ]
@@ -212,14 +300,20 @@
                                                         label:'Content Tags',
                                                         columns:[
                                                                 {
-                                                                    label   : 'Content Tag 1', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'content_tag1'
+                                                                    label    : 'Content Tag 1', 
+                                                                    width    : 150,
+                                                                    dataIndex: 'content_tag1',
+                                                                    tooltip  : 'CONTENT TAG 1:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                  {
-                                                                    label   : 'Content Tag 2', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'content_tag2'
+                                                                    label    : 'Content Tag 2', 
+                                                                    width    : 150,
+                                                                    dataIndex: 'content_tag2',
+                                                                    tooltip  : 'CONTENT TAG 2:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                 }
@@ -233,19 +327,28 @@
                                                         label:'&nbsp;',
                                                         columns:[
                                                                 {
-                                                                    label   : 'occasions', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'occasions'
+                                                                    label    : 'occasions', 
+                                                                    width    : 110,
+                                                                    dataIndex: 'occasions',
+                                                                    tooltip  : 'OCCASIONS:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'seasons', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'season'
+                                                                    label    : 'seasons', 
+                                                                    width    : 110,
+                                                                    dataIndex: 'season',
+                                                                    tooltip  : 'SEASONS:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : "who's dining", 
-                                                                    width    : 75,
-                                                                    dataIndex: 'who_s_dining'
+                                                                    label    : "who's dining", 
+                                                                    width    : 110,
+                                                                    dataIndex: 'who_s_dining',
+                                                                    tooltip  : 'WHO IS DINING:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     }
@@ -259,34 +362,52 @@
                                                         label:'&nbsp;',
                                                         columns:[
                                                                 {
-                                                                    label   : 'meal part', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'meal_part'
+                                                                    label    : 'meal part', 
+                                                                    width    : 90,
+                                                                    dataIndex: 'meal_part',
+                                                                    tooltip  : 'MEAL PART:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'meal type', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'meal_type'
+                                                                    label    : 'meal type', 
+                                                                    width    : 90,
+                                                                    dataIndex: 'meal_type',
+                                                                    tooltip  : 'MEAL TYPE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : "main ingredient", 
-                                                                    width    : 75,
-                                                                    dataIndex: 'main_ingredient'
+                                                                    label    : "main ingredient", 
+                                                                    width    : 150,
+                                                                    dataIndex: 'main_ingredient',
+                                                                    tooltip  : 'MAIN INGREDIENT:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : "dish", 
-                                                                    width    : 75,
-                                                                    dataIndex: 'dish'
+                                                                    label    : "dish", 
+                                                                    width    : 90,
+                                                                    dataIndex: 'dish',
+                                                                    tooltip  : 'DISH:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : "drinks", 
-                                                                    width    : 75,
-                                                                    dataIndex: 'drinks'
+                                                                    label    : "drinks", 
+                                                                    width    : 90,
+                                                                    dataIndex: 'drinks',
+                                                                    tooltip  : 'DRINKS:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : "herbs & spicies", 
-                                                                    width    : 75,
-                                                                    dataIndex: 'herbs_and_spices'
+                                                                    label    : "herbs & spicies", 
+                                                                    width    : 150,
+                                                                    dataIndex: 'herbs_and_spices',
+                                                                    tooltip  : 'HERBS & SPICIES:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     }
@@ -300,34 +421,52 @@
                                                         label:'&nbsp;',
                                                         columns:[
                                                                 {
-                                                                    label   : 'cuisine', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'cuisine'
+                                                                    label    : 'cuisine', 
+                                                                    width    : 110,
+                                                                    dataIndex: 'cuisine',
+                                                                    tooltip  : 'CUISINE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'cooking styles', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'cooking_styles'
+                                                                    label    : 'cooking styles', 
+                                                                    width    : 110,
+                                                                    dataIndex: 'cooking_styles',
+                                                                    tooltip  : 'COOKING STYLES:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'nutrition', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'nutrition'
+                                                                    label    : 'nutrition', 
+                                                                    width    : 90,
+                                                                    dataIndex: 'nutrition',
+                                                                    tooltip  : 'NUTRITION:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'taste', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'taste'
+                                                                    label    : 'taste', 
+                                                                    width    : 90,
+                                                                    dataIndex: 'taste',
+                                                                    tooltip  : 'TASTE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'technique', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'technique'
+                                                                    label    : 'technique', 
+                                                                    width    : 90,
+                                                                    dataIndex: 'technique',
+                                                                    tooltip  : 'TECHNIQUE:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'cookware & gadgets', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'cookware_and_gagets'
+                                                                    label    : 'cookware & gadgets', 
+                                                                    width    : 150,
+                                                                    dataIndex: 'cookware_and_gagets',
+                                                                    tooltip  : 'COOKWARE & GADGETS:\n',
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     }
@@ -341,19 +480,31 @@
                                                         label:'&nbsp;',
                                                         columns:[
                                                                 {
-                                                                    label   : 'show title', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'show_title'
+                                                                    label     : 'show title', 
+                                                                    width     : 300,
+                                                                    dataIndex : 'show_title',
+                                                                    tooltip   : 'SHOW TITLE:\n',
+                                                                    styleData : {textAlign:'left'},
+                                                                    click    : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'abbreviation', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'show_abbr'
+                                                                    label     : 'abbreviation', 
+                                                                    width     : 90,
+                                                                    dataIndex : 'show_abbr',
+                                                                    tooltip   : 'ABBREVIATION:\n',
+                                                                    styleData : {textAlign:'left'},
+                                                                    click     : sort,
+                                                                    clickData : expand
                                                                 },
                                                                 {
-                                                                    label   : 'talent', 
-                                                                    width    : 75,
-                                                                    dataIndex: 'talent'
+                                                                    label     : 'talent', 
+                                                                    width     : 200,
+                                                                    dataIndex : 'talent',
+                                                                    tooltip   : 'TALENT:\n',
+                                                                    styleData : {textAlign:'left'},
+                                                                    click     : sort,
+                                                                    clickData : expand
                                                                 }
                                                         ]
                                                     }
@@ -362,7 +513,7 @@
                                         /*{
                                                 id:'sni-panel-10',
                                                 label:'monthly page views',
-                                                style:headerColor,
+                                                style:HEADERCOLOR,
                                                 table:[
                                                     {
                                                         id:'sni-currentyear-col',
@@ -373,7 +524,7 @@
                                         },{
                                                 id:'sni-panel-11',
                                                 label:'monthly page views',
-                                                style:headerColor,
+                                                style:HEADERCOLOR,
                                                 table:[
                                                     {
                                                         id:'sni-previousyear-col',
@@ -384,7 +535,7 @@
                                         },{
                                                 id:'sni-panel-12',
                                                 label:'monthly page views',
-                                                style:headerColor,
+                                                style:HEADERCOLOR,
                                                 table:[
                                                     {
                                                         id:'sni-previousyear-col',
@@ -395,7 +546,7 @@
                                         },{
                                                 id:'sni-panel-13',
                                                 label:'quarterly page views',
-                                                style:headerColor,
+                                                style:HEADERCOLOR,
                                                 table:[
                                                     {
                                                         id:'sni-quarterly-col',
@@ -413,12 +564,14 @@
     var today  = new Date();
     var year, start, end, left, index, delta, qPanel;
 
-    function createPanel( year, index, label, columns ){
+    function createPanel( year, index, label, columns, isShortYear ){
         index++;
         return {
             id:'sni-panel-'+index,
-            label: year + ' ' +label,
-            style:headerColor,
+            label: year + label,
+            isShortYear: isShortYear,
+            year: year,
+            style:HEADERCOLOR,
             table:[
                 {
                     id:'sni-col-'+year,
@@ -430,29 +583,38 @@
     }
     
     function doYear( year, index, start, end ){
-        var cols = [], fields = so.grid.fields, i, f;
+        var cols = [], fields = so.grid.fields, i, l, f, t;
         for ( i=start; i < end ; i++ ){
-            f = months[i]+'_'+year;
+            l = months[i];
+            f = l+'_'+year;
+            t = l.toUpperCase() + ':\n';
             cols.push({
-                label    : months[i], 
-                width    : 75,
-                dataIndex: f
+                label    : l, 
+                width    : 90,
+                dataIndex: f,
+                tooltip  : t,
+                click    : sort,
+                clickData : expand
             });
             fields.push({ name: f });
         }
-        so.grid.panel.push( createPanel( year, index, 'monthly page views', cols ) );
+        so.grid.panel.push( createPanel( year, index, ' monthly page views', cols, cols.length < 3 ) );
     }
 
     function doQs( year, start, end, panel ){
-        var cols = panel.table[0].columns, 
-            fields = so.grid.fields, 
-            i, f;
+        var cols = panel.table[0].columns, fields = so.grid.fields, i, l, f, t;
         for ( i=start; i<end; i+=3 ){
-            f = Qs[i]+'_'+year;
+            l = Qs[i];
+            f = l+'_'+year;
+            l = l+' '+year;
+            t = l.toUpperCase() + ':\n';
             cols.push({
-                label    : Qs[i]+' '+year, 
-                width    : 75,
-                dataIndex: f
+                label    : l, 
+                width    : 90,
+                dataIndex: f,
+                tooltip  : t,
+                click    : sort,
+                clickData : expand
             });
             fields.push({ name: f });
         }
@@ -484,7 +646,7 @@
     year = today.getFullYear();
     start = 11 - today.getMonth();
     end = 12;
-    qPanel =  createPanel( '', index, 'quarterly page views', [] );
+    qPanel =  createPanel( '', index, ' quarterly page views', [] );
     do{
         doQs( year, start, end, qPanel );
         //calculate Qs previous year

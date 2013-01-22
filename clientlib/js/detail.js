@@ -6,14 +6,15 @@ so.detail = {
   higher:{},
   high:{},
   listeners:{
-                show:function(){ //fires when popup window is shown
-                  this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
-                  document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of detail when user scrolls popup
-                },
+                //show:function(){ //fires when popup window is shown
+                //  this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
+                //  document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of detail when user scrolls popup
+                //},
 
-                hide:function(){ //fires when popup window is hidden
-                  document.body.style.overflow = 'auto';
-                },
+                //hide:function(){ //fires when popup window is hidden
+                //  document.body.style.overflow = 'auto';
+                //},
+                
                 afterrender:function(){
                     
                     var y, n;
@@ -109,13 +110,13 @@ so.detail = {
     initHighest( year );
     for ( i=0; i<qr.length; i++ ){
         if ( qr[i].year === year ){
-           q[qr[i].quarter] = so.format2Thousand( qr[i].count ); 
+           q[qr[i].quarter] = so.format( qr[i].count ); 
         }else{
             m=[];
             for ( j=0; j<mr.length; j++){
                 if ( mr[j].year === year ){
                     doHighest( year, mr[j].month, mr[j].count );
-                    m[mr[j].month] = so.format2Thousand( mr[j].count );
+                    m[mr[j].month] = so.format( mr[j].count );
                 }
             }
             b.push( so.detail.doYear(year, q, m, 3, 1, 12) );
@@ -123,14 +124,14 @@ so.detail = {
             year = qr[i].year;
             initHighest( year );
             q = [];
-            q[qr[i].quarter] = so.format2Thousand( qr[i].count ); 
+            q[qr[i].quarter] = so.format( qr[i].count ); 
         }
     }
     m=[];
     for ( j=0; j<mr.length; j++){
         if ( mr[j].year === year ){
             doHighest( year, mr[j].month, mr[j].count );
-            m[mr[j].month] = so.format2Thousand( mr[j].count );
+            m[mr[j].month] = so.format( mr[j].count );
         }
     }
     b.push( so.detail.doYear(year, q, m, 5, 7, 3) );
@@ -139,7 +140,7 @@ so.detail = {
 
 	open: function( data ){
 
-        var v = so.format2Thousand( so.result.pageViews.totalPageViews );
+        var v = so.format( so.result.pageViews.totalPageViews );
         
         if (so.detail.win){
                   so.detail.win.destroy();

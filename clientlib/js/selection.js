@@ -39,12 +39,10 @@ so.selection = {
   doButton: function(){
       return [
                 '<div class="sni-get-assets">',
-                '<a href="#">',
                 '<ul class="sni-button">',
                 '<li class="sni-label">get assets</li>',
                 '<li class="sni-size">0 total</li>',
                 '</ul>',
-                '</a>',
                 '</div>'
               ].join('');
   },
@@ -57,7 +55,7 @@ so.selection = {
     return [
                   '<li class="sni-select-filter'+( f.count === undefined ? ' sni-select-new' : '' )+'" id="'+f.id+'">',
                   '<span class="sni-select-value">'+v+'</span>',
-                  '<span class="sni-select-size">'+so.format2Thousand( f.count )+'</span>',
+                  '<span class="sni-select-size">'+so.format( f.count )+'</span>',
                   '<img class="sni-select-x" src="/apps/sni-site-optimizer/clientlib/css/close2.png">',
                   '</li>'
     ].join('');
@@ -198,7 +196,7 @@ so.selection = {
   },
 
   //process expressiones returned by an ajax request.
-  do: function( data ){
+  doIt: function( data ){
           
         var e = data.expressions;  //this is coming from REST service.
         for (var i=0; i< e.length; i+=1){
@@ -222,7 +220,7 @@ so.selection = {
     }
     so.g.addedExpressions = so.g.currentExpressions;
     so.g.currentExpressions = {};
-    so.rest.requestFilter( so.selection.do );
+    so.rest.requestFilter( so.selection.doIt );
   },
 
   //this function is called when a user deletes a filter from "your selections"
@@ -275,7 +273,7 @@ so.selection = {
 
   //total of matched assets
   displayTotal:function(){
-    return so.format2Thousand(so.selection.getTotal());
+    return so.format( so.selection.getTotal() );
   },
 
   isExclusion: function(){
@@ -298,7 +296,7 @@ so.selection = {
     if (t === 'filter'){
         x[f] = {
           "type":"TermExpression",
-          "field":f,
+          "field":( f === 'url' ? 'current_url' : f),
           "value":v.join(''),
           "operator":"TEXTSEARCH",
           "negated":so.selection.isExclusion()                  

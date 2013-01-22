@@ -52,12 +52,14 @@ so.result = {
                         var id = x.id + '-wrapper';
                         var c = document.getElementById(id);
                         var max = so.result.getMaxSplit(so.grid, id);
-                        if (c.offsetWidth === 0){
+                        if (c.offsetWidth === 1){ //because border is 1px solid #fff
                             c.style.width = max;
+                            c.style.borderRight = '0px';
                             i.innerHTML = '-';
                         }else{
                             so.result.setMaxSplit(so.grid, id, c.style.width);
                             c.style.width = 0;
+                            c.style.borderRight = '1px solid #fff';
                             i.innerHTML = '+';
 
                         }
@@ -88,6 +90,7 @@ so.result = {
                 //border wrapper
                 var div = document.createElement('div');
                 div.setAttribute('class', 'sni-col-border');
+                div.setAttribute('title', c.label.toUpperCase());
                 so.addClass(c.classHead, div);
                 so.addStyle(c.style, div);
 
@@ -95,8 +98,23 @@ so.result = {
                 var s1 = document.createElement('span');
                 s1.setAttribute('class', 'sni-col-title');
                 s1.style.width = c.width + 'px';
+                s1.setAttribute('data-sni-width', c.width); //save original width see grid.js clickHeader()
+                s1.setAttribute('data-sni-dataIndex', c.dataIndex);
+                //fix label
+                if ( so.result.sortField === c.dataIndex ){
+                    c.isSorted = true;
+                    so.addClass('sni-sorted-'+so.result.sortOrder, div);
+                    if ( (/<br>/i).test( c.label ) ){
+                        c.label = c.label.replace(/<br>/i, ' *&nbsp;&nbsp;&nbsp;<br>') + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    }else{ //single line label
+                        c.label = c.label + ' *&nbsp;&nbsp;&nbsp;';
+                    }
+                }
                 s1.innerHTML = c.label;
                 div.appendChild(s1);
+                so.result.setTooltip( c, '', div );
+                //add events
+                c.click && $CQ(s1).click( c.click ); //performance: we dont want a closure here.
 
                 //dragging element
                 var s2 = document.createElement('span');
@@ -122,6 +140,9 @@ so.result = {
 
                 td.appendChild(div2);
                 data.appendChild(td);
+
+                //add events
+                c.clickData && $CQ(div2).click( c.clickData );
             });
             
             //header table
@@ -132,6 +153,8 @@ so.result = {
             t.setAttribute('cellspacing', '0');
             t.appendChild(header);
             w.appendChild(t);
+
+            //$CQ(header).on( 'click', 'span.sni-col-title', function(){ alert('hello: ') } );
 
             //data table
             t = document.createElement('table');
@@ -171,7 +194,7 @@ so.result = {
                         h.setAttribute('class', 'sni-p-header');
                         so.addClass(p.classHead, h);
                         so.addStyle(p.style, h);
-                        h.innerHTML = '<div class="sni-title-collapsible">'+p.label+'</div>';
+                        h.innerHTML = '<div class="sni-title-collapsible">'+ ( p.isShortYear ? p.year : p.label ) +'</div>'; //isShortYear applies only to the monthly page views labels is undefined everywhere else
                         e.appendChild(h);
                         so.result.doTable(p, e);
                         w.appendChild(e);
@@ -184,10 +207,11 @@ so.result = {
                         var e = document.createElement('div');
                         e.setAttribute('id', p.splitID);
                         e.setAttribute('class', 'sni-split');
+                        e.setAttribute('title', p.label);
                         e.innerHTML = [
                                         '<span class="sni-split-label">',
                                         '<span class="sni-split-icon">-</span> ',
-                                        p.label,
+                                        so.isIE8() ? '' : p.label,
                                         '</span>'
                         ].join('');
                         $CQ(e).click(so.result.clickSplit);
@@ -221,6 +245,16 @@ so.result = {
                 return w;
         },
 
+        setTooltip: function( column, data, element ){
+            if ( !data ) return;
+            var t = column.label;
+            if ( column.isSorted ){
+                t = t.replace(/\s\*|&nbsp;+/gi, '');
+            }
+            t = t.replace(/<br>/i, ' ') 
+               
+        },
+
         loadGrid: function ( data ){
 
                     // create the data store
@@ -251,7 +285,14 @@ so.result = {
                                                 d.setAttribute('data-sni-col', col );
                                                 d.setAttribute('data-sni-global-col', gcol );
                                                 if ( typeof c.dataIndex === 'string'){
-                                                    d.innerHTML = r.data[c.dataIndex];    
+                                                    var data = r.data[c.dataIndex];
+                                                    if ( c.filter ){
+                                                        data = c.filter( data ); 
+                                                    }
+                                                    if ( data ){
+                                                        d.innerHTML = data;
+                                                        d.setAttribute('title', c.tooltip+data);
+                                                    }
                                                 }else{
                                                     c.dataIndex(row, d);
                                                 }
@@ -262,21 +303,22 @@ so.result = {
                     });
         },
 
-        cleanGrid: function ( data ){
-
-                    CQ.Ext.each(so.grid.panel, function(p, i, a){
-
-                        CQ.Ext.each(p.table, function(h, i, a){
-
-                            var col = 0;
-                            CQ.Ext.each(h.columns, function(c, i, a){
-
-                                var x = document.getElementById(h.id+'-'+col++);
-                                $CQ('div', x).remove();
-                            });                        
-                        });
-                    });
-        },
+//deprecated: don't have to clean it 'cause i reload it every time
+        //cleanGrid: function ( data ){
+//
+//                    CQ.Ext.each(so.grid.panel, function(p, i, a){
+//
+//                        CQ.Ext.each(p.table, function(h, i, a){
+//
+//                            var col = 0;
+//                            CQ.Ext.each(h.columns, function(c, i, a){
+//
+//                                var x = document.getElementById(h.id+'-'+col++);
+//                                $CQ('div', x).remove();
+//                            });                        
+//                        });
+//                    });
+//        },
 
     //******* SEARCH ATTRIBUTES FUNCTIONS ***********************
 
@@ -285,10 +327,11 @@ so.result = {
         var d = document.createElement('div');
         d.setAttribute('id', 'sni-search');
         d.setAttribute('class', 'sni-split');
+        d.setAttribute('title', 'current search attributes');
         d.innerHTML = [
                         '<span class="sni-split-label">',
                         '<span class="sni-split-icon">-</span>',
-                        ' current search attributes',
+                        so.isIE8() ? '' : ' current search attributes',
                         '</span>'
         ].join('');
         $CQ(d).click( so.result.clickSplitSearch );
@@ -305,7 +348,7 @@ so.result = {
         b.setAttribute('class', 'sni-atts-buttons');
         b.innerHTML = [
                 '<li><a id="sni-modify-search-button" href="#" >modify search</a></li>',
-                '<li><a id="sni-new-search-button" href="javascript: void 0" target="top">new search</a></li>'
+                '<li><a id="sni-new-search-button" href="javascript: void 0" target="_top">new search</a></li>'
         ].join('');
 
         var x = so.result.doSelections();
@@ -331,7 +374,7 @@ so.result = {
             c += x.negated ? ' sni-s-exclusion' : ' sni-s-inclusion';
             v = so.selection.getValue(x);
             v = x.field === 'filterURL' ? v : so.getLabel(v);
-            b.push('<li class="'+c+'">'+x.field+' = '+ v +' <span class="sni-selections-size">'+so.format2Thousand(x.count)+'</span></li>');
+            b.push('<li class="'+c+'">'+x.field+' = '+ v +' <span class="sni-selections-size">'+so.format( x.count )+'</span></li>');
         }
         return b;
     },
@@ -488,7 +531,7 @@ so.result = {
 
     displayTotal:function(){
 
-        return so.format2Thousand(so.result.getTotal());
+        return so.format( so.result.getTotal() );
     },
 
     getValue: function( index, field ){
@@ -529,15 +572,18 @@ so.result = {
 
             document.body.appendChild(m);
 
-            //fix headers to work with doColumnDraggable.
-            so.result.doHeaderDraggable();
+            if ( !so.isIE8() ){
+            
+                //fix headers to work with doColumnDraggable.
+                so.result.doHeaderDraggable();
 
-            //this col wont be draggable ( modify assets )
-            so.removeClass( 'sni-drag', document.querySelector('.sni-first-col .sni-drag') );
+                //this col wont be draggable ( modify assets )
+                so.removeClass( 'sni-drag', document.querySelector('.sni-first-col .sni-drag') );
 
-            $CQ('.sni-grid .sni-expandable').each(function(){
+                $CQ('.sni-grid .sni-expandable').each(function(){
                   so.result.doColumnDraggable( this );
-            });
+                });
+            }
 
             //actions
             $CQ('#sni-modify-search-button').click( so.g.showDashboard );
@@ -545,7 +591,6 @@ so.result = {
             $CQ('.sni-data .sni-first-col').click( so.result.clickHistory );
             $CQ('.sni-first-col .sni-col-title').click( so.result.clickMAF ); //modify assets
             $CQ('.sni-detail-button a').click( so.result.clickDetail );
-            
 
             var e = so.result.getSelectionEntries();
             document.querySelector('.sni-selections-list').innerHTML = e.join('');
@@ -585,6 +630,19 @@ so.result = {
         }else{
             so.detail.open( so.result.pageViews );
         }
+    },
+
+    sort: function(field, order){
+        var dashboard = so.g.getDashboard();
+        dashboard && (dashboard.style.display = "block"); //display loading animation
+        location = 'sni-site-optimizer.result.html?'+encodeURI(JSON.stringify({"sort":{"field":field, "order":order}, "currentExpressions":so.g.currentExpressions}));
+    },
+
+    scrollToColumn: function( col_name, offset ){
+        if ( !col_name ) return;
+        offset = !offset ? 0 : offset;
+        offset = $CQ('[data-sni-dataindex='+col_name+']').position().left + offset;
+        $CQ(window).scrollLeft( offset );
     }
 
 };  

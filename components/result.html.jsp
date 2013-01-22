@@ -16,19 +16,7 @@ Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 <script src="/etc/clientlibs/foundation/jquery-ui.js" type="text/javascript"></script>
 <script type="text/javascript">
 var so = {
-  g: parent.so,
-
-  whenDisplay: function(){
-
-      so.rest.requestAssets({page:1, sort:{"type":"sorting", "field":"title", "order":"DESC"}}, so.rest.handleResultPage);
-  },
-
-  whenHide: function(){
-      
-      //so.result.cleanGrid();
-      //so.result.cleanAttributePanel();
-  }
-
+  g: parent.so
 };
 </script>
 <script src="/apps/sni-site-optimizer/clientlib/js/so.js" type="text/javascript"></script>
@@ -42,16 +30,22 @@ var so = {
 <!-- <script src="/apps/sni-site-optimizer/clientlib/js/detail.js" type="text/javascript"></script> -->
 <script>
         CQ.Ext.onReady(function(){
+            
+            var q ={}, f = "title", o="DESC";
 
             //load data if querystring is provided otherwise will load later.
             if (location.search){
-              var q = location.search.substring(1);
-              so.g.currentExpressions = JSON.parse(decodeURI(q));
+              q = location.search.substring(1);
+              q = JSON.parse(decodeURI(q));
+              so.g.currentExpressions = q.currentExpressions;
             }
 
+            so.result.sortField = q.sort ? q.sort.field : 'title';
+            so.result.sortOrder = q.sort ? q.sort.order : 'DESC';
+            
             so.g.userid = '<%=session.getUserID()%>';
 
-            so.whenDisplay();
+            so.rest.requestAssets({page:1, sort:{"type":"sorting", "field":so.result.sortField, "order":so.result.sortOrder}}, so.rest.handleResultPage);
             
         }); //end onReady
 </script>

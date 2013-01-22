@@ -106,7 +106,7 @@ background-color: #FFD700;
 	border-radius:0px;
 }
 
-#CQ #rating .x-form-check-wrap{
+/* #CQ #rating .x-form-check-wrap{
 	padding-left:13px;
 }
 
@@ -117,7 +117,7 @@ background-color: #FFD700;
 #CQ #rating .x-form-check-wrap label{
 	position:relative;
 	left:-22px;
-}
+} */
 
 #CQ #sni-reviewcount-wrapper .x-form-field-trigger-wrap:first-child, #CQ #sni-cooktime-wrapper .x-form-field-trigger-wrap:first-child{
 	margin-right:3px;

@@ -75,20 +75,21 @@ var so = {
             d.style.display = 'none';
             d.style.textAlign = 'center';
             d.style.fontSize = '1.5em';
-            d.innerHTML = '<br><br>excellent query!<br><br>please wait while we fetch your data<br><br><img src="/apps/sni-site-optimizer/clientlib/css/loader.gif">';
+            d.innerHTML = '<br><br><br><br>please wait while we fetch your data<br><br><img src="/apps/sni-site-optimizer/clientlib/css/loader.gif">';
             document.body.appendChild(d);
             
             
 
             //load data if querystring is provided otherwise will load later.
             if (location.search){
-              var query = location.search.substring(1);
-              so.g.currentExpressions = JSON.parse(decodeURI(query));
+              var q = location.search.substring(1);
+              q = JSON.parse(decodeURI(q));
+              so.g.currentExpressions = q.currentExpressions;
               so.selection.redo();
             }
 
         }); //end onReady
 </script>
 </head>
-<body></body>
+<body style="width:1222px"></body><!-- page was designed for 1222px -->
 </html>

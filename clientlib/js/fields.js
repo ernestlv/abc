@@ -1,15 +1,15 @@
 (function(so){
 so.fields={
-            filterTitle:so.form.setFilter({
-                          id: 'filterTitle',
+            title:so.form.setFilter({
+                          id: 'title',
                           fieldLabel:'filter By:',
-                          width:392         
+                          width: 392         
             }),
 
-            filterURL:so.form.setFilter({
-                          id: 'filterURL',
+            url:so.form.setFilter({
+                          id: 'url',
                           fieldLabel: 'filter By:',
-                          width:392                 
+                          width: 392                 
             }),
 
             //property name must match DB name.
@@ -50,7 +50,7 @@ so.fields={
               }),
 
               general:so.form.setCombo({ //combo
-                  id:'general-subjects',
+                  id:'general_subjects',
                   fieldLabel:'general subject:',
                   width: 114
               }),
@@ -175,7 +175,6 @@ so.fields={
                   id:'review_count_max',
                   //fieldLabel:'max:',
                   emptyText:'max',
-                  
                   width: 80,
                   listeners:{
                     select:function (combo, record, index){//runs when value is selected
@@ -342,7 +341,7 @@ so.fields={
               }),  
 
               mealType:so.form.setCombo({ //combo
-                  id:'main_type',
+                  id:'meal_type',
                   fieldLabel:'meal type:',
                   width: 193
               }), 
@@ -402,7 +401,7 @@ so.fields={
               }),
 
               cookware:so.form.setCombo({ //combo
-                  id:'cookware',
+                  id:'cookware_and_gadgets',
                   fieldLabel:'cookware & gadgets:',
                   width: 180
               }),   

@@ -58,7 +58,7 @@ so.subcol = {
               html: so.selection.doButton(),
               listeners:{
                 afterrender:function(){
-                  $CQ('#sni-selection .sni-get-assets a').click(so.g.showResult);
+                  $CQ('#sni-selection .sni-get-assets').click(so.g.showResult);
                 }
               }
       }),
@@ -221,8 +221,8 @@ so.column = {
                             border:false,
                             style:{
                               margin:'0px',
-                              position:'fixed',
-                              zIndex:'10001',
+                              //position:'fixed',  if you enable this you need to enable so.fixTopMargin(). you also need to enable zIndex.
+                              //zIndex:'10001', enable when position fix is enabled. you also need to enable document.body.style.overflow and hidden event in lightbox.js
                               padding:'20px 10px 15px'
                             },
                             bodyCssClass:'sni-selection-body',

@@ -194,7 +194,7 @@ body{
     border-right: 1px solid #fff;
 }
 
-.sni-p-table .sni-t-wrapper:last-child th:last-child .sni-first-col{
+#sni-panel-1-wrapper th .sni-first-col{
     background: #609030 url('maf_plus.png') no-repeat 95% 50%;
     text-align:left;
     color:#000;
@@ -210,6 +210,7 @@ body{
     height:100%;
     padding-left:.5em;
     color:#000;
+    cursor:pointer;
 }
 
 .sni-split-label{
@@ -272,6 +273,11 @@ body{
     display:inline-block; 
     overflow:hidden;
     color: #000;
+    cursor: pointer;
+}
+
+.sni-table .sni-resizable.sni-column-expanded{
+    text-align:left;
 }
 
 .sni-table td{
@@ -279,6 +285,8 @@ body{
     font-size: .8em;
     vertical-align:top;
 }
+
+
 
 .sni-table .sni-col-title{
     display:inline-block; 
@@ -288,8 +296,19 @@ body{
     overflow:hidden;
     height: 32px; /* height for a two row title */
     padding: 5px;
+    text-overflow:ellipsis;
+    cursor:pointer;
     
 }
+
+ .sni-table .sni-sorted-ASC .sni-col-title{
+    background: url('arrow-up.gif') no-repeat 98% 9px;
+}
+
+.sni-table .sni-sorted-DESC .sni-col-title{
+    background: url('arrow-down.gif') no-repeat 98% 9px;
+}
+
 
 .sni-table .sni-drag{
     display:inline-block; 
@@ -305,12 +324,18 @@ body{
     background-color: #e0e0e0;
     height:32px;
     padding:5px 5px 5px 15px;
+    /** added to handle long values **/
+    overflow: hidden;
+    text-overflow:ellipsis;
 }
 
 .sni-table .sni-cell-even{
     background-color: #fff;
     height:32px;
     padding:5px 5px 5px 15px;
+    /** added to handle long values **/
+    overflow: hidden;
+    text-overflow:ellipsis;
 }
 
 .sni-first-col .sni-cell-odd, .sni-first-col .sni-cell-even{
@@ -340,17 +365,21 @@ body{
     position:relative;
 }
 
-.sni-p-table .sni-t-wrapper:last-child th:last-child .sni-first-col.sni-maf-expanded{
+#sni-panel-1-wrapper th .sni-first-col.sni-maf-expanded{
     background-image: url('maf_minus.png');
     background-position-x: 375px;
 }
 
 .sni-table .sni-maf-expanded .sni-col-title{
-    width:388px !important; /* we need !important because js sets a width inline */
+    width:404px !important; /* we need !important because js sets a width inline */
+}
+
+.sni-maf-form #CQ{
+    position:relative;
 }
 
 #CQ.sni-CQ-wrapper{
-    padding:50px 25px 0px 25px;
+    padding:20px 25px 0px 25px;
     width:230px;
 }
 

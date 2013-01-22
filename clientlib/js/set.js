@@ -7,7 +7,7 @@ so.tab = {
                           title:'title',
                           labelWidth:50,
                           items:[
-                            so.form.createComposite('filterTitle')
+                            so.form.createComposite('title')
                           ]
                   }),
 
@@ -16,7 +16,7 @@ so.tab = {
                           title:'url',
                           labelWidth:50,
                           items:[
-                            so.form.createComposite('filterURL')
+                            so.form.createComposite('url')
                           ]
                   })
 
@@ -112,7 +112,7 @@ so.set = {
                 id:'sni-searchterm-set',
                 title : 'search term',
                 height: 105,
-                width: 598-30-10,   //width of the column less the left and right margin of the setfield less the left blue border
+                //width: '50%', //598-30-10,   //width of the column less the left and right margin of the setfield less the left blue border
                 style:{
                   margin: '20px 10px 20px 20px'
                 },
@@ -123,7 +123,7 @@ so.set = {
                 id:'sni-content-set',
                 title : 'content tags',
                 height: 105,
-                width: 598-30-10, //width of the column less the left and right margin of the setfield less the right blue border
+                //width: '50%', //598-30-10, //width of the column less the left and right margin of the setfield less the right blue border
                 style:{
                   margin: '20px 20px 20px 10px'
                 },
@@ -147,7 +147,7 @@ so.set = {
 
       assetC : so.db.setFieldset({
                 id:'sni-assetC-set',
-                title:'asset clasification', 
+                title:'asset classification', 
                 width:253,
                 style:{
                   margin: '20px 10px 20px 20px'

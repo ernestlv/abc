@@ -30,13 +30,15 @@ so.lightbox = {
         }
       }
 
-      this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
-      document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of lightbox when user scrolls popup
+      //the two lines commented below are related to selection : so.db.setColumn -> position fixed in column.js
+      //this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
+      //document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of lightbox when user scrolls popup
     },
 
-    hide:function(){ //fires when popup window is hidden
-      document.body.style.overflow = 'auto';
-    }
+    //the lines commented below are related to selection : so.db.setColumn -> position fixed in column.js
+    //hide:function(){ //fires when popup window is hidden
+      //document.body.style.overflow = 'auto';
+    //}
 
   },
 
@@ -134,22 +136,22 @@ so.lightbox = {
   getContent : function( data ){
     var i, l, group = [], content = [];
     if ( data.length > 0 ){
-        if (!so.lightbox.currentHeader){
-          so.lightbox.currentHeader = data[0].value.slice(0,1);
+        if ( !so.lightbox.currentHeader ){
+          so.lightbox.currentHeader = so.trim( data[0].value ).toLowerCase().slice(0,1);
         }
         for( i=0; i<data.length; i++ ){
-          l = data[i].value.slice(0,1);
-          if (l == so.lightbox.currentHeader){
-            group.push(data[i]);
+          l = so.trim( data[i].value ).toLowerCase().slice(0,1);
+          if ( l === so.lightbox.currentHeader ){
+            group.push( data[i] );
           }else{
-            content.push(so.lightbox.setGroup(so.lightbox.currentHeader, group));
+            content.push( so.lightbox.setGroup( so.lightbox.currentHeader, group ) );
             group = [];
             so.lightbox.currentHeader = l;
             so.lightbox.isSetHeader = false;
-            group.push(data[i]);
+            group.push( data[i] );
           }
         }
-        content.push(so.lightbox.setGroup(so.lightbox.currentHeader, group));
+        content.push( so.lightbox.setGroup( so.lightbox.currentHeader, group ) );
     }
     return content;
   },

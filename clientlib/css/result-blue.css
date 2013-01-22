@@ -6,7 +6,6 @@ body{
 
 .sni-split{
     background-color: #ff9b36;
-    color:#000;
 }
 
 .sni-split-icon{
@@ -61,6 +60,11 @@ body{
     background-color: #c1c7d1;
     border-right-color: #c1c7d1;
     color: #000;
+}
+
+.sni-table .sni-col-border.sni-sorted-ASC, .sni-table .sni-col-border.sni-sorted-DESC{
+    background-color: #c1b7d1;
+    border-right-color: #c1b7d1;
 }
 
 .sni-table .sni-drag{

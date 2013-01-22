@@ -19,6 +19,7 @@ so.rest = {
                 $CQ.ajax({
                         url:'/imp/report/field',
                         dataType: 'json', 
+                        cache:false,
                         data: data,
                         success: handler,
                         error: function(){
@@ -29,28 +30,18 @@ so.rest = {
 
         //call the service to evaluate filters
         //IMPORTANT: The order filters are evaluated are based on your visual index inclusions first exclusions second.
-        requestFilter: function( selection, handler ){
+        requestFilter: function( handler ){
 
-                //this is true when is call from "so.selection.redo()".
-                if ( arguments.length === 1 ){ 
-                    handler = selection;
-                    if ( so.isEmpty( so.g.addedExpressions ) ){ //this is true when we remove the very last filter and inclusion and exclusion lists are empty
-                      so.selection.displaySize( 0 );
-                      return;
-                    }
-                }else{ //this is executed when this function is directly called from one of the rest handlers and not thru "redo()"
-                    var isEmpty = so.selection.doEmpty( selection );
-                    if ( isEmpty ){ //this is true when a user manually clears a field value
-                      return;
-                    }
-                    so.g.addedExpressions = so.selection.getExpressionType( selection ); //here the selection becomes an expression
-                    delete so.g.currentExpressions[selection.field]; //we remove selection from the current expressions since it is already in the added expression
-               }
+                //this is true when we remove the very last filter and inclusion and exclusion lists are empty
+                if ( so.isEmpty( so.g.addedExpressions ) ){
+                  so.selection.displaySize( 0 );
+                  return;
+                }
 
                 //compose filters based on visual index.
                 var currentFilters = {
                         "type":"filters",
-                        "expressions":so.selection.get( so.g.currentExpressions ) //if requestFilter() is called form redo() this always will be empty
+                        "expressions":[]
                 };
                 
                 var addedFilters = {
@@ -70,6 +61,7 @@ so.rest = {
                 $CQ.ajax({
                   url:'/imp/report/filters',
                   dataType: 'json', 
+                  cache:false,
                   data: data,
                   success: handler,
                   error:function(){
@@ -95,7 +87,8 @@ so.rest = {
         
             $CQ.ajax({
                 url:'/imp/report/assetlist',
-                dataType: 'json', 
+                dataType: 'json',
+                cache:false,
                 data: data,
                 success: handler,
                 error:function(){
@@ -120,6 +113,7 @@ so.rest = {
             $CQ.ajax({
                 url:'/imp/report/pageviews',
                 dataType: 'json', 
+                cache:false,
                 data: data,
                 success: handler,
                 error: function(){
@@ -188,7 +182,8 @@ so.rest = {
         
             $CQ.ajax({
                 url:'/imp/assets',
-                dataType: 'json', 
+                dataType: 'json',
+                cache:false, 
                 data: data,
                 success: handler,
                 error: function(){}
@@ -200,6 +195,7 @@ so.rest = {
                 $CQ.ajax({
                         url:'/imp/resource/'+resource,
                         dataType: 'json',
+                        cache:false,
                         success: handler
                 });
         },
@@ -215,6 +211,7 @@ so.rest = {
                 $CQ.ajax({
                   url:'/imp/report/changehistory',
                   dataType: 'json', 
+                  cache:false,
                   data: data,
                   success: handler,
                   error: function(){} 
@@ -238,7 +235,8 @@ so.rest = {
  
                 $CQ.ajax({
                         url:'/imp/report/field',
-                        dataType: 'json', 
+                        dataType: 'json',
+                        cache:false, 
                         data: data,
                         success: handler,
                         error: function(){
@@ -454,11 +452,13 @@ so.rest = {
                   document.querySelector('#sni-loaded-assets .count').innerHTML = so.result.displayTotal();
                   so.rest.requestPageViews( {}, so.rest.handlePageViews );
 
+                  so.result.scrollToColumn( so.result.sortField, -484 );
+
                   //console.log((new Date())+'data load done');
         },
 
         handlePageViews:function(data){
-                  var v = so.format2Thousand( data.totalPageViews );
+                  var v = so.format( data.totalPageViews );
                   document.querySelector('#sni-total-page-views .count').innerHTML = v;
                   so.result.pageViews = data;
         },
@@ -527,7 +527,7 @@ so.rest = {
         var f = so.grid.fields, l = f.length, i, w, x=[];
         for (i=0; i<l; i++){
           w = data[f[i].name];
-          x.push( w ? w.value : '???' );
+          x.push( w ? w.valueLabel : '' );
         }
         return x;
       }

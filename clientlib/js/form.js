@@ -1,4 +1,5 @@
 (function(so){
+
 so.form = {
    //********** EXTJS CONSTRUCTORS *****************
 
@@ -56,7 +57,7 @@ so.form = {
       xtype:'button',
       text:'add',
       handler: function(){
-        debugger;
+      
         so.rest.handleFilter(f.id);
       }
     };

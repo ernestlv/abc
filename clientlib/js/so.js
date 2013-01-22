@@ -65,7 +65,7 @@
 
 		  so.isReset = false;
 
-		  so.reset = function(field){
+		  so.reset = function( field ){
 		    var o = CQ.Ext.getCmp(field);
 		    //extjs will fire a check event several times for checkboxes, since a checkbox may be multi-value.
 		    //site optimizer will fire an ajax transaction everytime a check event is fired.
@@ -77,7 +77,7 @@
 
 		  //fix sectionsince sni-selection is fixed position
 		  so.fixTopMargin = function(){
-		    document.getElementById('sni-global').style.marginTop = document.getElementById('sni-selection').offsetHeight + 'px';
+		    //document.getElementById('sni-global').style.marginTop = document.getElementById('sni-selection').offsetHeight + 'px';
 		  };
 
 		  so.getSelectedRatings = function(){
@@ -90,7 +90,7 @@
 		  };
 
 		  //originally used for review count and cook time.
-		  so.getSelectedRange = function(field, cmp){
+		  so.getSelectedRange = function( field, cmp ){
 		    var cmpMin = CQ.Ext.getCmp(field+'_min');
 		    var cmpMax = CQ.Ext.getCmp(field+'_max');
 		    var v1 = cmpMin.getValue().split('||')[0];
@@ -100,23 +100,26 @@
 		    return [v1,v2];
 		  };
 
-		  so.format2Thousand = function(v){
-		    return v>=1000000 ? Math.round(v/1000000) + 'mm' : v >= 1000 ? Math.round(v/1000) + 'k' : v;
+		  so.format = function( data ){
+		    return data >= 1000000 ? Math.round( data/1000000 ) + 'mm' : data >= 1000 ? Math.round( data/1000 ) + 'k' : data;
 		  };
 
-		  so.getLabels = function( v ){
-		    v = !v ? [] : [].concat( v ); //normalize
-		    var l = v.length, i, x;
-		    var b = [];
-		      for( i=0; i<l; i++ ){
-		        x = v[i].split('/');
-		        b.push( x[ x.length-1 ] );
-		      }
-		    return b;
+		  so.filter = function( data ){
+       		 //then returns <text> after last / or :
+        	return data && data.match( /[^\/\:]+$/ )+"" || '';
+    	  };
+
+		  so.getLabel = function( data ){
+		  	data = !data ? [] : [].concat( data ); //normalize
+		    var i, b = [];
+		    for( i=0; i<data.length; i++ ){
+		        b.push( so.filter( data[i] ) );
+		    }
+		    return b.join(',');
 		  };
 
-		  so.getLabel = function( v ){
-		    return so.getLabels( v ).join(',');
+		  so.isIE8 = function(){
+		  	return $CQ.browser.msie && parseInt( $CQ.browser.version, 10 ) < 9;
 		  };
   
     
@@ -130,19 +133,27 @@
 		      //if true we r in result page then dashboard is null.
 		      //otherwise we r in dashboard page then we return contentWindow to access window like an iframe
 		      //since other functions assume they are running inside iframe
-		      return so.whenDisplay ? null : { contentWindow:window };
+		      return so.result ? null : { contentWindow:window };
 		    },
 		    getResult:function(){
 		      //if true we r in result page then we return contentWindow to access window like an iframe
 		      //since other functions assume they are running inside iframe
 		      //otherwise we r in dashboard page and result is null
-		      return so.whenDisplay ? { contentWindow:window } : null;
+		      return so.result ? { contentWindow:window } : null;
 		    },
 		    showResult:function(){
-		      location = 'sni-site-optimizer.result.html?'+encodeURI(JSON.stringify(so.g.currentExpressions));      
+		    	if (!so.isEmpty(so.g.currentExpressions)){
+		    		location = 'sni-site-optimizer.result.html?'+encodeURI(JSON.stringify( {"currentExpressions":so.g.currentExpressions}));      
+		    	}else{
+		    		location = 'sni-site-optimizer.result.html';
+		    	}
 		    },
 		    showDashboard:function(){
-		      location = 'sni-site-optimizer.dashboard.html?'+encodeURI(JSON.stringify(so.g.currentExpressions));
+		    	if (!so.isEmpty(so.g.currentExpressions)){
+		      		location = 'sni-site-optimizer.dashboard.html?'+encodeURI(JSON.stringify({"currentExpressions":so.g.currentExpressions}));
+		      	}else{
+		      		location = 'sni-site-optimizer.dashboard.html';
+		      	}
 		    },
 		    newDashboard:function(){
 		       location = '/apps/wcm/core/content/sni-site-optimizer.dashboard.html';

@@ -3,14 +3,14 @@ so.history = {
 
   win:null,
   listeners:{
-                show:function(){ //fires when popup window is shown
-                  this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
-                  document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of history when user scrolls popup
-                },
+                //show:function(){ //fires when popup window is shown
+                //  this.el.dom.style.zIndex=10003; //fix to render properly since "your selection" area is fixed
+                //  document.body.style.overflow = 'hidden'; //we need this to not scroll body in background of history when user scrolls popup
+                //},
 
-                hide:function(){ //fires when popup window is hidden
-                  document.body.style.overflow = 'auto';
-                }
+                //hide:function(){ //fires when popup window is hidden
+                //  document.body.style.overflow = 'auto';
+                //}
 
     },
 
@@ -19,7 +19,7 @@ so.history = {
         for (i=0; i<data.length; i++){
             x = data[i];
             d = new Date( x.changeDate ).format('mmm dth, yyyy hh:mm a/p'); //format() is defined in so.js
-            b.push('<tr><td class="sni-date">'+d+'</td><td class="sni-user">'+x.user+'</td><td class="sni-attribute">'+x.attribute+'</td><td class="sni-from-value">'+x.fromValue+'</td><td class="sni-to-value">'+x.toValue+'</td></tr>');
+            b.push('<tr><td class="sni-date">'+d+'</td><td class="sni-user">'+x.user+'</td><td class="sni-attribute">'+x.attribute+'</td><td class="sni-from-value">'+so.getLabel( x.fromValue )+'</td><td class="sni-to-value">'+so.getLabel( x.toValue )+'</td></tr>');
         }
         
         return b.join('');

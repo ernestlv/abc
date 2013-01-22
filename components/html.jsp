@@ -152,27 +152,32 @@
 
                 return document.querySelector('iframe#sni-result');
             },
-            showResult:function(){
+            showResult:function( evt, sort ){
                 
-                //show loading icon. Result iframe will be shown in ajax callback
+                //show loading icon. Result/Dashboard iframes will be shown/hid in ajax callback
                 var dashboard = so.getDashboard();
-                var dom = dashboard.contentWindow.document;
-                dom.getElementById('sni-loading').style.display='block';
-                dom.getElementById('CQ').style.display='none';
                 var result = so.getResult();
-                result.src = 'sni-site-optimizer.result.html';  //replace whenDisplay()
+                if ( evt.metaKey && result.src !== 'about:blank' ){
+                    dashboard.style.display = 'none';
+                    result.style.display = 'block'; 
+                }else{
+                    var dom = dashboard.contentWindow.document;
+                    dom.getElementById('sni-loading').style.display='block';
+                    dom.getElementById('CQ').style.display='none';
+                    result.src = 'sni-site-optimizer.result.html';
+                }
             },
             showDashboard:function(){
 
                 //show dashboard iframe. we need to hide loading icon previously displayed in showResult()
                 var dashboard = so.getDashboard();
+                var result = so.getResult();
                 var dom = dashboard.contentWindow.document;
                 dom.getElementById('sni-loading').style.display='none';
                 dom.getElementById('CQ').style.display='block';
-                var result = so.getResult();
+                //show/hide iframes
                 dashboard.style.display = 'block';
                 result.style.display = 'none';
-                result.contentWindow.so.whenHide();
             },
             newDashboard:function(){
                 

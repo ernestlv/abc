@@ -1,4 +1,5 @@
 (function(so){
+   
 so.maf = {
 
     doForm:function( fields ){
@@ -180,13 +181,24 @@ so.maf = {
 
             //create extjs combos and setup events
             so.each(so.fields, so.maf.doSection);
-            //so.maf.show = false;
 
-            so.maf.do = so.maf.hide;
+            //DO NOT CHANGE: ie8 needs this line to resize the result table properly
+            so.isIE8() && $CQ('.sni-p-content:first-child').width('auto');
+
+            //scroll the maf form along with the page.
+            //ie8 will report the scrollTop position as zero when inside an iframe.
+            $CQ( window ).scroll(function(){
+
+                var offset = $CQ( this ).scrollTop();
+                offset < 10130 && $CQ('#CQ').css({top:offset});
+            });
+            
+            so.maf.doIt = so.maf.hide;
 
     },
 
     hide:function(){
+
         //destroy extjs cmps
         CQ.Ext.getCmp( 'preferred_term' ).destroy();
         CQ.Ext.getCmp( 'alternate_term' ).destroy();
@@ -200,7 +212,10 @@ so.maf = {
         var e = document.querySelector('.sni-first-col .sni-col-title');
         so.removeClass('sni-maf-expanded', e.parentNode);
 
-        so.maf.do = so.maf.show;  
+        //DO NOT CHANGE: ie8 needs this line to resize the result table properly
+        so.isIE8() && $CQ('.sni-p-content:first-child').width('');
+
+        so.maf.doIt = so.maf.show;  
     },
 
     open:function(){
@@ -211,10 +226,10 @@ so.maf = {
             return;
         }
 
-        if ( so.maf.do  === undefined ){ //true the first time i click maf button
+        if ( so.maf.doIt  === undefined ){ //true the first time i click maf button
             so.maf.show();
         }else{
-            so.maf.do();
+            so.maf.doIt();
         }        
     },
 
