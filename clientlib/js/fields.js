@@ -34,31 +34,32 @@ so.fields={
             category:so.form.setCombo({ //extjs combo
                   id:'category',
                   fieldLabel:'category:',
-                  width: 114
+                  width: 163
               }),
 
               section:so.form.setCombo({ //combo
                   id:'section',
                   fieldLabel:'section:',
-                  width: 114
+                  width: 163
               }),
 
               source:so.form.setCombo({ //combo
                   id:'source',
                   fieldLabel:'source:',
-                  width: 114
+                  width: 163
               }),
 
-              general:so.form.setCombo({ //combo
+              general:so.form.setLightbox({ //combo
                   id:'general_subjects',
-                  fieldLabel:'general subject:',
-                  width: 114
+                  fieldLabel:'general subjects:',
+                  width: 125,
+                  menuOff: true
               }),
 
-            asset_type:so.form.setLightbox({
+            asset_type:so.form.setCombo({
                   id: 'asset_type',
                   fieldLabel: 'asset type:',
-                  width: 108                                                                         
+                  width: 144                                                                         
             }),    
 
             has_image:so.form.setRadio({
@@ -319,91 +320,91 @@ so.fields={
               occasions:so.form.setLightbox({
                           id: 'occasions',
                           fieldLabel: 'occasions:',
-                          width:145                                                                         
+                          width:143                                                                    
               }),
 
               season:so.form.setLightbox({
                           id: 'season',
                           fieldLabel: 'season:',
-                          width:145                                                                         
+                          width:143                                                                      
               }), 
 
               whos_dining:so.form.setLightbox({
                           id: 'whos_dining',
                           fieldLabel: "who's dining:",
-                          width:145                                                                 
+                          width:143                                                             
               }), 
 
-              mealPart:so.form.setCombo({ //combo
+              mealPart:so.form.setLightbox({ //combo
                   id:'meal_part',
                   fieldLabel:'meal part:',
-                  width: 193
+                  width: 155
               }),  
 
-              mealType:so.form.setCombo({ //combo
+              mealType:so.form.setLightbox({ //combo
                   id:'meal_type',
                   fieldLabel:'meal type:',
-                  width: 193
+                  width: 155
               }), 
 
               main_ingredient:so.form.setLightbox({
                           id: 'main_ingredient',
                           fieldLabel: 'main ingredient:',
-                          width:157                                                                
+                          width:155                                                               
               }),  
 
               dish:so.form.setLightbox({
                           id: 'dish',
                           fieldLabel: 'dish:',
-                          width:157                                                                    
+                          width:155                                                                 
               }), 
 
-              drinks:so.form.setCombo({ //combo
+              drinks:so.form.setLightbox({ //combo
                   id:'drinks',
                   fieldLabel:'drinks:',
-                  width: 193
+                  width: 155
               }),  
 
               herbs_and_spices:so.form.setLightbox({
                           id: 'herbs_and_spices',
                           fieldLabel: 'herbs & spices:',
-                          width:155                                                                      
+                          width:155                                                                    
               }),  
 
               cuisine:so.form.setLightbox({
                           id: 'cuisine',
                           fieldLabel: 'cuisine:',
-                          width:145                                                                     
+                          width:143                                                           
               }),  
 
-              cooking:so.form.setCombo({ //combo
+              cooking:so.form.setLightbox({ //combo
                   id:'cooking_styles',
                   fieldLabel:'cooking styles:',
-                  width: 180
+                  width: 143
               }),  
 
-              nutrition:so.form.setCombo({ //combo
+              nutrition:so.form.setLightbox({ //combo
                   id:'nutrition',
                   fieldLabel:'nutrition:',
-                  width: 180
+                  width: 143
               }),  
 
-              taste:so.form.setCombo({ //combo
+              taste:so.form.setLightbox({ //combo
                   id:'taste',
                   fieldLabel:'taste:',
-                  width: 180
+                  width: 143
               }), 
 
-              technique:so.form.setCombo({ //combo
+              technique:so.form.setLightbox({ //combo
                   id:'technique',
                   fieldLabel:'technique:',
-                  width: 180
+                  width: 143
               }),
 
-              cookware:so.form.setCombo({ //combo
+              cookware:so.form.setLightbox({ //combo
                   id:'cookware_and_gadgets',
                   fieldLabel:'cookware & gadgets:',
-                  width: 180
+                  width: 143
               }),   
 
               show_title:so.form.setLightbox({
@@ -412,10 +413,10 @@ so.fields={
                           width:224                                                                   
               }),
 
-              show_abbr:so.form.setLightbox({
+              show_abbr:so.form.setCombo({
                           id: 'show_abbr',
                           fieldLabel: 'abbreviation:',
-                          width:224                                                                
+                          width:260                                                                
               }), 
 
               talent:so.form.setLightbox({

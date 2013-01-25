@@ -78,8 +78,10 @@ so.form = {
       handler: function(){
           
           so.rest.getLightbox({ 
-              field:f.id, //id must match DB name
-              title:f.fieldLabel.replace(':','')
+              field: f.id, //id must match DB name
+              title: f.fieldLabel.replace(':',''),
+              sni_multi: f.sni_multi,
+              menuOff: f.menuOff
           });
       }
     };

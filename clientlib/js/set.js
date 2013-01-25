@@ -56,9 +56,7 @@ so.side = {
                                           margin:'25px 5px'
                                         },
                                         items:[
-                                          so.form.createComposite('content_tag1', {
-                                              width:140
-                                          }) 
+                                          so.form.createComposite('content_tag1') 
                                         ]                                
                 },
 
@@ -71,9 +69,7 @@ so.side = {
                                           margin:'25px 5px'
                                         },
                                         items:[
-                                          so.form.createComposite('content_tag2', {
-                                              width:140
-                                          })
+                                          so.form.createComposite('content_tag2')
                                         ]                              
                 },
 
@@ -99,7 +95,7 @@ so.side = {
                                           margin:'0px 5px'
                                         },
                                         items:[
-                                          so.form.createComposite('show_abbr')
+                                          so.form.createCombo('show_abbr')
                                         ] 
                 }
 
@@ -152,11 +148,12 @@ so.set = {
                 style:{
                   margin: '20px 10px 20px 20px'
                 },
+                labelWidth:50,
                 items:[
                 so.form.createCombo('category'),
                 so.form.createCombo('section'),
                 so.form.createCombo('source'),
-                so.form.createCombo('general')
+                so.form.createComposite('general')
       ]}),
 
       format : so.db.setFieldset({
@@ -168,7 +165,7 @@ so.set = {
                 },
                 labelWidth:70,
                 items:[
-                so.form.createComposite('asset_type'),
+                so.form.createCombo('asset_type'),
                 so.form.createRadio('has_image')
       ]}),
 
@@ -288,11 +285,11 @@ so.set = {
                   marginTop: '10px'
                 },
                 items:[
-                so.form.createCombo('mealPart'),
-                so.form.createCombo('mealType'),
+                so.form.createComposite('mealPart'),
+                so.form.createComposite('mealType'),
                 so.form.createComposite('main_ingredient'),
                 so.form.createComposite('dish'),
-                so.form.createCombo('drinks'),
+                so.form.createComposite('drinks'),
                 so.form.createComposite('herbs_and_spices')
       ]}),
 
@@ -308,11 +305,11 @@ so.set = {
                 },
                 items:[
                 so.form.createComposite('cuisine'),
-                so.form.createCombo('cooking'),
-                so.form.createCombo('nutrition'),
-                so.form.createCombo('taste'),
-                so.form.createCombo('technique'),
-                so.form.createCombo('cookware')
+                so.form.createComposite('cooking'),
+                so.form.createComposite('nutrition'),
+                so.form.createComposite('taste'),
+                so.form.createComposite('technique'),
+                so.form.createComposite('cookware')
       ]}),
 
       sourceShow:so.db.setFieldset({

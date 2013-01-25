@@ -143,9 +143,9 @@ so.selection = {
         return b;
   },
 
-  isRange: function(field){
-
-    return so.g.currentExpressions[field].type === 'TermRangeExpression';
+  isRange: function( field ){
+    var e = so.g.currentExpressions[field];
+    return e && e.type === 'TermRangeExpression' ;
   },
 
   //returns the value of an expression as an array

@@ -72,6 +72,7 @@
 		    //we need the so.isReset flag to advice SO if extjs is resetting a checkbox in which case the ajax transaction is aborted.
 		    so.isReset = true;
 		    o.reset();
+		    delete o.sni_rawValues; //lightbox add this.
 		    so.isReset = false;
 		  };
 

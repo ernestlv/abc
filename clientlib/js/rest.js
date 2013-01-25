@@ -250,10 +250,12 @@ so.rest = {
 
                 so.rest.requestField(config.field, function( data ){ 
 
-                        var map = so.rest.transformMap( data.nameValueMap );  
+                        var map = so.rest.transformMap( data.nameValueMap ); 
                         so.lightbox.open({
                                 field: config.field, 
                                 title: config.title,
+                                sni_multi: config.sni_multi || so.lightbox.isMultiValue(),
+                                menuOff: config.menuOff,
                                 data:map
                         });
                         so.lightbox.restData = data;
@@ -357,9 +359,10 @@ so.rest = {
         handleLightbox: function(filter, lightbox){
                 
                 var v = lightbox.getValues();
-                var l = so.getLabel(v);
+                var l = so.getLabel( v );
                  //update field in form
                 var c = CQ.Ext.getCmp( filter );
+                c.sni_rawValues = v;
                 c.setValue( l );
                 //so.rest.requestFilter({field:filter, values:v, type:'lightbox' }, so.selection.do);
                 so.selection.redo( {field:filter, values:v, type:'lightbox' } );
