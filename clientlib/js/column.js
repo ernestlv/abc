@@ -58,7 +58,7 @@ so.subcol = {
               html: so.selection.doButton(),
               listeners:{
                 afterrender:function(){
-                  $CQ('#sni-selection .sni-get-assets').click(so.g.showResult);
+                  $CQ('#sni-selection .sni-get-assets').click( so.g.showResult );
                 }
               }
       }),
@@ -126,6 +126,7 @@ so.subcol = {
               },
               items:[                                            
                 so.set.sponsorshipCodes,
+                so.set.packageName,
                 so.set.hubGroupings
               ]
       }),

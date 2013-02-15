@@ -1,6 +1,8 @@
 (function(so){
 so.result = {
 
+        pageSize: 50,
+
         //********* GRID FUNCTIONS ***********************
 
         fixSplit: function (){
@@ -55,9 +57,11 @@ so.result = {
                         if (c.offsetWidth === 1){ //because border is 1px solid #fff
                             c.style.width = max;
                             c.style.borderRight = '0px';
+                            $CQ(c).animate({opacity:1}, 300);
                             i.innerHTML = '-';
                         }else{
                             so.result.setMaxSplit(so.grid, id, c.style.width);
+                            c.style.opacity = 0;
                             c.style.width = 0;
                             c.style.borderRight = '1px solid #fff';
                             i.innerHTML = '+';
@@ -73,7 +77,7 @@ so.result = {
             h.setAttribute('class', 'sni-t-header');
             so.addClass(tbl.classHead, h);
             so.addStyle(tbl.style, h);
-            h.innerHTML = '<div class="sni-title-collapsible">'+tbl.label+'</div>';
+            h.innerHTML = tbl.html ? tbl.html : '<div class="sni-title-collapsible">'+tbl.label+'</div>';
             w.appendChild(h);
 
             //do table rows
@@ -194,7 +198,7 @@ so.result = {
                         h.setAttribute('class', 'sni-p-header');
                         so.addClass(p.classHead, h);
                         so.addStyle(p.style, h);
-                        h.innerHTML = '<div class="sni-title-collapsible">'+ ( p.isShortYear ? p.year : p.label ) +'</div>'; //isShortYear applies only to the monthly page views labels is undefined everywhere else
+                        h.innerHTML = p.html ? p.html : '<div class="sni-title-collapsible">'+ ( p.isShortYear ? p.year : p.label ) +'</div>'; //isShortYear applies only to the monthly page views labels is undefined everywhere else
                         e.appendChild(h);
                         so.result.doTable(p, e);
                         w.appendChild(e);
@@ -233,16 +237,15 @@ so.result = {
                 
                 var count = 0;
                 //main wrapper
-                var w = document.createElement('div');
-                w.setAttribute('class', 'sni-grid');  
+                var g = document.createElement('div');
+                g.setAttribute('class', 'sni-grid');  
 
                 //process a single panel in the grid
                 CQ.Ext.each(grid.panel, function(p, i, a){
                     p.splitID = p.id;
-                    so.result.doPanel(p, w);
+                    so.result.doPanel(p, g);
                 });
-
-                return w;
+                return g;
         },
 
         setTooltip: function( column, data, element ){
@@ -274,7 +277,7 @@ so.result = {
                             CQ.Ext.each(h.columns, function(c, i, a){
 
                                         var x = document.getElementById(h.id+'-'+col++);
-                                        var row = 0;
+                                        var row = so.result.startRow - 1;
                                         gcol++;
                                         store.each(function(r){
                                 
@@ -298,27 +301,11 @@ so.result = {
                                                 }
                                                 x.appendChild(d);
                                         });
+                                        so.result.rowTotal = row;
                             });                        
                         });
                     });
         },
-
-//deprecated: don't have to clean it 'cause i reload it every time
-        //cleanGrid: function ( data ){
-//
-//                    CQ.Ext.each(so.grid.panel, function(p, i, a){
-//
-//                        CQ.Ext.each(p.table, function(h, i, a){
-//
-//                            var col = 0;
-//                            CQ.Ext.each(h.columns, function(c, i, a){
-//
-//                                var x = document.getElementById(h.id+'-'+col++);
-//                                $CQ('div', x).remove();
-//                            });                        
-//                        });
-//                    });
-//        },
 
     //******* SEARCH ATTRIBUTES FUNCTIONS ***********************
 
@@ -419,8 +406,8 @@ so.result = {
             '<li class="sni-detail-button"><a href="javascript: void 0"> see details</a></li>',
             '<li id="sni-matching-assets"> matching assets: <span class="count"></span></li>',
             '<li id="sni-loaded-assets"> loaded assets: <span class="count"></span></li>',
-            //'<li class="sni-load-button"> load more</li>',
-            '<li class="sni-export-button">export</li>'
+            '<li class="sni-load-button"><span title="previous page" class="sni-prev-page">&lt;</span> <span class="sni-current-page">'+so.result.pageNum+'</span> <span title="next page" class="sni-next-page">&gt;</span></li>',
+            '<li class="sni-export-button"><a href="javascript: void 0" target="_top">export</a></li>'
         ].join('');
 
         var w = document.createElement('div');
@@ -448,11 +435,12 @@ so.result = {
         var max = '300px';
         if (c.offsetWidth === 0){
             c.style.width = max;
+            $CQ(c).animate({opacity:1}, 300);
             i.innerHTML = '-';
         }else{
+            c.style.opacity = 0;
             c.style.width = 0;
             i.innerHTML = '+';
-
         }
     },
 
@@ -543,6 +531,18 @@ so.result = {
         return '';
     },
 
+    setActions: function(){
+        $CQ('#sni-modify-search-button').click( so.g.showDashboard );
+        $CQ('#sni-new-search-button').click( so.g.newDashboard );
+        $CQ('.sni-data .sni-first-col').click( so.result.clickHistory );
+        $CQ('.sni-first-col .sni-col-title').click( so.result.clickMAF ); //modify assets
+        $CQ('.sni-detail-button a').click( so.result.clickDetail );
+        $CQ('.sni-prev-page').click( so.result.prevPage );
+        $CQ('.sni-next-page').click( so.result.nextPage );
+        $CQ('.sni-export-button a').click( so.rest.requestExport );
+        $CQ('.sni-collapse-all').click( so.result.toggle );
+    },
+
     layoutScreen: function(){
         //layout screen
             var l = so.result.doSplitSearch();
@@ -562,9 +562,14 @@ so.result = {
             var g = so.result.doGrid( so.grid ); 
             w.appendChild(g);
 
+            var cq = document.createElement('div'); //this is a hack we need to display history popup properly when you drag it utside the viewport
+            cq.id = 'CQ';
+
             //do main wrapper and fill it
             var m = document.createElement('div');
+            m.style.opacity=0; //used for animate
             m.setAttribute('class', 'sni-main-wrapper');
+            m.appendChild(cq);
             m.appendChild(l);
             m.appendChild(s);
             m.appendChild(x);
@@ -585,15 +590,44 @@ so.result = {
                 });
             }
 
-            //actions
-            $CQ('#sni-modify-search-button').click( so.g.showDashboard );
-            $CQ('#sni-new-search-button').click( so.g.newDashboard );
-            $CQ('.sni-data .sni-first-col').click( so.result.clickHistory );
-            $CQ('.sni-first-col .sni-col-title').click( so.result.clickMAF ); //modify assets
-            $CQ('.sni-detail-button a').click( so.result.clickDetail );
-
             var e = so.result.getSelectionEntries();
             document.querySelector('.sni-selections-list').innerHTML = e.join('');
+
+            //actions
+            setTimeout( so.result.setActions, 500 );
+    },
+
+    load:function( assets ){
+
+        //console.log((new Date())+'ajax done');
+        so.result.restData = assets;
+
+        var data = so.rest.transformAssets(assets);
+
+        so.result.layoutScreen();
+
+        //if we are using iframes we show the result iframe. At this point the loading animation, in the dashboard iframe, is running
+        var dashboard = so.g.getDashboard();
+        if ( dashboard ){
+            var result = so.g.getResult();
+            result.style.display = 'block';
+            dashboard.style.display = 'none';
+        }
+
+        so.result.loadGrid( data );  
+
+        so.result.fixAttributePanel();   
+
+        so.result.fixSplit();
+
+        //display stats
+        document.querySelector('#sni-matching-assets .count').innerHTML = so.selection.displayTotal();
+        document.querySelector('#sni-loaded-assets .count').innerHTML = so.result.displayTotal();
+        so.rest.requestPageViews( {}, so.rest.handlePageViews );
+
+        so.result.scrollToColumn( so.result.sortField, -484 );
+
+        //console.log((new Date())+'data load done');
     },
 
     clickHistory: function( evt ){
@@ -610,7 +644,7 @@ so.result = {
     clickMAF: function(){
         if (!so.maf){
             $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/form.js');
-            $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/maf.js');
+            $CQ.getScript('/apps/wcm/core/content/sni-site-optimizer.maf.js');
             var intX = setInterval(function(){
                 if (so.form && so.maf){ //wait for it
                     clearInterval( intX );
@@ -632,17 +666,113 @@ so.result = {
         }
     },
 
-    sort: function(field, order){
-        var dashboard = so.g.getDashboard();
-        dashboard && (dashboard.style.display = "block"); //display loading animation
-        location = 'sni-site-optimizer.result.html?'+encodeURI(JSON.stringify({"sort":{"field":field, "order":order}, "currentExpressions":so.g.currentExpressions}));
+    sort: function( field, order ){
+        so.result.sortField = field ? field : so.result.sortField;
+        so.result.sortOrder = order ? order : so.result.sortOrder;
+        so.result.reload();
+    },
+
+    reload: function(){
+         if ( so.g.main ){ //true if we are running inside an iframe
+            $CQ('#sni-loading').height($CQ('body').height()); //show loading icon
+            delete so.grid;
+            so.maf && delete so.maf.doIt;
+            $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/grid.js', function(){
+                    so.rest.requestAssets( {startRow:so.result.startRow, endRow:so.result.endRow, sort:{"type":"sorting", "field":so.result.sortField, "order":so.result.sortOrder}}, so.rest.handleReload );
+            });
+        }else{
+            location = 'sni-site-optimizer.result.html?'+encodeURI(JSON.stringify({"page":{"num":so.result.pageNum, "startRow":so.result.startRow}, "sort":{"field":so.result.sortField, "order":so.result.sortOrder}, "currentExpressions":so.g.currentExpressions}));
+        }
     },
 
     scrollToColumn: function( col_name, offset ){
+
+        //ie does not scroll well in iframe we follow different logic
+        if ( !so.isIE8() ){
+            $CQ('#sni-search.sni-split').click();
+            so.result.collapseAll();
+        }else{
+            so.result.toggleAll = so.result.collapseAll;
+        }
+
         if ( !col_name ) return;
+
+        var $col = $CQ('[data-sni-dataindex='+col_name+']'); //find sorted col
+        if ( !so.isIE8() ){
+            var id = $col.parents('.sni-p-content')[0].id.replace('-wrapper', '') //find split of sorted col
+            $CQ('#'+id).click(); //expand panel of sorted col
+        }
+
+        //scroll to sorted col.
         offset = !offset ? 0 : offset;
-        offset = $CQ('[data-sni-dataindex='+col_name+']').position().left + offset;
-        $CQ(window).scrollLeft( offset );
+        offset = $col.position().left + offset;
+        if (offset > 100){
+            $CQ(window).scrollLeft( offset );
+        }
+    },
+
+    expandAll:function(){
+
+        $CQ('.sni-grid .sni-split').each(function( index, element){
+
+                        var x = element, i = x.firstChild.firstChild;
+                        var id = x.id + '-wrapper';
+                        var c = document.getElementById(id);
+                        if (c.offsetWidth === 1){ //split is collapsed
+                            var max = so.result.getMaxSplit(so.grid, id);
+                            c.style.width = max;
+                            c.style.borderRight = '0px';
+                            c.style.opacity = 1; //used in animate
+                            i.innerHTML = '-';
+                            var $e = $CQ('.sni-collapse-all');
+                            so.removeClass('collapsed', $e[0]);
+                            $e.html('&nbsp;&nbsp;collapse all <span class="sni-collapse-all-icon">-</span>');
+                        }
+        });
+        so.result.toggleAll = so.result.collapseAll;
+    },
+
+    collapseAll:function(){
+
+        $CQ('.sni-grid .sni-split').each(function( index, element){
+
+                        var x = element, i=x.firstChild.firstChild;
+                        var id = x.id + '-wrapper';
+                        var c = document.getElementById(id);
+                        if (c.offsetWidth > 1){ //split is expanded
+                            so.result.setMaxSplit(so.grid, id, c.style.width);
+                            c.style.opacity = 0; //used in animate
+                            c.style.width = 0;
+                            c.style.borderRight = '1px solid #fff';
+                            i.innerHTML = '+';
+                            var $e = $CQ('.sni-collapse-all');
+                            so.addClass('collapsed', $e[0]);
+                            $e.html('&nbsp;&nbsp;expand all <span class="sni-collapse-all-icon">+</span>');
+                        }
+        });
+        so.result.toggleAll = so.result.expandAll;
+    },
+
+    toggle: function(){
+        so.result.toggleAll();
+    },
+
+    prevPage: function(){
+        if ( so.result.pageNum === 1 ) return;
+        so.result.startRow -= so.result.pageSize;
+        so.result.endRow = so.result.startRow + so.result.pageSize - 1;
+        so.result.pageNum--;
+        so.result.reload();
+
+    },
+
+    nextPage: function(){
+        if ( so.selection.getTotal() > so.result.rowTotal ){
+            so.result.startRow += so.result.pageSize;
+            so.result.endRow = so.result.startRow + so.result.pageSize - 1;
+            so.result.pageNum++;
+            so.result.reload();
+        }
     }
 
 };  

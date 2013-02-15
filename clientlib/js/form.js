@@ -74,15 +74,23 @@ so.form = {
 
     var b = { //button properties
       xtype: 'button',
+      id: f.id+'_sni_button',
       text: 'all >',
-      handler: function(){
-          
-          so.rest.getLightbox({ 
-              field: f.id, //id must match DB name
-              title: f.fieldLabel.replace(':',''),
-              sni_multi: f.sni_multi,
-              menuOff: f.menuOff
-          });
+      handler: function(button, event){
+          var o = { 
+                  field: f.id, //id must match DB name
+                  title: f.fieldLabel.replace(':',''),
+                  sni_multi: f.sni_multi,
+                  menuOff: f.menuOff,
+                  ctrlKey: event.ctrlKey
+          };
+          if (!so.lightbox){
+            $CQ.getScript('/apps/sni-site-optimizer/clientlib/js/lightbox.js', function(){
+                so.rest.getLightbox( o );
+              });
+          }else{
+              so.rest.getLightbox( o );
+          }
       }
     };
 

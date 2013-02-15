@@ -12,10 +12,24 @@ so.history = {
                 //  document.body.style.overflow = 'auto';
                 //}
 
+                move:function( window, x, y ){
+                  //x and r help me to keep window within view port. user cannot drag it outside the screen.  
+                  var z = window.getSize().width;
+                  var r = x + z; //right side
+                  if ( x<0 || r>1220 || y<0 ){
+
+                      y = ( y < 0 ) ? 0 : y;
+                      x = ( x < 0 ) ? 0 : x;
+                      x = ( r > 1220 ) ? 1220 - z : x;
+                      window.setPagePosition(x , y);
+                }
+    }
+
     },
 
     doRows: function( data ){
-        var i, x, d, b = [];
+
+        var i, x, fromValue, toValue, d, b = [];
         for (i=0; i<data.length; i++){
             x = data[i];
             d = new Date( x.changeDate ).format('mmm dth, yyyy hh:mm a/p'); //format() is defined in so.js
@@ -44,11 +58,10 @@ so.history = {
             plain: true,
             resizable: false,
             autoScroll: true,
-            //renderTo:CQ.Ext.getBody(),
             html:[
             '<div class="sni-history-wrapper">',
             '<h1>'+data.title+'</h1>',
-            '<h4>URL = <a href="'+data.uri+'" target="TOP">'+data.uri+'</a></h4>',
+            '<h4>URL = <a href="'+data.uri+'.html" target="TOP">'+data.uri+'.html</a></h4>',
             '<div class="sni-history-wrapper-outter">',
             '<div class="sni-history-wrapper-inner">',
             '<table border=0 cellspacing=0 cellpadding=0>',

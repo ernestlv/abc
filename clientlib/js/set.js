@@ -11,12 +11,12 @@ so.tab = {
                           ]
                   }),
 
-                  url : so.db.setTab({
+                  current_url : so.db.setTab({
                           id:'sni-url-tab',
                           title:'url',
                           labelWidth:50,
                           items:[
-                            so.form.createComposite('url')
+                            so.form.createComposite('current_url')
                           ]
                   })
 
@@ -40,7 +40,7 @@ so.tabpanel = {
                   },
                   items:[
                     so.tab.title, 
-                    so.tab.url
+                    so.tab.current_url
                   ]
 }; 
 
@@ -231,6 +231,18 @@ so.set = {
                 so.form.createComposite('sponsorship')
       ]}),
 
+      packageName : so.db.setFieldset({
+                id:'sni-package-set',
+                title:'package name',
+                width:253,
+                style:{
+                  margin: '20px 10px 20px 20px'
+                },
+                labelWidth:80,
+                items:[
+                so.form.createComposite('package')
+      ]}),
+
       hubGroupings : so.db.setFieldset({
                 id:'sni-hubgroup-set',
                 title:'hub groupings',
@@ -271,7 +283,7 @@ so.set = {
                 items:[
                 so.form.createComposite('occasions'),
                 so.form.createComposite('season'),
-                so.form.createComposite('whos_dining')
+                so.form.createComposite('who_s_dining')
       ]}),
 
       core : so.db.setFieldset({

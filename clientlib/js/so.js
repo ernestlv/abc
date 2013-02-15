@@ -67,6 +67,7 @@
 
 		  so.reset = function( field ){
 		    var o = CQ.Ext.getCmp(field);
+		    o.el.dom.style.background = "#fff";
 		    //extjs will fire a check event several times for checkboxes, since a checkbox may be multi-value.
 		    //site optimizer will fire an ajax transaction everytime a check event is fired.
 		    //we need the so.isReset flag to advice SO if extjs is resetting a checkbox in which case the ajax transaction is aborted.
@@ -107,11 +108,13 @@
 
 		  so.filter = function( data ){
        		 //then returns <text> after last / or :
-        	return data && data.match( /[^\/\:]+$/ )+"" || '';
+        	return !data ? 'null' : data.match( /[^\/\:]+$/ )+"" || '';
     	  };
 
 		  so.getLabel = function( data ){
-		  	data = !data ? [] : [].concat( data ); //normalize
+		  	
+		  	if ( !data ) return 'null'; //COOKING-4937,5318: some fields like rating, hub type and sponsorship display null as a value
+		  	data = [].concat( data ); //normalize to array
 		    var i, b = [];
 		    for( i=0; i<data.length; i++ ){
 		        b.push( so.filter( data[i] ) );
@@ -122,7 +125,6 @@
 		  so.isIE8 = function(){
 		  	return $CQ.browser.msie && parseInt( $CQ.browser.version, 10 ) < 9;
 		  };
-  
     
     //////////// GLOBAL FUNCTIONS ( SHARED BETWEEN DASHBOARD AND RESULT IFRAMES ) ////////////////////////////
 
@@ -146,18 +148,19 @@
 		    	if (!so.isEmpty(so.g.currentExpressions)){
 		    		location = 'sni-site-optimizer.result.html?'+encodeURI(JSON.stringify( {"currentExpressions":so.g.currentExpressions}));      
 		    	}else{
-		    		location = 'sni-site-optimizer.result.html';
+		    		//location = 'sni-site-optimizer.result.html';
+		    		alert('You must select at least 1 filter.');
 		    	}
 		    },
 		    showDashboard:function(){
 		    	if (!so.isEmpty(so.g.currentExpressions)){
-		      		location = 'sni-site-optimizer.dashboard.html?'+encodeURI(JSON.stringify({"currentExpressions":so.g.currentExpressions}));
+		      		location = 'sni-site-optimizer.db.html?'+encodeURI(JSON.stringify({"currentExpressions":so.g.currentExpressions}));
 		      	}else{
-		      		location = 'sni-site-optimizer.dashboard.html';
+		      		location = 'sni-site-optimizer.db.html';
 		      	}
 		    },
 		    newDashboard:function(){
-		       location = '/apps/wcm/core/content/sni-site-optimizer.dashboard.html';
+		       location = '/apps/wcm/core/content/sni-site-optimizer.db.html';
 		    }
 	  	};
 	}

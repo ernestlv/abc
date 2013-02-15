@@ -6,8 +6,8 @@ so.fields={
                           width: 392         
             }),
 
-            url:so.form.setFilter({
-                          id: 'url',
+            current_url:so.form.setFilter({
+                          id: 'current_url',
                           fieldLabel: 'filter By:',
                           width: 392                 
             }),
@@ -103,10 +103,19 @@ so.fields={
                   id:'rating',
                   fieldLabel: 'rating:',
                   vertical:false,
-                  columns: 5,
+                  columns: 6,
                   width:164,
                   items: [
                       {
+                        id: 'rating0',
+                        boxLabel: '&oslash;',
+                        listeners:{
+                          check:function(chkbox, chked){
+                              
+                              so.rest.handleCheck('rating', chkbox, so.getSelectedRatings);
+                          }
+                        }
+                      },{
                         id: 'rating1',
                         boxLabel: '1',
                         listeners:{
@@ -229,6 +238,12 @@ so.fields={
                     width: 98                           
             }),
 
+            package:so.form.setLightbox({
+                    id: 'package',
+                    fieldLabel:'package:',
+                    width: 98                           
+            }),
+
            hubType:so.form.setRadio({
                           id:'hub_type',
                           fieldLabel: 'hub type:',
@@ -329,8 +344,8 @@ so.fields={
                           width:143                                                                      
               }), 
 
-              whos_dining:so.form.setLightbox({
-                          id: 'whos_dining',
+              who_s_dining:so.form.setLightbox({
+                          id: 'who_s_dining',
                           fieldLabel: "who's dining:",
                           width:143                                                             
               }), 

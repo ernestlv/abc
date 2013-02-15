@@ -144,6 +144,15 @@
             main:true, //flag to know the html.jsp was loaded
             addedExpressions:{},
             currentExpressions:{},
+
+            isEmpty: function( o ){
+                for(var k in o){
+                  if(o.hasOwnProperty(k)){
+                    return false;
+                  }
+                }
+                return true;
+            },
             getDashboard: function(){
 
                 return document.querySelector('iframe#sni-dashboard');
@@ -152,33 +161,39 @@
 
                 return document.querySelector('iframe#sni-result');
             },
-            showResult:function( evt, sort ){
-                
+            showResult:function( evt ){
+
+                if ( so.isEmpty( so.currentExpressions ) ){
+                      alert('You must select at least 1 filter.');
+                      return;
+                }
+
                 //show loading icon. Result/Dashboard iframes will be shown/hid in ajax callback
                 var dashboard = so.getDashboard();
                 var result = so.getResult();
                 if ( evt.metaKey && result.src !== 'about:blank' ){
                     dashboard.style.display = 'none';
                     result.style.display = 'block'; 
+                    $CQ('.sni-main-wrapper', result.contentWindow.document).animate( {opacity:1}, 150 );
                 }else{
                     var dom = dashboard.contentWindow.document;
-                    dom.getElementById('sni-loading').style.display='block';
-                    dom.getElementById('CQ').style.display='none';
+                    $CQ('#sni-loading', dom).height($CQ('#CQ', dom).height()); //display loading icon
                     result.src = 'sni-site-optimizer.result.html';
                 }
             },
             showDashboard:function(){
-
-                //show dashboard iframe. we need to hide loading icon previously displayed in showResult()
-                var dashboard = so.getDashboard();
                 var result = so.getResult();
-                var dom = dashboard.contentWindow.document;
-                dom.getElementById('sni-loading').style.display='none';
-                dom.getElementById('CQ').style.display='block';
-                //show/hide iframes
-                dashboard.style.display = 'block';
-                result.style.display = 'none';
+                $CQ('.sni-main-wrapper', result.contentWindow.document).animate({opacity:0}, 150, function(){
+                    //show dashboard iframe. we need to hide loading icon previously displayed in showResult()
+                    var dashboard = so.getDashboard();
+                    var dom = dashboard.contentWindow.document;
+                    $CQ('#sni-loading', dom).height(0); //hide loading icon
+                    //show/hide iframes
+                    dashboard.style.display = 'block';
+                    result.style.display = 'none';                    
+                });
             },
+
             newDashboard:function(){
                 
                 location = '/apps/wcm/core/content/sni-site-optimizer.html';
@@ -190,5 +205,5 @@
         <!-- <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/clientlib.css"> -->
         <script src="/apps/sni-site-optimizer/clientlib.js" type="text/javascript"></script>
     </head>
-    <body style="margin:0;"><div id="CQ"></div></body>
+    <body style="margin:0;"><!--<div id="sni-loading-parent" style="background:#B2DCFC url(/apps/sni-site-optimizer/clientlib/css/loader.gif) no-repeat fixed center 100px; position:absolute; opacity:0.7; filter: alpha(opacity=70); width:100%; height:100%; z-index:9010"></div>--><div id="CQ"></div></body>
 </html>

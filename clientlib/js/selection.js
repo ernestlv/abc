@@ -53,7 +53,7 @@ so.selection = {
   doFilter: function( f ){
     var v = f.field+' = ' + ( f.field === 'filterURL' ? f.value : so.getLabel( f.value ) );
     return [
-                  '<li class="sni-select-filter'+( f.count === undefined ? ' sni-select-new' : '' )+'" id="'+f.id+'">',
+                  '<li class="sni-select-filter'+( f.count === undefined ? ' sni-select-new' : '' )+'" id="'+f.id+'" >',
                   '<span class="sni-select-value">'+v+'</span>',
                   '<span class="sni-select-size">'+so.format( f.count )+'</span>',
                   '<img class="sni-select-x" src="/apps/sni-site-optimizer/clientlib/css/close2.png">',
@@ -190,9 +190,7 @@ so.selection = {
         count:f.count, 
         negated:f.negated
     }); //here f becomes a filter
-
     so.fixTopMargin();
-    
   },
 
   //process expressiones returned by an ajax request.
@@ -225,7 +223,7 @@ so.selection = {
 
   //this function is called when a user deletes a filter from "your selections"
   remove: function( evt ){
-
+    
     var id = evt;
     if (evt.target){ //if true this is called from a click event otherwise is called programatically and evt contains id
       var t = evt.target;
@@ -242,7 +240,7 @@ so.selection = {
     }else{
       so.reset(f);
     }
-    $CQ( e ).remove();
+    $CQ(e).remove();
     so.fixTopMargin();
     delete so.g.currentExpressions[f];
     so.selection.redo(); //we need to re-query the selections for whatever filters we have left.
@@ -296,7 +294,7 @@ so.selection = {
     if (t === 'filter'){
         x[f] = {
           "type":"TermExpression",
-          "field":( f === 'url' ? 'current_url' : f),
+          "field":f,
           "value":v.join(''),
           "operator":"TEXTSEARCH",
           "negated":so.selection.isExclusion()                  

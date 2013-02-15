@@ -1,5 +1,32 @@
-(function(so){
-   
+<%@page session="false" contentType="application/javascript" import="javax.jcr.Session, com.day.crx.CRXSession" %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><sling:defineObjects /><%
+//new security using acl groups.
+CRXSession session = (CRXSession) resourceResolver.adaptTo( Session.class );
+boolean isFullEditor = false;
+String userID = session.getUserID().toLowerCase();
+if (  !"admin".equals( userID ) ){
+  java.util.Iterator groups = session.getUserManager().getAuthorizable( session.getUserID() ).memberOf();
+  while( groups.hasNext() ){
+    org.apache.jackrabbit.api.security.user.Group group = (org.apache.jackrabbit.api.security.user.Group) groups.next();
+    if ( "site-optimizer-noaccess".equals( group.getID() ) ){
+      response.sendRedirect("sni-site-optimizer.blank.js");
+    };
+    if ( "site-optimizer-fulledit".equals( group.getID() ) ){
+        isFullEditor = true;
+    }
+  }  
+}else{
+    isFullEditor = true;
+}
+
+//deprecated securtity using CQ permissions. problem with this is we need a path.
+//Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
+//boolean isReader = session.hasPermission("/content/sni-site-optimizer", "read");
+//if ( !isReader ){
+//  response.sendRedirect("sni-site-optimizer.validation.html");  
+//}
+
+%>(function(so){
+
 so.maf = {
 
     doForm:function( fields ){
@@ -35,6 +62,7 @@ so.maf = {
             doSection( fields.alternate_term ),
             doSection( fields.sponsorship ),
             doSection( fields.sub_term ),
+            doSection( fields.package ),
             '</div>',
             '</td>'
         ].join('');
@@ -120,6 +148,71 @@ so.maf = {
         so.maf.disableAllButton( l, b );
         so.maf.collapseSection( s );
     },
+
+    request: function( field, handler ){
+            var value = CQ.Ext.getCmp( field.id ).getValue();
+            value = (!value) ? null : value; //cooking-4937
+
+            var expressions;
+            if ( field.sni_all ){
+                expressions = so.selection.get( so.g.currentExpressions );
+                if (!expressions.length){ //no filters = no records to update;
+                    alert('You need to create at least 1 filter to be able to modify.');
+                    return;
+                }
+            }else{
+                var urls = [];
+                $CQ('.sni-maf-checks input[type=checkbox]:checked').each(function(){
+                    var i = $CQ( this ).val();
+                    urls.push( so.result.restData.assetInfoList[i].report.current_url );
+                });
+
+                if ( !urls.length ){ //no selected rows.
+                    alert('There are no selected rows to modify.');
+                    return;
+                }
+                expressions = [
+                    {
+                      "type": "TermMultiValueExpression",
+                      "negated": false,
+                      "field": "current_url",
+                      "valueList": urls
+                    }
+                ];
+            }
+
+            var x = confirm( 'Are you sure you want to modify the assets?' );
+            if ( !x ){
+              return;
+            }
+
+            var requestObj = {
+                    "changeList":[
+                        {
+                            "user": '<%=session.getUserID()%>',
+                            "attribute": field.id,
+                            "value": value,
+                            "currentFilters": {
+                                "type": "filters",
+                                "expressions": expressions
+                            }
+                        }
+                    ]
+            };
+
+            var data = JSON.stringify(requestObj);
+
+            console.log('ajax request /imp/assets: '+data);
+        
+            $CQ.ajax({
+                url:'/imp/assets',
+                dataType: 'json',
+                cache:false, 
+                data: data,
+                success: handler,
+                error: function(){}
+            });
+        },
     
     doSection:function( f ){
             
@@ -131,7 +224,7 @@ so.maf = {
             $CQ('.sni-maf-button', e).click(function(){
                 
                 f.sni_all = false;
-                so.rest.requestModifyAssets(f, so.rest.handleModifyAssets);
+                so.maf.request( f, so.rest.handleModifyAssets );
             });
 
             //enable experts only button
@@ -146,7 +239,7 @@ so.maf = {
                 if ( isEnable ){
 
                     f.sni_all = true;
-                    so.rest.requestModifyAssets( f, so.rest.handleModifyAssets );
+                    so.maf.request( f, so.rest.handleModifyAssets );
                 }
             });
 
@@ -188,17 +281,21 @@ so.maf = {
             //scroll the maf form along with the page.
             //ie8 will report the scrollTop position as zero when inside an iframe.
             $CQ( window ).scroll(function(){
-
-                var offset = $CQ( this ).scrollTop();
-                offset < 10130 && $CQ('#CQ').css({top:offset});
+                if ( so.result.restData.assetInfoList.length > 10 ){
+                    var offset = $CQ( this ).scrollTop();
+                    //offset < 10130 && $CQ('.sni-maf-form #CQ').css({top:offset});
+                    offset = offset > 65 ? offset-65 : offset;
+                    offset = offset < 0 ? 0 : offset;
+                    $CQ('.sni-maf-form #CQ').css({top:offset});
+                }
             });
-            
+            $CQ('.sni-maf-form, .sni-maf-checks').animate({opacity:1},300);
             so.maf.doIt = so.maf.hide;
 
     },
 
     hide:function(){
-
+        $CQ('.sni-maf-form, .sni-maf-checks').css({opacity:0});
         //destroy extjs cmps
         CQ.Ext.getCmp( 'preferred_term' ).destroy();
         CQ.Ext.getCmp( 'alternate_term' ).destroy();
@@ -215,11 +312,16 @@ so.maf = {
         //DO NOT CHANGE: ie8 needs this line to resize the result table properly
         so.isIE8() && $CQ('.sni-p-content:first-child').width('');
 
-        so.maf.doIt = so.maf.show;  
+        so.maf.doIt = so.maf.show; 
     },
 
     open:function(){
         
+        if ( <%= !isFullEditor %> ){
+            alert('you must have full editor rights to modify assets!');
+            return;
+        }
+
         var t = so.result.getTotal();
         if (!t){ //if no assets loaded we abort.
             console.log('result set total is zero!');
@@ -251,6 +353,13 @@ so.maf = {
 
         //define fields
         return {
+
+            package: setCombo({
+                id:'package',
+                sni_resource:'package', //we use this in the /imp/resource service
+                sni_title:'package name',
+                sni_show:false
+            }),
 
             sponsorship: setCombo({
                 id:'sponsorship',

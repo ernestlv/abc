@@ -24,7 +24,7 @@ body{
 }
 
 .sni-atts-buttons{
-    list-style-type:none; padding:0; color:#a4a4a4;
+    list-style-type:none; padding:0; color:#a4a4a4; text-align: center;
 }
 
 .sni-atts-buttons li {
@@ -126,6 +126,10 @@ body{
     cursor:pointer;
 }
 
+.sni-topbar .sni-export-button a{
+    text-decoration: none;
+}
+
 .sni-grid{
     white-space:nowrap;
     background-color: #fff;
@@ -211,6 +215,7 @@ body{
     padding-left:.5em;
     color:#000;
     cursor:pointer;
+    overflow: hidden;
 }
 
 .sni-split-label{
@@ -234,7 +239,7 @@ body{
     cursor: pointer;
 }
 
-.sni-split-icon{
+.sni-split-icon, .sni-collapse-all-icon{
     display:inline-block;
     background-color:#000;
     border-radius: 13px;
@@ -244,6 +249,12 @@ body{
     line-height:13px;
     font-weight:bold;
     color: #fff;
+}
+
+.sni-collapse-all{
+    text-align: left;
+    font-size: .8em;
+    cursor:pointer;
 }
 
 .sni-table{
@@ -641,4 +652,3 @@ body{
 #CQ .sni-detail-wrapper table td.sni-detail-high{
   background-color: #FF9B36;
 } 
-}

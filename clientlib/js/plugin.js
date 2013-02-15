@@ -14,6 +14,7 @@
 so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
     
     constructor: function(config) {
+        
         // init component by calling super constructor
         so.plugin.superclass.constructor.call(this, {
 
@@ -54,7 +55,7 @@ so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
                       overflow:'hidden'
                     },
                     html:[
-                        '<iframe id="sni-dashboard" src="sni-site-optimizer.dashboard.html" frameborder=0 width=100% height=100%></iframe>',
+                        '<iframe id="sni-dashboard" src="sni-site-optimizer.db.html" frameborder=0 width=100% height=100%></iframe>',
                         '<iframe id="sni-result" src="about:blank" frameborder=0 width=100% height=100% style="display:none"></iframe>'
                     ].join('')
                 }

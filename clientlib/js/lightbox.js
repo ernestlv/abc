@@ -7,7 +7,7 @@ so.lightbox = {
   listeners:{
 
     show: function(){ //fires when popup window is shown
-      
+      debugger
       //get form field
       var c = CQ.Ext.getCmp( so.lightbox.field );
 
@@ -26,6 +26,19 @@ so.lightbox = {
       }catch( e ){}
     },
 
+    move:function( window, x, y ){
+    
+      var z = window.getSize().width;
+      var r = x + z; //right side
+      if ( x<0 || r>1220 || y<0 ){
+
+          y = ( y < 0 ) ? 0 : y;
+          x = ( x < 0 ) ? 0 : x;
+          x = ( r > 1220 ) ? 1220 - z : x;
+          window.setPagePosition(x , y);
+      }
+    }
+
   },
 
   typeAhead: function( evt ){
@@ -34,13 +47,13 @@ so.lightbox = {
   },
 
   cancel:function(){ //fires when cancel button is clicked
-      so.lightbox.win.close();
+      so.lightbox.win.hide();
   },
 
   select: function(){ //fires when button "add selected values" is clicked
 
         so.rest.handleLightbox(so.lightbox.field, so.lightbox);
-        so.lightbox.win.close();
+        so.lightbox.win.hide();
   },
 
   swap: function(){ //switched between single-value and multivalue mode.
@@ -196,17 +209,11 @@ so.lightbox = {
         content.push(so.lightbox.setColumn(data.slice(0, numEntries), 0.33 ));
         content.push(so.lightbox.setColumn(data.slice(numEntries, numEntries*2), 0.34 ));
         content.push(so.lightbox.setColumn(data.slice(numEntries*2, numEntries*3), 0.33 ));
-        //content.push(so.lightbox.setColumn( [] ));
     }else if ( numCols === 2 ){
         content.push(so.lightbox.setColumn(data.slice(0, numEntries), 0.5 ));
         content.push(so.lightbox.setColumn(data.slice(numEntries, numEntries*2), 0.5 ));
-        //content.push(so.lightbox.setColumn( [] ));
-        //content.push(so.lightbox.setColumn( [] ));
     }else{
         content.push(so.lightbox.setColumn( data, 1.0, true ));
-        //content.push(so.lightbox.setColumn( [] ));
-        //content.push(so.lightbox.setColumn( [] ));
-        //content.push(so.lightbox.setColumn( [] ));
     }
     return {
               id: so.lightbox.getID() + '_sni-lightbox-content',
@@ -280,10 +287,10 @@ so.lightbox = {
       }
   },
 
-  isMultiValue: function(){
-    debugger;
-      if ( !so.lightbox.field ) return false;
-      var c = CQ.Ext.getCmp( so.lightbox.field );
+  isMultiValue: function( field ){
+    
+      if ( !field ) return false;
+      var c = CQ.Ext.getCmp( field );
       return c.sni_rawValues && c.sni_rawValues.length > 1;
   },
 

@@ -1,0 +1,201 @@
+body{
+    background-color: #eee;
+}
+
+/* blue color theme*/
+#CQ .x-panel-body{
+	background-color: transparent;
+}
+
+#CQ .sni-subcol > .x-panel-bwrap > .x-panel-body, #CQ .sni-lightbox .x-panel-body{
+	background-color: #fff;
+}
+
+#CQ #sni-selection{
+	background-color: #eee;
+}
+
+#CQ #sni-selection .sni-subcol > .x-panel-bwrap > .x-panel-body{
+	background-color: transparent;
+}
+
+#CQ #sni-selection .sni-main, #CQ #sni-selection .sni-tab-left, #CQ #sni-selection .sni-tab{
+	background-color: #666;
+	border-color: #000;
+}
+
+#CQ #sni-selection .sni-select-filter{
+	background-color: #bbb;
+}
+
+#CQ #sni-selection .sni-select-filter .sni-select-size{
+	background-color: #ddd;
+}
+
+#CQ #sni-selection #sni-exclusions .sni-select-filter {
+background-color: #ffe799;
+}
+
+#CQ .x-panel-header{
+	border: 1px solid #333;
+	background: #333 none;
+	border-top-right-radius: .5em;
+	border-top-left-radius: .5em;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
+#CQ .x-panel-header-text{
+	color: #fff;
+	position:relative;
+	left:10px;
+	font-size:14px;
+}
+
+/*#CQ .x-panel-body{
+	border-color: #094ea1;
+	border-bottom-right-radius: .5em;
+	border-bottom-left-radius: .5em;
+}*/
+
+#CQ .x-fieldset{
+	background-color: #e6e6e6;
+	border-color: #ddd;
+	border-radius: .5em;
+}
+
+#CQ .x-fieldset legend{
+	padding:0px;
+	height:0px;
+}
+
+#CQ .x-fieldset-header-text{
+	position: relative;
+	top:15px;
+	left:0px;
+	font-size:13px;
+	font-weight: bold;
+}
+
+#CQ .x-fieldset-body > .x-form-item, #CQ .x-fieldset-body.x-column-layout-ct .x-form-item{
+	padding: 5px 5px 5px 5px;
+	background-color:#fff;
+	border-radius: .5em;
+	border: 1px solid;
+	margin-bottom: 10px;
+}
+
+/* fine tune form fields */
+
+/* #CQ #sni-search .x-tab-panel-body{
+	border:1px solid #000;
+	border-top:0px;
+	border-bottom-left-radius:.5em;
+	border-bottom-right-radius:.5em;
+} */
+
+#CQ #sni-search .x-form-item{
+	border:0px;
+}
+
+#CQ #has_image .x-form-item, #CQ .sni-hub-type .x-form-item {
+	border-top: 0px;
+	border-left: 1px solid #D0D0D0; 
+	border-bottom: 1px solid #D0D0D0; 
+	border-right:1px solid #D0D0D0;
+	border-radius:0px;
+}
+
+/* #CQ #rating .x-form-check-wrap{
+	padding-left:13px;
+}
+
+#CQ #rating .x-form-check-wrap input{
+	vertical-align: middle;
+}
+
+#CQ #rating .x-form-check-wrap label{
+	position:relative;
+	left:-22px;
+} */
+
+#CQ #sni-reviewcount-wrapper .x-form-field-trigger-wrap:first-child, #CQ #sni-cooktime-wrapper .x-form-field-trigger-wrap:first-child{
+	margin-right:3px;
+}
+
+#CQ .sni-column{
+	border: 10px solid #333;
+    background-color: #333;
+}
+
+#CQ .sni-your-selections.x-panel-body-noborder{
+	border-bottom: 1px solid #61b9ff;
+}
+
+/* lightbox extjs styles overwrite */
+/* #CQ .x-window-tl {
+	background-image: none;
+	background-color: #094EA1;
+}
+
+#CQ .x-window-tr {
+	background-image: none;
+	background-color: #094EA1;
+}
+
+#CQ .x-window-tc {
+	background-image: none;
+	background-color: #094EA1;
+}
+#CQ .x-tool{
+	background-image: none;
+	background-color: #094EA1;
+}
+#CQ .x-window-ml {
+	background-image: none;
+	background-color: #094EA1;
+}
+
+#CQ .x-window-mr {
+	background-image: none;
+	background-color: #094EA1;
+}
+
+#CQ .x-window-bl {
+	background-image: none;
+	background-color: #094EA1;
+}
+
+#CQ .x-window-br {
+	background-image: none;
+	background-color: #094EA1;
+}
+
+#CQ .x-window-bc {
+	background-image: none;
+	background-color: #094EA1;
+} */
+
+#CQ #sni-selection .sni-button{
+	background-color: #666;
+	transition: background-color 1s;
+    -moz-transition: background-color 1s; /* Firefox 4 */
+    -webkit-transition: background-color 1s; /* Safari and Chrome */
+    -o-transition: background-color 1s; /* Opera */
+}
+
+#CQ #sni-selection .sni-button:hover{
+	background-color: #FF9B36;
+}
+
+#CQ #sni-selection .sni-button .sni-size{
+	background-color: #555;
+	transition: background-color 1s;
+    -moz-transition: background-color 1s; /* Firefox 4 */
+    -webkit-transition: background-color 1s; /* Safari and Chrome */
+    -o-transition: background-color 1s; /* Opera */
+}
+
+#CQ #sni-selection .sni-button:hover .sni-size{
+	background-color: #FA802D;
+}

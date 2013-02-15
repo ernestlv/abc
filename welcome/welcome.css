@@ -1,0 +1,301 @@
+/* 
+This was copied from /libs/cq/core/content/welcome
+commented lines were added for app "sni-site-optimizer"
+
+simply search on quoted word above to find the only additions to the original css
+
+*/
+html,body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Myriad, Lucida Grande, Lucida Sans Unicode, Tahoma, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #999;
+}
+
+a:link, a:hover, a:active, a:visited {
+    outline: none;
+}
+
+#wrapper {
+    background-color: #FFFFFF;
+    height: 100%;
+    width: 100%;
+}
+
+#header {
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzkyYzUwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2ZjliMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #92c500 0%, #6f9b00 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92c500), color-stop(100%,#6f9b00));
+    background: -webkit-linear-gradient(top,  #92c500 0%,#6f9b00 100%);
+    background: -o-linear-gradient(top,  #92c500 0%,#6f9b00 100%);
+    background: -ms-linear-gradient(top,  #92c500 0%,#6f9b00 100%);
+    background: linear-gradient(top,  #92c500 0%,#6f9b00 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c500', endColorstr='#6f9b00',GradientType=0 );
+    height: 133px;
+    width: 100%;
+}
+
+#tag {
+   position: absolute;
+   top: 0;
+   right: 25px;
+   z-index: 2;
+   width: 43px;
+   height: 72px;
+   background: url("images/sprite.png") no-repeat scroll -293px -69px transparent;
+}
+
+#search {
+    position: absolute;
+    right: 110px;
+    top: 28px;
+    width: 345px;
+    z-index: 2;
+}
+
+#welcome-message {
+    text-align: right;
+}
+
+#welcome-message,
+#search a.signout,
+#search a.signout:active  {
+    color: #b7b7b7;
+}
+
+#search-input {
+    margin: 0 0 2px 0;
+    width: 345px;
+    height: 26px;
+    background: url("images/sprite.png") no-repeat scroll 0 -201px transparent;
+}
+
+#search-input input {
+    position: absolute;
+    padding: 0px 0px 0px 25px;
+    z-index: 3;
+    width: 320px;
+    height: 23px;
+    font-size: 12px;
+    background:transparent;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: none;
+    outline:none;
+    -webkit-transition: -webkit-box-shadow 0.5s ease-out;;
+    -moz-transition: -moz-box-shadow 0.5s ease-out;
+    -o-transition: box-shadow 0.5s ease-out;
+    -ms-transition: box-shadow 0.5s ease-out;
+    transition: box-shadow 0.5s ease-out;
+}
+
+#search-input input:focus {
+    -webkit-box-shadow: 0 0 20px #fff;
+    -moz-box-shadow: 0 0 20px #fff;
+    box-shadow: 0 0 20px #fff;
+}
+
+#product {
+   position: absolute;
+   z-index: 3;
+   top: 0;
+   left: 10px;
+   width: 273px;
+   height: 132px;
+   background: url("images/sprite.png") no-repeat scroll 0 -69px transparent;
+}
+
+#apps {
+     background: none repeat scroll 0 0 #FFFFFF;
+     left: 0;
+     padding: 15px 0 30px;
+     position: absolute;
+     top: 133px;
+     width: 100%;
+}
+
+#apps .box {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-bottom: 1px solid #DDEEC5;
+    margin-left: 40px;
+}
+
+#apps .icon {
+    height: 43px;
+    margin: 5px 0;
+    overflow: hidden;
+    padding: 0 0 0 42px;
+}
+
+#apps a,
+#apps a:hover {
+    text-decoration: none;
+}
+
+#apps a:hover .title {
+    color: #6f9c00;
+}
+
+#apps .icon .title {
+    background-color: #FFFFFF;
+    color: #3C650A;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 0 0 20px;
+}
+
+#apps .icon .description {
+    background-color: #FFFFFF;
+    color: #7F7F7F;
+    font-size: 11px;
+    padding: 0 0 6px 20px;
+}
+
+#apps .siteadmin {
+    background: url("images/sprite.png") no-repeat scroll 0 -2px transparent;
+}
+
+#apps .sni-imp {
+    background: url("images/sni-imp.png") no-repeat scroll 2px 3px transparent;
+}
+
+#apps .damadmin {
+    background: url("images/sprite.png") no-repeat scroll -42px -2px transparent;
+}
+
+#apps .mcmadmin {
+    background: url("images/sprite.png") no-repeat scroll -252px -2px transparent;
+}
+
+#apps .tagadmin {
+    background: url("images/sprite.png") no-repeat scroll -294px -2px transparent;
+}
+
+#apps .socoadmin {
+    background: url("images/sprite.png") no-repeat scroll -210px -2px transparent;
+}
+
+#apps .inbox {
+    background: url("images/sprite.png") no-repeat scroll -168px -2px transparent;
+}
+
+#apps .useradmin {
+    background: url("images/sprite.png") no-repeat scroll -126px -2px transparent;
+}
+
+#apps .misc {
+    background: url("images/sprite.png") no-repeat scroll -84px -2px transparent;
+}
+
+#productinfo {
+    margin: 16px 0 0 100px;
+    color: #7F7F7F;
+    font-size: 9px;
+}
+
+#productinfo a,
+#productinfo a:hover,
+#productinfo a:visited,
+#productinfo a:active {
+    color: #7F7F7F;
+    text-decoration: underline;
+}
+
+#productinfo a:hover {
+    color: #6f9c00;
+}
+
+#productclaim {
+    margin-top: 70px;
+    margin-bottom: 20px;
+    width: 314px;
+    height: 29px;
+    z-index: 3;
+    background: url("images/sprite.png") no-repeat scroll 0 -40px transparent;
+    cursor: pointer;
+}
+
+div.right {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 554px;
+    background: url(images/box-bg-shadow.png) 0 0 repeat-y;
+    min-height: 100%;
+}
+
+div.right-bg {
+    position: relative;
+    float: right;
+    width: 529px;
+    background-color: #000;
+    background-image: url(images/box-bg.png);
+    background-position: 0 0 ;
+    background-repeat: no-repeat;
+    min-height: 100%;
+}
+
+div.right .resourcebox {
+    padding-left: 80px;
+    font-size: 12px;
+}
+
+.right a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #999999;
+}
+
+.right a:hover {
+    color: #D9DDCC;
+}
+
+.right .description {
+    font-weight: normal;
+    color: #6f9c00;
+}
+
+#resources {
+    margin-top: 140px;
+    padding-left:20px;
+}
+
+#features, #docs {
+    margin-top: 50px;
+    padding-left:20px;
+}
+
+/* enforce minimum width of left column */
+@media screen and (max-width: 964px) {
+
+    #header,
+    #wrapper {
+        width:980px;
+    }
+
+    #tag {
+        right:auto;
+        left:897px;
+    }
+    
+    #search {
+        right:auto;
+        left:510px;
+    }
+    
+    #apps {
+        width:964px;
+    }
+
+    div.right {
+        right:auto;
+        left:410px;
+    }
+    
+}

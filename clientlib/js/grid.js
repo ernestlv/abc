@@ -18,10 +18,12 @@
            max = org;
            so.removeClass('sni-column-expanded', col);
            so.removeClass('sni-header-expanded', title);
+           so.isIE8() && $CQ('#sni-search').click().click(); //hack to reflow in IE8
         }else{ //expand column
            max = ( org > 110 ? 110 : org )*10;
            so.addClass('sni-column-expanded', col);
            so.addClass('sni-header-expanded', title);
+           so.isIE8() && $CQ('#sni-search').click().click(); //hack to reflow in IE8
         }
         //expand
         title.style.width = max + 'px';
@@ -30,11 +32,6 @@
 
     function sort ( event ){ 
 
-        if ( event.metaKey ){
-            expand( event );
-            return;
-        }
-        
         var title = event.target;
         var f = $CQ( title ).attr('data-sni-dataIndex');
         var o = 'DESC';
@@ -49,7 +46,7 @@
     
     so.grid = {
                             fields: [
-                                       {name: 'url'},
+                                       {name: 'current_url'},
                                        {name: 'title'},
                                        {name: 'status'},
                                        {name: 'asset_type'},
@@ -89,6 +86,7 @@
                                         {
                                             id:'sni-panel-1',
                                             label:'&nbsp;',
+                                            html: '<div class="sni-collapse-all">&nbsp;&nbsp;collapse all <span class="sni-collapse-all-icon">-</span></div>',
                                             split:false,
                                             table:[
                                                 {
@@ -129,7 +127,7 @@
                                                         {
                                                             label    : 'URL',
                                                             width    : 110,
-                                                            dataIndex: 'url',
+                                                            dataIndex: 'current_url',
                                                             tooltip  : 'URL:\n',
                                                             styleData: {textAlign:'left'}, //only applies to data rows
                                                             click    : sort,
@@ -560,7 +558,7 @@
 
     //******* INITIALIZATION code for calendar part of the grid
     var months = ['december', 'november', 'october', 'september', 'august', 'july', 'june', 'may', 'april', 'march', 'february', 'january'];
-    var Qs     = ['Q4', 'Q4', 'Q4', 'Q3', 'Q3', 'Q3', 'Q2', 'Q2', 'Q2', 'Q1', 'Q1', 'Q1'];
+    var Qs     = ['q4', 'q4', 'q4', 'q3', 'q3', 'q3', 'q2', 'q2', 'q2', 'q1', 'q1', 'q1'];
     var today  = new Date();
     var year, start, end, left, index, delta, qPanel;
 

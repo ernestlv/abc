@@ -35,6 +35,19 @@ so.detail = {
                             so.addClass('sni-detail-high', n[1]);
                         }
                     }
+                },
+
+                move:function( window, x, y ){
+    
+                  var z = window.getSize().width;
+                  var r = x + z; //right side
+                  if ( x<0 || r>1220 || y<0 ){
+
+                      y = ( y < 0 ) ? 0 : y;
+                      x = ( x < 0 ) ? 0 : x;
+                      x = ( r > 1220 ) ? 1220 - z : x;
+                      window.setPagePosition(x , y);
+                    }
                 }
 
     },

@@ -8,11 +8,6 @@ body{
     background-color: #ff9b36;
 }
 
-.sni-split-icon{
-    background-color: #000;
-    color: #fff;
-}
-
 #sni-search-wrapper, .sni-grid-wrapper{
     background-color: #094ea1;
 }
@@ -42,7 +37,7 @@ body{
     color:#000;
 }
 
-.sni-topbar .sni-detail-button a{
+.sni-topbar .sni-detail-button a, .sni-topbar .sni-export-button a{
     color:#000;
 }
 
