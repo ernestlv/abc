@@ -23,7 +23,7 @@ if (  !"admin".equals( userID ) ){
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Site Optimizer Dashboard</title>
+<title>Inventory Management Program.</title>
 
 <!-- CQ Styles -->
 <%-- <link type="text/css" rel="stylesheet" href="/libs/cq/cloudserviceconfigs/widgets.css"> --%>

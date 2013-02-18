@@ -71,4 +71,4 @@ so.plugin = CQ.Ext.extend(CQ.Ext.Viewport, {
 
 });     // ------- end of SNI.CQ.wcm.SniSiteOptimizer 
 
-CQ.Ext.reg("sni-site-optimizer", so.plugin);
+CQ.Ext.reg("sni-imp", so.plugin);

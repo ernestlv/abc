@@ -205,5 +205,5 @@
         <!-- <link type="text/css" rel="stylesheet" href="/apps/sni-site-optimizer/clientlib.css"> -->
         <script src="/apps/sni-site-optimizer/clientlib.js" type="text/javascript"></script>
     </head>
-    <body style="margin:0;"><!--<div id="sni-loading-parent" style="background:#B2DCFC url(/apps/sni-site-optimizer/clientlib/css/loader.gif) no-repeat fixed center 100px; position:absolute; opacity:0.7; filter: alpha(opacity=70); width:100%; height:100%; z-index:9010"></div>--><div id="CQ"></div></body>
+    <body style="margin:0;"><div id="CQ"></div></body>
 </html>

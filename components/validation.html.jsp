@@ -4,7 +4,7 @@ Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Site Optimizer Validation</title>
+<title>Inventory Management Program.</title>
 <style>
 body {
 font-family: Lucida Grande, verdana, geneva, helvetica, arial, sans-serif;
@@ -19,7 +19,7 @@ a{
 </style>
 </head>
 <body>
-	<h1>You do not have access to site optimizer.</h1>
+	<h1>You do not have access to the Inventory Management Program.</h1>
 	<p>Please contact support desk.</p>
 	<p>To go back to CQ main menu <a href="/" target="top">click here</a></p>
 </body>
